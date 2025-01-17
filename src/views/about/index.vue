@@ -18,13 +18,13 @@ const pkgJson = {
   devDependencies: Object.entries(devDependencies).map(item => transformVersionData(item))
 };
 
-const latestBuildTime = 'BUILD_TIME';
+const latestBuildTime = '2025-01-17';
 </script>
 
 <template>
   <div style="display: flex; flex-direction: column;">
     <a-card title="关于" :bordered="false" size="small" segmented class="card-wrapper card-class">
-      <p>介绍..........</p>
+      <p>{{ pkg.webDesc }}</p>
     </a-card>
     <a-card title="项目信息" :bordered="false" size="small" segmented class="card-wrapper card-class">
       <a-descriptions label-placement="left" bordered size="small" :column="2">
