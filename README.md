@@ -106,6 +106,14 @@
 > ├&emsp;├── utils &emsp; _**工具箱**_            
 > ├&emsp;├── views &emsp; _**页面**_
 
+### 平台截图
+|                                                                |                                                         |
+|----------------------------------------------------------------|---------------------------------------------------------|
+| <img src="./public/img/1.png" width="300" height="200" alt=""> | <img src="./public/img/2.png" width="300" height="200" alt=""> |
+| <img src="./public/img/3.png" width="300" height="200" alt=""> | <img src="./public/img/4.png" width="300" height="200" alt=""> |
+| <img src="./public/img/5.png" width="300" height="200" alt=""> | <img src="./public/img/6.png" width="300" height="200" alt=""> |
+| <img src="./public/img/7.png" width="300" height="200" alt=""> | <img src="./public/img/8.png" width="300" height="200" alt=""> |
+| <img src="./public/img/9.png" width="300" height="200" alt=""> |
 
 ### 演示地址
 [http://smart.pstech360.com](http://smart.pstech360.com)
