@@ -230,9 +230,6 @@ const previewModal = ref();
 async function preview(row) {
   const res = await genTableApi.preview({id: row.id});
   tree.value = res.data;
-  // tree.value?.forEach(x => {
-  //   x.prefix = () => getPrefix(x.id);
-  // });
   previewModal.value.showDrawer();
 }
 

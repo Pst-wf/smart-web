@@ -28,7 +28,7 @@ import {MENU_TYPE_ENUM} from '/@/constants/system/menu-const';
 import {router} from '/@/router';
 import {useAppConfigStore} from '/@/store/modules/system/app-config';
 import {useUserStore} from '/@/store/modules/system/user';
-import logoImg from '/@/assets/images/logo/smart-admin-logo.png';
+import logoImg from '/@/assets/images/logo/smart-logo.png';
 import menuEmitter from './side-expand-menu-mitt';
 import $lodash from "lodash";
 

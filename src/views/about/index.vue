@@ -29,10 +29,10 @@ const latestBuildTime = '2025-01-17';
     <a-card title="项目信息" :bordered="false" size="small" segmented class="card-wrapper card-class">
       <a-descriptions label-placement="left" bordered size="small" :column="2">
         <a-descriptions-item label="版本">
-          <NTag type="primary">{{ pkgJson.version }}</NTag>
+          <a-tag color="blue">{{ pkgJson.version }}</a-tag>
         </a-descriptions-item>
         <a-descriptions-item label="最新构建时间">
-          <NTag type="primary">{{ latestBuildTime }}</NTag>
+          <a-tag color="blue">{{ latestBuildTime }}</a-tag>
         </a-descriptions-item>
         <a-descriptions-item label="Github 地址">
           <a class="text-primary" :href="pkg.homepage" target="_blank" rel="noopener noreferrer">
