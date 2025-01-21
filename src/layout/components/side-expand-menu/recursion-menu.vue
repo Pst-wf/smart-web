@@ -3,6 +3,8 @@
   <div class="recursion-container" v-show="topMenu.children && topMenu.children.length > 0">
     <!-- 顶部顶级菜单名称 -->
     <div class="top-menu">
+      <component v-if="topMenu.meta?.antIcon" :is="$antIcons[topMenu.meta?.antIcon]" style="font-size: 14px"
+                 class="icon-tab-class"/>
       <span class="ant-menu">{{ topMenu.meta?.title }}</span>
     </div>
     <!-- 次级菜单展示 -->
@@ -42,6 +44,7 @@ menuEmitter.on('selectTopMenu', onSelectTopMenu);
 // 监听选中顶级菜单事件
 function onSelectTopMenu(selectedTopMenu) {
   topMenu.value = selectedTopMenu;
+  console.log(selectedTopMenu);
   if (selectedTopMenu.children && selectedTopMenu.children.length > 0) {
     openKeys.value = _.map(selectedTopMenu.children, 'path').map((e) => e.toString());
   } else {
@@ -93,11 +96,15 @@ defineExpose({ updateSelectKeyAndOpenKey });
   overflow: hidden;
   display: flex;
   align-items: center;
-  justify-content: center;
+  margin-inline: 4px;
+  padding-left: 24px;
   height: @header-user-height;
   font-size: 16px;
   color: #515a6e;
   border-bottom: 1px solid #f3f3f3;
   border-right: 1px solid #f3f3f3;
+}
+.icon-tab-class {
+  margin-right: 4px !important;
 }
 </style>

@@ -55,7 +55,7 @@
     height: 100%;
 
     .top-menu {
-      width: 114px;
+      width: 90px;
       flex-shrink: 0;
     }
 
