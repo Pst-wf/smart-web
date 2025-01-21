@@ -133,7 +133,7 @@
       z-index: 100;
       right: 0px;
       position: fixed;
-      background-color: v-bind('background');
+      background: v-bind('background');
     }
 
     .admin-layout-content {

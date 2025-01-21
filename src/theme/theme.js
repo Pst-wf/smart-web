@@ -1,17 +1,17 @@
-import { theme } from 'ant-design-vue/lib';
-import convertLegacyToken from 'ant-design-vue/lib/theme/convertLegacyToken';
-
-const { defaultAlgorithm, defaultSeed } = theme;
-
 const dark = {
-    sideColor: '#001529',
-}
+  // #001529
+  sideColor: '#001529',
+  // rgba(255, 255, 255, 0.65)
+  textColor: 'rgba(255,255,255,0.65)',
+};
 
 const light = {
-    sideColor: '#FFFFFF',
-}
+  sideColor: '#FFFFFF',
+  // rgba(0, 0, 0, 0.88)
+  textColor: 'rgba(0, 0, 0, 0.88)',
+};
 
 export const themeMode = {
-    dark,
-    light,
+  dark,
+  light,
 };
