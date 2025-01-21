@@ -151,7 +151,7 @@ function show() {
 async function save() {
   const form = { ...formState };
   for (const k in appDefaultConfig) {
-    if (!form[k]) {
+    if (form[k] === null) {
       form[k] = appDefaultConfig[k];
     }
   }

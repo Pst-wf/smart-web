@@ -9,8 +9,8 @@
             <template #tab>
               <a-dropdown :trigger="['contextmenu']">
               <span>
-                <home-outlined v-if="item.menuName === HOME_PAGE_NAME" style="font-size: 14px" class="icon-tab-class"/>
-                <component v-else :is="$antIcons[item.menuIcon]" style="font-size: 14px" class="icon-tab-class"/>
+                <home-outlined v-if="item.menuName === HOME_PAGE_NAME" class="icon-tab-class"/>
+                <component v-else :is="$antIcons[item.menuIcon]" class="icon-tab-class"/>
                 {{ item.menuTitle }}
                 <close-outlined @click.stop="closeTag(item, false)" v-if="item.menuName !== HOME_PAGE_NAME"
                                 class="smart-page-tag-close"/>
@@ -176,7 +176,7 @@ function closeTags(items) {
 }
 const {useToken} = theme;
 const {token} = useToken();
-const borderRadius = token.value.borderRadius + 'px';
+const borderRadius = computed(() => token.value.borderRadius + 'px');
 </script>
 
 <style scoped lang="less">
@@ -276,9 +276,7 @@ const borderRadius = token.value.borderRadius + 'px';
 .tabs-class .ant-tabs-tab{
   padding: 5px 15px 5px 15px !important;
 }
-.icon-tab-class {
-  margin-right: 4px !important;
-}
+
 .button-tab-class .ant-tabs-tab-active {
 /*  background: hsl(from var(--bg) h calc(s * 0.8) calc(l * 1.78)) !important;*/
   border: 1px solid var(--bg) !important;

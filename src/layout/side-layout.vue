@@ -295,7 +295,7 @@ let {route, keepAliveIncludes, iframeNotKeepAlivePageFlag, keepAliveIframePages}
 
 .layout-footer {
   position: relative;
-  padding: 7px 0px;
+  padding: 7px 0;
   display: flex;
   justify-content: center;
 }

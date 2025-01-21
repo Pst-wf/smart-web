@@ -8,8 +8,8 @@
             <template #tab>
               <a-dropdown :trigger="['contextmenu']">
               <span>
-                <home-outlined v-if="item.menuName === HOME_PAGE_NAME" style="font-size: 14px" class="icon-tab-class"/>
-                <component v-else :is="$antIcons[item.menuIcon]" style="font-size: 14px" class="icon-tab-class"/>
+                <home-outlined v-if="item.menuName === HOME_PAGE_NAME" class="icon-tab-class"/>
+                <component v-else :is="$antIcons[item.menuIcon]" class="icon-tab-class"/>
                 {{ item.menuTitle }}
                 <close-outlined @click.stop="closeTag(item, false)" v-if="item.menuName !== HOME_PAGE_NAME" class="smart-page-tag-close" />
               </span>
@@ -188,10 +188,6 @@ const borderRadius = computed(() => {
   padding: 5px 15px 5px 15px !important;
 }
 
-.icon-tab-class {
-  margin-right: 4px !important;
-}
-
 .smart-page-tag-operate {
   width: @smart-page-tag-operate-width;
   height: @smart-page-tag-operate-width;
@@ -262,12 +258,13 @@ const borderRadius = computed(() => {
   }
 
   :deep(.ant-tabs-tab-active) {
+    background-color: #f5f5f5;
     .smart-page-tag-close {
       color: @color-primary;
     }
   }
   :deep(.ant-tabs-nav .ant-tabs-tab:hover) {
-    background-color: white;
+    background-color: #d5d4d4;
     .smart-page-tag-close {
       color: @color-primary;
     }

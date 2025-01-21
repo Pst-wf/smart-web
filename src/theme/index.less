@@ -55,21 +55,6 @@ body {
   width: 100%;
   height: 100%;
 }
-// 菜单栏
-.ant-menu-dark {
-  background: @dark-bg-color;
-  color:  @dark-text-color;
-}
-.ant-layout .ant-layout-sider {
-  background: @dark-bg-color;
-}
-.ant-menu-light {
-  background: @light-bg-color;
-  color: @light-text-color;
-}
-.ant-layout .ant-layout-sider-light {
-  background: @light-bg-color;
-}
   /**********************************  富文本HTML样式 **********************************/
 .html-content {
   /* table 样式 */
@@ -116,4 +101,37 @@ body {
   ol {
     margin: 10px 0 10px 20px;
   }
+}
+
+//************************* 扩展样式 *************************
+// 菜单栏
+.ant-menu-dark {
+  background: @dark-bg-color;
+  color:  @dark-text-color;
+}
+.ant-layout .ant-layout-sider {
+  background: @dark-bg-color;
+}
+.ant-menu-light {
+  background: @light-bg-color;
+  color: @light-text-color;
+}
+.ant-layout .ant-layout-sider-light {
+  background: @light-bg-color;
+}
+// 列表无数据
+.ant-empty {
+  //min-height: 40vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+// 页签图标
+.icon-tab-class {
+  margin-right: 4px !important;
+  font-size: 14px !important;
+}
+// 页签行高
+.ant-tabs {
+  line-height: 2 !important;
 }
