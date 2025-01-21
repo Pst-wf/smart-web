@@ -6,7 +6,7 @@
       :width="960"
       @cancel="onClose"
   >
-    <a-form ref="formRef" :labelCol="{ span: 3 }" :labelWrap="true" :model="form" :rules="rules" :disabled="disabled">
+    <a-form ref="formRef" :labelCol="{ span: 3 }" :labelWrap="true" :model="form" :rules="rules" :disabled="disabled" style="width:90%">
       <a-form-item label="标题" name="noticeTitle">
         <a-input v-model:value="form.noticeTitle" placeholder="请输入标题"/>
       </a-form-item>

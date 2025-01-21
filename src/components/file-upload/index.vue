@@ -123,7 +123,6 @@ const changeFile = (info) => {
     if (info.file.response) {
       if (info.file.response.code === 200) {
         message.success(`${info.file.name} 上传成功`);
-        console.log('info.file.response', info.file.response)
         tableData.value.push(info.file.response.data[0]);
         emit('fileChange', tableData.value.map(item => item.id).join(','))
       } else {

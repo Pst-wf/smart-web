@@ -1,6 +1,6 @@
 <template>
   <a-modal centered :open="visible" title="发布通知公告" :maskClosable="true" :width="600" @cancel="onClose" @ok="onSubmit">
-    <a-form ref="formRef" :labelCol="{ span: 3 }" :labelWrap="true" :model="form" :rules="rules" style="min-height: 280px">
+    <a-form ref="formRef" :labelCol="{ span: 3 }" :labelWrap="true" :model="form" :rules="rules">
       <a-form-item label="发布类型" name="type">
         <a-radio-group v-model:value="form.releaseType" button-style="solid" @change="releaseTypeChange">
           <a-radio-button v-for="item in dictMap.sys_release_type" :key="item.id" :value="item.dictValue">

@@ -88,14 +88,12 @@
         />
       </div>
     </a-card>
-    <OperateModal ref="operateModal" @reloadList="query"/>
   </div>
 </template>
 <script setup>
 import {ExclamationCircleOutlined} from '@ant-design/icons-vue';
 import {message, Modal} from 'ant-design-vue';
 import {computed, createVNode, onMounted, reactive, ref} from 'vue';
-import OperateModal from './components/operate-modal.vue';
 import {columns} from './columns.js';
 import {fileApi} from '/@/api/file/file-api.js';
 import {SmartLoading} from '/@/components/framework/smart-loading';
