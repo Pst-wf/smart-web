@@ -217,7 +217,7 @@ const refVisible = ref(false);
 const noticeId = ref(null);
 
 //展开编辑窗口
-async function showDrawer(rowData) {
+async function showForm(rowData) {
   noticeId.value = rowData.id;
   await query()
   visible.value = true;
@@ -232,7 +232,7 @@ function onClose() {
 }
 
 defineExpose({
-  showDrawer,
+  showForm,
 });
 </script>
 <style lang="less" scoped>

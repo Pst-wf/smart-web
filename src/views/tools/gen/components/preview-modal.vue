@@ -41,7 +41,7 @@ const visible = ref(false);
 const expandedKeys = ref([]);
 const selectedKeys = ref([]);
 
-async function showDrawer() {
+async function showForm() {
   visible.value = true;
 }
 
@@ -91,7 +91,7 @@ function selectTree(e) {
 }
 
 defineExpose({
-  showDrawer
+  showForm
 })
 watch(()=> visible.value, (value) => {
   if(!value){

@@ -7,7 +7,7 @@
       centered
       @cancel="onClose"
   >
-    <a-form ref="formRef" :labelCol="{ span: 2 }" :labelWrap="true" :model="form" :rules="rules" :disabled="disabled">
+    <a-form ref="formRef" :labelCol="{ span: 4 }" :labelWrap="true" :model="form" :rules="rules" :disabled="disabled">
       <a-form-item label="T1" name="tableColumn1">
         <a-input v-model:value="form.tableColumn1" placeholder="请输入T1"/>
       </a-form-item>
@@ -139,7 +139,7 @@ const visible = ref(false);
 // 是否可编辑
 const disabled = ref(false);
 // 打开表单弹窗
-async function showDrawer(rowData, bool) {
+async function showForm(rowData, bool) {
   disabled.value = bool
   Object.assign(form, formDefault);
   if (rowData && !_.isEmpty(rowData)) {
@@ -274,7 +274,7 @@ watch(
 
 // ----------------------- 以下是暴露的方法内容 ------------------------
 defineExpose({
-  showDrawer,
+  showForm,
 });
 </script>
 <style lang="less" scoped>

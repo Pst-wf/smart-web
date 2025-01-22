@@ -26,7 +26,7 @@
     <a-card size="small" :bordered="false" :hoverable="true">
       <a-row class="smart-table-btn-block">
         <div class="smart-table-operate-block">
-          <a-button v-privilege="'gen:add'" type="primary" @click="showDrawer">
+          <a-button v-privilege="'gen:add'" type="primary" @click="showForm">
             <template #icon>
               <PlusOutlined/>
             </template>
@@ -67,8 +67,8 @@
           </template>
           <template v-if="column.dataIndex === 'operate'">
             <div class="smart-table-operate">
-              <a-button type="link" size="small" @click="showDrawer(record, true)">查看</a-button>
-              <a-button v-privilege="'gen:update'" type="link" size="small" @click="showDrawer(record)">编辑</a-button>
+              <a-button type="link" size="small" @click="showForm(record, true)">查看</a-button>
+              <a-button v-privilege="'gen:update'" type="link" size="small" @click="showForm(record)">编辑</a-button>
               <a-button v-privilege="'gen:delete'" danger type="link" @click="singleDelete(record)">删除</a-button>
               <a-dropdown placement="bottomLeft">
                 <a-button style="color: #4ab844" type="link">更多</a-button>
@@ -230,7 +230,7 @@ const previewModal = ref();
 async function preview(row) {
   const res = await genTableApi.preview({id: row.id});
   tree.value = res.data;
-  previewModal.value.showDrawer();
+  previewModal.value.showForm();
 }
 
 async function genCode(row) {
@@ -260,7 +260,7 @@ async function saveMenu(row) {
 // -------------- 新增、修改 右侧抽屉 --------------
 const operateModal = ref();
 
-function showDrawer(rowData, bool) {
-  operateModal.value.showDrawer(rowData, bool);
+function showForm(rowData, bool) {
+  operateModal.value.showForm(rowData, bool);
 }
 </script>

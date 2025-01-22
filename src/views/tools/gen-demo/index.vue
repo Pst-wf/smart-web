@@ -69,7 +69,7 @@
     <a-card size="small" :bordered="false" :hoverable="true">
       <a-row class="smart-table-btn-block">
         <div class="smart-table-operate-block">
-          <a-button v-privilege="'genDemo:add'" type="primary" @click="showDrawer">
+          <a-button v-privilege="'genDemo:add'" type="primary" @click="showForm">
             <template #icon>
               <PlusOutlined/>
             </template>
@@ -147,8 +147,8 @@
           </template>
           <template v-if="column.dataIndex === 'operate'">
             <div class="smart-table-operate">
-              <a-button type="link" size="small" @click="showDrawer(record, true)">查看</a-button>
-              <a-button v-privilege="'genDemo:update'" type="link" size="small" @click="showDrawer(record)">编辑</a-button>
+              <a-button type="link" size="small" @click="showForm(record, true)">查看</a-button>
+              <a-button v-privilege="'genDemo:update'" type="link" size="small" @click="showForm(record)">编辑</a-button>
               <a-button v-privilege="'genDemo:delete'" danger type="link" @click="singleDelete(record)">删除</a-button>
             </div>
           </template>
@@ -309,13 +309,13 @@ function confirmBatchDelete(array) {
 // -------------- 新增、修改 右侧抽屉 --------------
 const operateModal = ref();
 
-async function showDrawer(rowData, bool) {
+async function showForm(rowData, bool) {
   const row = _.cloneDeep(rowData);
   if(row.id){
     const res = await genDemoApi.getGenDemo({ id : row.id });
     row.tableColumn12List = res.data.tableColumn12List;
   }
-  operateModal.value.showDrawer(row, bool);
+  operateModal.value.showForm(row, bool);
 }
 // -------------- 导入导出 --------------
 // 导出

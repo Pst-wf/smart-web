@@ -108,7 +108,7 @@ const props = defineProps({
 // ----------------------- 展开、隐藏编辑窗口 ------------------------
 const visible = ref(false);
 
-async function showDrawer(rowData) {
+async function showForm(rowData) {
   Object.assign(form, formDefault);
   if (rowData && !_.isEmpty(rowData)) {
     form.noticeId = rowData.id
@@ -184,7 +184,7 @@ function releaseTypeChange() {
 
 // ----------------------- 以下是暴露的方法内容 ------------------------
 defineExpose({
-  showDrawer,
+  showForm,
 });
 </script>
 <style lang="less" scoped>

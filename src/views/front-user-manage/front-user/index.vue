@@ -32,7 +32,7 @@
     <a-card size="small" :bordered="false" :hoverable="true">
       <a-row class="smart-table-btn-block">
         <div class="smart-table-operate-block">
-          <a-button v-privilege="'frontUser:add'" type="primary" @click="showDrawer">
+          <a-button v-privilege="'frontUser:add'" type="primary" @click="showForm">
             <template #icon>
               <PlusOutlined />
             </template>
@@ -111,8 +111,8 @@
           </template>
           <template v-if="column.dataIndex === 'operate'">
             <div class="smart-table-operate">
-              <a-button type="link" size="small" @click="showDrawer(record, true)">查看</a-button>
-              <a-button v-privilege="'frontUser:update'" size="small" @click="showDrawer(record)">编辑</a-button>
+              <a-button type="link" size="small" @click="showForm(record, true)">查看</a-button>
+              <a-button v-privilege="'frontUser:update'" size="small" @click="showForm(record)">编辑</a-button>
               <a-button v-privilege="'frontUser:delete'" danger type="link" @click="singleDelete(record)">删除 </a-button>
             </div>
           </template>
@@ -260,8 +260,8 @@ function confirmBatchDelete(array) {
 // -------------- 新增、修改 右侧抽屉 --------------
 const operateModal = ref();
 
-function showDrawer(rowData, bool) {
-  operateModal.value.showDrawer(rowData, bool);
+function showForm(rowData, bool) {
+  operateModal.value.showForm(rowData, bool);
 }
 
 // -------------- 导入导出 --------------

@@ -48,7 +48,7 @@
     <a-card size="small" :bordered="false" :hoverable="true">
       <a-row class="smart-table-btn-block">
         <div class="smart-table-operate-block">
-          <a-button v-privilege="'notice:add'" type="primary" @click="showDrawer">
+          <a-button v-privilege="'notice:add'" type="primary" @click="showForm">
             <template #icon>
               <PlusOutlined/>
             </template>
@@ -102,8 +102,8 @@
           </template>
           <template v-if="column.dataIndex === 'operate'">
             <div class="smart-table-operate">
-              <a-button type="link" size="small" @click="showDrawer(record, true)">查看</a-button>
-              <a-button v-privilege="'notice:update'" type="link" size="small" @click="showDrawer(record)">编辑
+              <a-button type="link" size="small" @click="showForm(record, true)">查看</a-button>
+              <a-button v-privilege="'notice:update'" type="link" size="small" @click="showForm(record)">编辑
               </a-button>
               <a-button v-privilege="'notice:delete'" danger type="link" @click="singleDelete(record)">删除</a-button>
               <a-dropdown placement="bottom">
@@ -279,8 +279,8 @@ function confirmBatchDelete(array) {
 // -------------- 新增、修改 右侧抽屉 --------------
 const operateModal = ref();
 
-function showDrawer(rowData, bool) {
-  operateModal.value.showDrawer(rowData, bool);
+function showForm(rowData, bool) {
+  operateModal.value.showForm(rowData, bool);
 }
 
 // -------------- 导入导出 --------------
@@ -370,13 +370,13 @@ const publishModal = ref();
 
 function publish(row) {
   const one = _.cloneDeep(row);
-  publishModal.value.showDrawer(one);
+  publishModal.value.showForm(one);
 }
 
 const recordModal = ref();
 
 function openRecord(row) {
   const one = _.cloneDeep(row);
-  recordModal.value.showDrawer(one);
+  recordModal.value.showForm(one);
 }
 </script>

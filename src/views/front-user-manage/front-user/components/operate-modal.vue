@@ -71,7 +71,7 @@ const visible = ref(false);
 const disabled = ref(false);
 
 //展开编辑窗口
-async function showDrawer(rowData, bool) {
+async function showForm(rowData, bool) {
   disabled.value = bool;
   Object.assign(form, formDefault);
   if (rowData && !_.isEmpty(rowData)) {
@@ -162,7 +162,7 @@ watch(
 
 // ----------------------- 以下是暴露的方法内容 ------------------------
 defineExpose({
-  showDrawer,
+  showForm,
 });
 </script>
 <style lang="less" scoped>
