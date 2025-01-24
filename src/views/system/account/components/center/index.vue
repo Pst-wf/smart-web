@@ -9,16 +9,16 @@
         <a-col flex="350px">
           <a-form ref="formRef" :model="form" :rules="rules" layout="vertical">
             <a-form-item label="登录账号" name="username">
-              <a-input class="form-item" v-model:value.trim="form.username" placeholder="请输入登录账号" disabled/>
+              <a-input class="form-item" v-model:value.trim="form.username" placeholder="请输入登录账号" disabled />
             </a-form-item>
             <a-form-item label="用户名称" name="nickname">
-              <a-input class="form-item" v-model:value.trim="form.nickname" placeholder="请输入用户名称"/>
+              <a-input class="form-item" v-model:value.trim="form.nickname" placeholder="请输入用户名称" />
             </a-form-item>
             <a-form-item label="手机号码" name="phone">
-              <a-input class="form-item" v-model:value.trim="form.phone" placeholder="请输入手机号码"/>
+              <a-input class="form-item" v-model:value.trim="form.phone" placeholder="请输入手机号码" />
             </a-form-item>
             <a-form-item label="备注" name="remarks">
-              <a-textarea class="form-item" v-model:value="form.remarks" placeholder="请输入备注" :rows="4"/>
+              <a-textarea class="form-item" v-model:value="form.remarks" placeholder="请输入备注" :rows="4" />
             </a-form-item>
           </a-form>
           <a-button type="primary" @click="onSubmit">更新个人信息</a-button>
@@ -26,7 +26,7 @@
         <a-col flex="auto">
           <a-form style="padding-left: 80px" layout="vertical">
             <a-form-item label="头像" name="avatar">
-              <br/>
+              <br />
               <a-upload
                   name="avatar"
                   list-type="picture-card"
@@ -37,14 +37,14 @@
                   :before-upload="beforeUpload"
               >
                 <div v-if="avatarUrl" class="avatar-container">
-                  <img :src="avatarUrl" class="avatar-image" alt="avatar"/>
+                  <img :src="avatarUrl" class="avatar-image" alt="avatar" />
                   <div class="overlay">
                     <span>更新头像</span>
                   </div>
                 </div>
                 <div v-else>
-                  <loading-outlined v-if="updateAvatarLoading"/>
-                  <plus-outlined v-else/>
+                  <loading-outlined v-if="updateAvatarLoading" />
+                  <plus-outlined v-else />
                   <div class="ant-upload-text">上传头像</div>
                 </div>
               </a-upload>
@@ -56,16 +56,16 @@
   </div>
 </template>
 <script setup>
-import {onMounted, reactive, ref} from 'vue';
-import {regular} from '/@/constants/regular-const.js';
-import {loginApi} from '/@/api/system/login-api.js';
-import {useUserStore} from '/@/store/modules/system/user.js';
-import {message} from 'ant-design-vue';
-import {smartSentry} from '/@/lib/smart-sentry.js';
-import {SmartLoading} from '/@/components/framework/smart-loading/index.js';
-import {fileApi} from '/@/api/file/file-api.js';
-import {FILE_FOLDER_TYPE_ENUM} from '/@/constants/support/file-const.js';
-import {userApi} from "/@/api/system/user-api.js";
+import { onMounted, reactive, ref } from 'vue';
+import { regular } from '/@/constants/regular-const.js';
+import { loginApi } from '/@/api/system/login-api.js';
+import { useUserStore } from '/@/store/modules/system/user.js';
+import { message } from 'ant-design-vue';
+import { smartSentry } from '/@/lib/smart-sentry.js';
+import { SmartLoading } from '/@/components/framework/smart-loading/index.js';
+import { fileApi } from '/@/api/file/file-api.js';
+import { FILE_FOLDER_TYPE_ENUM } from '/@/constants/support/file-const.js';
+import { userApi } from '/@/api/system/user-api.js';
 
 // 组件ref
 const formRef = ref();
@@ -84,16 +84,16 @@ const formDefault = {
   // 备注
   remarks: '',
 };
-let form = reactive({...formDefault});
+let form = reactive({ ...formDefault });
 const rules = {
   nickname: [
-    {required: true, message: '姓名不能为空'},
-    {max: 30, message: '姓名不能大于30个字符', trigger: 'blur'},
+    { required: true, message: '姓名不能为空' },
+    { max: 30, message: '姓名不能大于30个字符', trigger: 'blur' },
   ],
   phone: [
-    {required: true, message: '手机号不能为空'},
-    {pattern: regular.phone, message: '请输入正确的手机号码', trigger: 'blur'},
-  ]
+    { required: true, message: '手机号不能为空' },
+    { pattern: regular.phone, message: '请输入正确的手机号码', trigger: 'blur' },
+  ],
 };
 // 头像地址
 let avatarUrl = ref();
@@ -101,12 +101,12 @@ let avatarUrl = ref();
 // 查询登录信息
 async function getLoginInfo() {
   try {
-    SmartLoading.show()
+    SmartLoading.show();
     //获取登录用户信息
     const res = await loginApi.getUserInfo();
     let data = res.data;
     const routeRes = await loginApi.getUserRoutes();
-    data.userRoutes = routeRes.data.routes
+    data.userRoutes = routeRes.data.routes;
     //更新用户信息到pinia
     useUserStore().setUserLoginInfo(data);
     // 当前form展示
@@ -120,7 +120,7 @@ async function getLoginInfo() {
   } catch (e) {
     smartSentry.captureError(e);
   } finally {
-    SmartLoading.hide()
+    SmartLoading.hide();
   }
 }
 
@@ -153,8 +153,14 @@ async function customRequest(options) {
     formData.append('files', options.file);
     let res = await fileApi.uploadFile(formData, folder.value);
     let file = res.data[0];
-    avatarUrl.value = file.filePath;
-    form.avatar = file.filePath;
+    let path;
+    if (file.uploadType === '0') {
+      path = import.meta.env.VITE_APP_API_URL + '/' + file.fileKey;
+    } else {
+      path = file.filePath;
+    }
+    avatarUrl.value = path;
+    form.avatar = path;
   } catch (e) {
     smartSentry.captureError(e);
   } finally {
