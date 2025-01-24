@@ -55,7 +55,7 @@ body {
   width: 100%;
   height: 100%;
 }
-  /**********************************  富文本HTML样式 **********************************/
+/**********************************  富文本HTML样式 **********************************/
 .html-content {
   /* table 样式 */
   table {
@@ -134,4 +134,27 @@ body {
 // 页签行高
 .ant-tabs {
   line-height: 2 !important;
+}
+// 弹窗全屏
+.full-modal {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.5) transparent;
+
+  .ant-modal {
+    max-width: 100%;
+    top: 0;
+    padding-bottom: 0;
+    margin: 0;
+  }
+
+  .ant-modal-content {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh);
+  }
+
+  .ant-modal-body {
+    flex: 1;
+  }
 }

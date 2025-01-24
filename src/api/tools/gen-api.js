@@ -1,4 +1,4 @@
-import {getRequest, postRequest, postRequestBlob} from '/src/lib/axios';
+import { getRequest, postRequest, postRequestBlob } from '/src/lib/axios';
 
 export const genTableApi = {
     /**
@@ -79,5 +79,19 @@ export const genTableApi = {
      */
     generateCode: (params) => {
         return postRequestBlob('/gen/genTable/code', params);
-    }
+    },
+
+    /**
+     * 获取JAVA工程根目录
+     */
+    getWorkSpace: () => {
+        return getRequest('/gen/genTable/getWorkSpace');
+    },
+
+    /**
+     * 生成代码到指定目录
+     */
+    generatorCodeInFile: (data) => {
+        return postRequest('/gen/genTable/generatorCodeInFile', data);
+    },
 };

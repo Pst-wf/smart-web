@@ -3,7 +3,7 @@ import vue from '@vitejs/plugin-vue';
 import customVariables from '/@/theme/custom-variables.js';
 import { viteCommonjs } from '@originjs/vite-plugin-commonjs'
 
-
+const path = process.cwd();
 const pathResolve = (dir) => {
   return resolve(__dirname, '.', dir);
 };
@@ -97,5 +97,6 @@ export default {
   define: {
     __INTLIFY_PROD_DEVTOOLS__: false,
     'process.env': process.env,
+    'import.meta.env.PROJECT_PATH': JSON.stringify(path)
   },
 };
