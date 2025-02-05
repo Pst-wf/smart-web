@@ -1,8 +1,8 @@
 <template>
   <a-dropdown class="header-trigger">
     <div class="wrapper">
-      <img class="avatar-image" :src="avatar" v-if="avatar"/>
-      <a-avatar v-else style="margin: 0 5px; display: flex;justify-content: center;align-items: center" :size="20" id="smartAdminAvatar">
+      <img class="avatar-image" :src="avatar" v-if="avatar" />
+      <a-avatar v-else style="margin: 0 5px; display: flex; justify-content: center; align-items: center" :size="20" id="smartAdminAvatar">
         {{ avatarName }}
       </a-avatar>
       <span class="name">{{ nickname }}</span>
@@ -24,19 +24,19 @@
       </a-menu>
     </template>
   </a-dropdown>
-  <choose-identity ref="chooseIdentity" :data="identityData" @choose="(identityId) => chooseLogin(identityId)"/>
+  <choose-identity ref="chooseIdentity" :data="identityData" @choose="(identityId) => chooseLogin(identityId)" />
 </template>
 <script setup>
-import {computed, onMounted, ref} from 'vue';
-import {loginApi} from '/src/api/system/login-api';
-import {useUserStore} from '/@/store/modules/system/user';
-import {localClear, localSave} from '/@/utils/local-util';
-import {useRouter} from 'vue-router';
-import {ACCOUNT_MENU} from '/@/views/system/account/account-menu.js';
-import ChooseIdentity from "/@/components/login/choose-identity/index.vue";
-import LocalStorageKeyConst from "/@/constants/local-storage-key-const.js";
-import {configApi} from "/@/api/system/config-api.js";
-
+import { computed, onMounted, ref } from 'vue';
+import { loginApi } from '/src/api/system/login-api';
+import { useUserStore } from '/@/store/modules/system/user';
+import { localClear, localSave } from '/@/utils/local-util';
+import { useRouter } from 'vue-router';
+import { ACCOUNT_MENU } from '/@/views/system/account/account-menu.js';
+import ChooseIdentity from '/@/components/login/choose-identity/index.vue';
+import LocalStorageKeyConst from '/@/constants/local-storage-key-const.js';
+import { configApi } from '/@/api/system/config-api.js';
+import { fileUtil } from '/@/utils/file-util.js';
 // 头像背景颜色
 const AVATAR_BACKGROUND_COLOR_ARRAY = ['#87d068', '#00B853', '#f56a00', '#1890ff'];
 
@@ -62,29 +62,29 @@ const router = useRouter();
 function toAccount(menuId) {
   router.push({
     path: '/account',
-    query: {menuId},
+    query: { menuId },
   });
 }
 
 // ------------------------ 切换身份 ------------------------
-const identityData = ref([])
-const chooseIdentity = ref()
+const identityData = ref([]);
+const chooseIdentity = ref();
 
 async function changeIdentity() {
   const res = await loginApi.getIdentityList();
-  identityData.value = res.data
-  chooseIdentity.value.openModal()
+  identityData.value = res.data;
+  chooseIdentity.value.openModal();
 }
 
 function chooseLogin(identityId) {
-  localSave(LocalStorageKeyConst.IDENTITY_ID, identityId)
+  localSave(LocalStorageKeyConst.IDENTITY_ID, identityId);
   location.reload();
 }
 
 // ------------------------ 以下是 头像和姓名 相关 ------------------------
 
 const avatarName = ref('');
-const avatar = computed(() => useUserStore().avatar);
+const avatar = computed(() => fileUtil.fileUrlFormat(useUserStore().avatar));
 const nickname = computed(() => useUserStore().nickname);
 
 // 更新头像信息
@@ -115,14 +115,14 @@ function hashcode(str) {
 }
 
 onMounted(updateAvatar);
-const configData = ref('1')
+const configData = ref('1');
 
 async function getConfigData() {
-  const configRes = await configApi.getConfigByKeys({keys: 'has_dept_post'});
-  configData.value = configRes.data.has_dept_post
+  const configRes = await configApi.getConfigByKeys({ keys: 'has_dept_post' });
+  configData.value = configRes.data.has_dept_post;
 }
 
-onMounted(getConfigData)
+onMounted(getConfigData);
 </script>
 <style lang="less" scoped>
 .wrapper {

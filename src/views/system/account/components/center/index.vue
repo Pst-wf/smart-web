@@ -24,48 +24,27 @@
           <a-button type="primary" @click="onSubmit">更新个人信息</a-button>
         </a-col>
         <a-col flex="auto">
-          <a-form style="padding-left: 80px" layout="vertical">
-            <a-form-item label="头像" name="avatar">
-              <br />
-              <a-upload
-                  name="avatar"
-                  list-type="picture-card"
-                  class="avatar-uploader"
-                  :show-upload-list="false"
-                  :headers="{ 'x-access-token': useUserStore().getToken }"
-                  :customRequest="customRequest"
-                  :before-upload="beforeUpload"
-              >
-                <div v-if="avatarUrl" class="avatar-container">
-                  <img :src="avatarUrl" class="avatar-image" alt="avatar" />
-                  <div class="overlay">
-                    <span>更新头像</span>
-                  </div>
-                </div>
-                <div v-else>
-                  <loading-outlined v-if="updateAvatarLoading" />
-                  <plus-outlined v-else />
-                  <div class="ant-upload-text">上传头像</div>
-                </div>
-              </a-upload>
-            </a-form-item>
-          </a-form>
+          <a-flex vertical align="center" :gap="18" class="right-class">
+            <a-image v-if="form.avatar" style="border-radius: 50%" :width="200" :height="200" :src="avatarShow" />
+            <a-button type="primary" @click="openModal">点击上传</a-button>
+          </a-flex>
         </a-col>
       </a-row>
     </div>
+    <AvatarModal ref="avatarModal" v-model:file-urls="form.avatar" />
   </div>
 </template>
 <script setup>
-import { onMounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref, computed } from 'vue';
 import { regular } from '/@/constants/regular-const.js';
 import { loginApi } from '/@/api/system/login-api.js';
 import { useUserStore } from '/@/store/modules/system/user.js';
 import { message } from 'ant-design-vue';
 import { smartSentry } from '/@/lib/smart-sentry.js';
 import { SmartLoading } from '/@/components/framework/smart-loading/index.js';
-import { fileApi } from '/@/api/file/file-api.js';
-import { FILE_FOLDER_TYPE_ENUM } from '/@/constants/support/file-const.js';
 import { userApi } from '/@/api/system/user-api.js';
+import AvatarModal from '/@/components/avatar-modal/index.vue';
+import { fileUtil } from '/@/utils/file-util.js';
 
 // 组件ref
 const formRef = ref();
@@ -95,8 +74,6 @@ const rules = {
     { pattern: regular.phone, message: '请输入正确的手机号码', trigger: 'blur' },
   ],
 };
-// 头像地址
-let avatarUrl = ref();
 
 // 查询登录信息
 async function getLoginInfo() {
@@ -115,56 +92,11 @@ async function getLoginInfo() {
     form.nickname = data.nickname;
     form.phone = data.phone;
     form.remarks = data.remarks;
-    // 头像展示
-    avatarUrl.value = data.avatar;
+    form.avatar = data.avatar;
   } catch (e) {
     smartSentry.captureError(e);
   } finally {
     SmartLoading.hide();
-  }
-}
-
-// 头像上传
-const accept = ref('.jpg,.jpeg,.png,.gif');
-const maxSize = ref(10);
-const folder = ref(FILE_FOLDER_TYPE_ENUM.COMMON.value);
-let updateAvatarLoading = ref(false);
-
-function beforeUpload(file, files) {
-  const suffixIndex = file.name.lastIndexOf('.');
-  const fileSuffix = file.name.substring(suffixIndex <= -1 ? 0 : suffixIndex);
-  if (accept.value.indexOf(fileSuffix) === -1) {
-    message.error(`只支持上传 ${accept.value.replaceAll(',', ' ')} 格式的文件`);
-    return false;
-  }
-
-  const isLimitSize = file.size / 1024 / 1024 < maxSize.value;
-  if (!isLimitSize) {
-    message.error(`单个文件大小必须小于 ${maxSize.value} Mb`);
-    return false;
-  }
-  return true;
-}
-
-async function customRequest(options) {
-  updateAvatarLoading.value = true;
-  try {
-    const formData = new FormData();
-    formData.append('files', options.file);
-    let res = await fileApi.uploadFile(formData, folder.value);
-    let file = res.data[0];
-    let path;
-    if (file.uploadType === '0') {
-      path = import.meta.env.VITE_APP_API_URL + '/' + file.fileKey;
-    } else {
-      path = file.filePath;
-    }
-    avatarUrl.value = path;
-    form.avatar = path;
-  } catch (e) {
-    smartSentry.captureError(e);
-  } finally {
-    updateAvatarLoading.value = false;
   }
 }
 
@@ -195,7 +127,12 @@ function onSubmit() {
         message.error('参数验证错误，请仔细填写表单数据!');
       });
 }
+const avatarShow = computed(() => fileUtil.fileUrlFormat(form.avatar));
 
+const avatarModal = ref();
+function openModal() {
+  avatarModal.value.showModal();
+}
 onMounted(() => {
   getLoginInfo();
 });
@@ -208,58 +145,13 @@ onMounted(() => {
 
   .center-form-area {
     margin-top: 20px;
+  }
 
-    .avatar-container {
-      position: relative;
-      border-radius: 50%;
-      overflow: hidden;
-      width: 100%;
-      height: 100%;
-
-      .avatar-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-
-      .overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba(0, 0, 0, 0.5);
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: #ffffff;
-        font-size: 17px;
-      }
-
-      &:hover .overlay {
-        opacity: 1; /* 鼠标悬停时显示蒙版 */
-      }
-    }
-
-    .avatar-uploader {
-      :deep(.ant-upload) {
-        border-radius: 50%;
-        width: 150px;
-        height: 150px;
-      }
-    }
-
-    .ant-upload-select-picture-card i {
-      font-size: 32px;
-      color: #999;
-    }
-
-    .ant-upload-select-picture-card .ant-upload-text {
-      margin-top: 8px;
-      color: #666;
-    }
+  .right-class {
+    width: 40%;
+  }
+  :deep(.right-class .ant-image-mask) {
+    border-radius: 50% !important;
   }
 }
 </style>
