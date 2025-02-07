@@ -23,13 +23,15 @@
   // 打开表单弹窗
   async function showModal() {
     const res = fileUtil.fileUrlFormat(props.fileUrls);
-    // 调整图像宽高
-    const newWidth = 300; // 新宽度
-    const newHeight = 300; // 新高度
-    const resizedBlob = await resizeImage(res, newWidth, newHeight);
-    const result = URL.createObjectURL(resizedBlob);
-    url.value = result;
-    previews.value.url = result;
+    // // 调整图像宽高
+    // const newWidth = 300; // 新宽度
+    // const newHeight = 300; // 新高度
+    // const resizedBlob = await resizeImage(res, newWidth, newHeight);
+    // const result = URL.createObjectURL(resizedBlob);
+    // url.value = result;
+    // previews.value.url = result;
+    url.value = res;
+    previews.value.url = res;
     visible.value = true;
   }
   /** 关闭弹窗 */
