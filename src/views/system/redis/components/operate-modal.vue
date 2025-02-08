@@ -104,6 +104,7 @@ const formDefault = {
   key: '',
   value: '',
   expire: 0,
+  className: null,
   valueType: 'string'
 };
 let form = reactive({...formDefault});
