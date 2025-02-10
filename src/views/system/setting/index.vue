@@ -9,6 +9,9 @@ const emailConfig = ref({});
 const defaultEmailConfig = ref({});
 const tokenMap = ref({});
 const REG_EMAIL = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+const lockCycle = ref(null);
+const lockTimes = ref(null);
+const lockDuration = ref(null);
 /** 发件箱校验 */
 const validationFrom = computed(() => {
   return REG_EMAIL.test(emailConfig?.value?.from) ? undefined : 'error';
@@ -20,6 +23,15 @@ async function getConfig() {
   if (res.data.sys_email_config) {
     emailConfig.value = JSON.parse(res.data.sys_email_config);
     defaultEmailConfig.value = JSON.parse(res.data.sys_email_config);
+  }
+  if (res.data.sys_login_fail_check_cycle) {
+    lockCycle.value = Number(res.data.sys_login_fail_check_cycle);
+  }
+  if (res.data.sys_login_fail_times) {
+    lockTimes.value = Number(res.data.sys_login_fail_times);
+  }
+  if (res.data.sys_login_fail_lock_duration) {
+    lockDuration.value = Number(res.data.sys_login_fail_lock_duration);
   }
 }
 
@@ -120,6 +132,60 @@ onMounted(init);
         </a-col>
         <a-col :span="8" style="margin-left: 20px">
           <a-button type="primary" @click="updateTokenAsync('refresh_token_validity',tokenMap.refresh_token_validity )">
+            保存
+          </a-button>
+        </a-col>
+      </a-row>
+    </a-card>
+    <a-card title="登陆失败锁定设置" class="card-class" size="small" :bordered="false" :hoverable="false"
+            :headStyle="{borderBottom: 0}">
+      <a-row>
+        <a-col :span="24">
+          <a-form-item v-if="map.sys_login_fail_lock_status !== undefined" label="开启状态" name="sys_login_fail_lock_status">
+            <a-switch @change="(val) => updateAsync('sys_login_fail_lock_status',val)" v-model:checked="map.sys_login_fail_lock_status"
+                      checked-value="1" un-checked-value="0"
+                      checked-children="开" un-checked-children="关"/>
+          </a-form-item>
+        </a-col>
+      </a-row>
+      <a-row v-if="map.sys_login_fail_lock_status === '1'">
+        <a-col :span="12">
+          <a-form-item label="检查周期" name="lockCycle" :label-col="{span: 8}">
+            <a-input-number v-model:value="lockCycle" placeholder="请输入检查周期"
+                            style="width: 100%" :formatter="(value) => `${value}`" :precision="0"
+                            :parser="(value) => value.replace('.', '')" addon-after="分钟" :min="0"/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="8" style="margin-left: 20px">
+          <a-button type="primary" @click="updateAsync('sys_login_fail_check_cycle',lockCycle )">
+            保存
+          </a-button>
+        </a-col>
+      </a-row>
+      <a-row v-if="map.sys_login_fail_lock_status === '1'">
+        <a-col :span="12">
+          <a-form-item label="尝试次数" name="lockTimes" :label-col="{span: 8}">
+            <a-input-number v-model:value="lockTimes" placeholder="请输入尝试次数"
+                            style="width: 100%" :formatter="(value) => `${value}`" :precision="0"
+                            :parser="(value) => value.replace('.', '')" addon-after="次" :min="0"/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="8" style="margin-left: 20px">
+          <a-button type="primary" @click="updateAsync('sys_login_fail_times',lockTimes )">
+            保存
+          </a-button>
+        </a-col>
+      </a-row>
+      <a-row v-if="map.sys_login_fail_lock_status === '1'">
+        <a-col :span="12">
+          <a-form-item label="锁定时长" name="lockDuration" :label-col="{span: 8}">
+            <a-input-number v-model:value="lockDuration" placeholder="请输入锁定时长"
+                            style="width: 100%" :formatter="(value) => `${value}`" :precision="0"
+                            :parser="(value) => value.replace('.', '')" addon-after="分钟" :min="0"/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="8" style="margin-left: 20px">
+          <a-button type="primary" @click="updateAsync('sys_login_fail_lock_duration',lockDuration )">
             保存
           </a-button>
         </a-col>

@@ -6,14 +6,15 @@ export const columns = ref([
   {
     title: '键',
     dataIndex: 'name',
-    width: 500,
+    width: 300,
     ellipsis: true,
     align: 'left'
   },
   {
     title: '数据类型',
-    dataIndex: 'dataType',
-    width: 100,
+    dataIndex: 'className',
+    width: 300,
+    ellipsis: true,
     align: 'left'
   },
   {

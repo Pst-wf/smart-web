@@ -100,7 +100,7 @@
           </template>
         </template>
         <template #bodyCell="{ text, record, column }">
-          <template v-if="column.dataIndex === 'dataType'">
+          <template v-if="column.dataIndex === 'className'">
             <a-tag v-if="text" color="blue">{{ text }}</a-tag>
           </template>
           <template v-if="column.dataIndex === 'expire'">
