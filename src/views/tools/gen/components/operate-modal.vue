@@ -36,19 +36,19 @@
           </a-select>
         </a-form-item>
         <a-form-item label="实体名称" name="className">
-          <a-input v-model:value="form.className" placeholder="请输入实体名称" :disabled="disabled || !form.tableName" />
+          <a-input v-model:value="form.className" placeholder="请输入实体名称" :disabled="disabled || !form.tableName" allowClear/>
         </a-form-item>
         <a-form-item label="实体描述" name="className">
-          <a-input v-model:value="form.comments" placeholder="请输入实体描述" :disabled="disabled || !form.tableName" />
+          <a-input v-model:value="form.comments" placeholder="请输入实体描述" :disabled="disabled || !form.tableName" allowClear/>
         </a-form-item>
         <a-form-item label="作者" name="functionAuthor">
-          <a-input v-model:value="form.functionAuthor" placeholder="请输入作者" :disabled="disabled || !form.tableName" />
+          <a-input v-model:value="form.functionAuthor" placeholder="请输入作者" :disabled="disabled || !form.tableName" allowClear/>
         </a-form-item>
         <a-form-item label="包名" name="packageName">
-          <a-input v-model:value="form.packageName" placeholder="请输入包名" :disabled="disabled || !form.tableName" />
+          <a-input v-model:value="form.packageName" placeholder="请输入包名" :disabled="disabled || !form.tableName" allowClear/>
         </a-form-item>
         <a-form-item label="所属模块" name="moduleName">
-          <a-input v-model:value="form.moduleName" placeholder="请输入所属模块" :disabled="disabled || !form.tableName" />
+          <a-input v-model:value="form.moduleName" placeholder="请输入所属模块" :disabled="disabled || !form.tableName" allowClear/>
         </a-form-item>
         <a-form-item label="所属菜单" name="menuId">
           <a-tree-select
@@ -73,7 +73,7 @@
                   :name="['columns', index, column.dataIndex]"
                   :rules="{ required: true, message: '字段描述不能为空' }"
               >
-                <a-input v-model:value="record[column.dataIndex]" placeholder="请输入字段描述" />
+                <a-input v-model:value="record[column.dataIndex]" placeholder="请输入字段描述" allowClear/>
               </a-form-item>
             </template>
             <template v-if="['isNotNull', 'isList', 'isForm'].includes(column.dataIndex)">

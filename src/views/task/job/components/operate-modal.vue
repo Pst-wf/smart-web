@@ -26,14 +26,14 @@
         </a-col>
         <a-col :span="12">
           <a-form-item label="任务描述" name="jobDesc">
-            <a-input v-model:value="form.jobDesc" placeholder="请输入任务描述"/>
+            <a-input v-model:value="form.jobDesc" placeholder="请输入任务描述" allowClear/>
           </a-form-item>
         </a-col>
       </a-row>
       <a-row v-if="operateType !== 'trigger'">
         <a-col :span="12">
           <a-form-item label="报警邮箱" name="alarmEmail">
-            <a-input v-model:value="form.alarmEmail" placeholder="请输入报警邮箱"/>
+            <a-input v-model:value="form.alarmEmail" placeholder="请输入报警邮箱" allowClear/>
           </a-form-item>
         </a-col>
       </a-row>
@@ -48,7 +48,7 @@
         <a-col :span="12">
           <a-form-item label="调度配置" name="scheduleConf" v-if="form.scheduleType !== 'NONE'">
             <a-input v-model:value="form.scheduleConf"
-                     :placeholder="$smartEnumPlugin.getDescByValue('SCHEDULE_CONF_ENUM', form.scheduleType)"/>
+                     :placeholder="$smartEnumPlugin.getDescByValue('SCHEDULE_CONF_ENUM', form.scheduleType)" allowClear/>
           </a-form-item>
         </a-col>
       </a-row>
@@ -63,7 +63,7 @@
         <a-col :span="12">
           <a-form-item label="任务处理器" name="executorHandler">
             <a-input v-model:value="form.executorHandler"
-                     placeholder="请输入任务处理器"/>
+                     placeholder="请输入任务处理器" allowClear/>
           </a-form-item>
         </a-col>
       </a-row>
@@ -92,7 +92,7 @@
         <a-col :span="12">
           <a-form-item label="子任务ID" name="childJobId">
             <a-input v-model:value="form.childJobId"
-                     placeholder="请输入子任务的任务ID，如存在多个则逗号分隔"/>
+                     placeholder="请输入子任务的任务ID，如存在多个则逗号分隔" allowClear/>
           </a-form-item>
         </a-col>
       </a-row>
@@ -114,13 +114,13 @@
         <a-col :span="12">
           <a-form-item label="超时时间" name="executorTimeout">
             <a-input-number style="width: 100%" v-model:value="form.executorTimeout" :min="0"
-                            placeholder="请输入超时时间"/>
+                            placeholder="请输入超时时间" allowClear/>
           </a-form-item>
         </a-col>
         <a-col :span="12">
           <a-form-item label="失败重试次数" name="executorFailRetryCount">
             <a-input-number style="width: 100%" v-model:value="form.executorFailRetryCount" :min="0"
-                            placeholder="请输入失败重试次数"/>
+                            placeholder="请输入失败重试次数" allowClear/>
           </a-form-item>
         </a-col>
       </a-row>

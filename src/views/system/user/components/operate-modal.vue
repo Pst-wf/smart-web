@@ -10,16 +10,16 @@
     <a-form ref="formRef" :labelCol="{ span: 2 }" :labelWrap="true" :model="form" :rules="rules" :disabled="disabled">
       <a-divider orientation="left">基本信息</a-divider>
       <a-form-item label="姓名" name="nickname">
-        <a-input v-model:value="form.nickname" placeholder="请输入姓名"/>
+        <a-input v-model:value="form.nickname" placeholder="请输入姓名" allowClear/>
       </a-form-item>
       <a-form-item label="电话" name="phone">
-        <a-input v-model:value="form.phone" placeholder="请输入电话"/>
+        <a-input v-model:value="form.phone" placeholder="请输入电话" allowClear/>
       </a-form-item>
       <a-form-item label="账号" name="username">
-        <a-input v-model:value="form.username" placeholder="请输入账号"/>
+        <a-input v-model:value="form.username" placeholder="请输入账号" allowClear/>
       </a-form-item>
       <a-form-item label="密码" name="password">
-        <a-input-password v-model:value="form.password" placeholder="请输入密码"/>
+        <a-input-password v-model:value="form.password" placeholder="请输入密码" allowClear/>
       </a-form-item>
       <a-form-item label="角色" name="roles" v-if="configData && configData === '0'">
         <a-select

@@ -10,7 +10,7 @@
       <div class="login-title">账号登录</div>
       <a-form ref="formRef" class="login-form" :model="loginForm" :rules="rules">
         <a-form-item name="username">
-          <a-input v-model:value.trim="loginForm.username" placeholder="请输入用户名" />
+          <a-input v-model:value.trim="loginForm.username" placeholder="请输入用户名" allowClear/>
         </a-form-item>
         <a-form-item name="password">
           <a-input-password
@@ -18,10 +18,11 @@
             autocomplete="on"
             :type="showPassword ? 'text' : 'password'"
             placeholder="请输入密码"
+            allowClear
           />
         </a-form-item>
         <a-form-item name="captchaCode">
-          <a-input class="captcha-input" v-model:value.trim="loginForm.captchaCode" placeholder="请输入验证码" />
+          <a-input class="captcha-input" v-model:value.trim="loginForm.captchaCode" placeholder="请输入验证码" allowClear/>
           <img class="captcha-img" :src="captchaBase64Image" @click="getCaptcha" />
         </a-form-item>
         <a-form-item>

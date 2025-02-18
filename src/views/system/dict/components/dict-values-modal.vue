@@ -48,6 +48,7 @@
                   v-if="editableData[record.id]"
                   v-model:value="editableData[record.id][column.dataIndex]"
                   style="margin: -5px 0"
+                  allowClear
               />
               <template v-else>
                 {{ text }}

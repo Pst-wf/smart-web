@@ -3,7 +3,7 @@
     <a-form class="smart-query-form">
       <a-row class="smart-query-form-row">
         <a-form-item label="菜单名称" class="smart-query-form-item">
-          <a-input style="width: 300px" v-model:value="queryForm.menuName" placeholder="请输入菜单名称" />
+          <a-input style="width: 300px" v-model:value="queryForm.menuName" placeholder="请输入菜单名称" allowClear/>
         </a-form-item>
 
         <a-form-item label="状态" class="smart-query-form-item">

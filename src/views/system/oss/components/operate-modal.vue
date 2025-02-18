@@ -20,22 +20,22 @@
         />
       </a-form-item>
       <a-form-item v-if="form.ossType !=='0'" label="地址" name="ossHost">
-        <a-input v-model:value="form.ossHost" placeholder="请输入地址"/>
+        <a-input v-model:value="form.ossHost" placeholder="请输入地址" allowClear/>
       </a-form-item>
       <a-form-item v-if="form.ossType !=='0'" label="key" name="accessKey">
-        <a-input v-model:value="form.accessKey" placeholder="请输入key"/>
+        <a-input v-model:value="form.accessKey" placeholder="请输入key" allowClear/>
       </a-form-item>
       <a-form-item v-if="form.ossType !=='0'" label="secret" name="accessSecret">
-        <a-input v-model:value="form.accessSecret" placeholder="请输入secret"/>
+        <a-input v-model:value="form.accessSecret" placeholder="请输入secret" allowClear/>
       </a-form-item>
       <a-form-item :label="form.ossType !=='0' ? '桶名' : '访问相对路径'" name="bucket">
-        <a-input v-model:value="form.bucket" :placeholder="form.ossType !=='0' ? '请输入桶名' : '请输入访问相对路径'"/>
+        <a-input v-model:value="form.bucket" :placeholder="form.ossType !=='0' ? '请输入桶名' : '请输入访问相对路径'" allowClear/>
       </a-form-item>
       <a-form-item label="目录" name="ossDir">
-        <a-input v-model:value="form.ossDir" placeholder="请输入目录"/>
+        <a-input v-model:value="form.ossDir" placeholder="请输入目录" allowClear/>
       </a-form-item>
       <a-form-item v-if="form.ossType !=='0'" label="地区" name="region">
-        <a-input v-model:value="form.region" placeholder="请输入地区"/>
+        <a-input v-model:value="form.region" placeholder="请输入地区" allowClear/>
       </a-form-item>
     </a-form>
     <div class="footer">

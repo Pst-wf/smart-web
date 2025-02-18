@@ -111,7 +111,7 @@ onMounted(init);
       <a-row v-if="tokenMap.access_token_validity !== undefined">
         <a-col :span="12">
           <a-form-item label="AccessToken有效期" name="access_token_validity" :label-col="{span: 8}">
-            <a-input-number v-model:value="tokenMap.access_token_validity" placeholder="请输入AccessToken有效期"
+            <a-input-number v-model:value="tokenMap.access_token_validity" placeholder="请输入AccessToken有效期" allowClear
                             style="width: 100%" :formatter="(value) => `${value}`" :precision="0"
                             :parser="(value) => value.replace('.', '')" addon-after="毫秒" :min="0"/>
           </a-form-item>
@@ -125,7 +125,7 @@ onMounted(init);
       <a-row v-if="tokenMap.refresh_token_validity !== undefined">
         <a-col :span="12">
           <a-form-item label="RefreshToken有效期" name="refresh_token_validity" :label-col="{span: 8}">
-            <a-input-number v-model:value="tokenMap.refresh_token_validity" placeholder="请输入RefreshToken有效期"
+            <a-input-number v-model:value="tokenMap.refresh_token_validity" placeholder="请输入RefreshToken有效期" allowClear
                             style="width: 100%" :formatter="(value) => `${value}`" :precision="0"
                             :parser="(value) => value.replace('.', '')" addon-after="毫秒" :min="0"/>
           </a-form-item>
@@ -151,7 +151,7 @@ onMounted(init);
       <a-row v-if="map.sys_login_fail_lock_status === '1'">
         <a-col :span="12">
           <a-form-item label="检查周期" name="lockCycle" :label-col="{span: 8}">
-            <a-input-number v-model:value="lockCycle" placeholder="请输入检查周期"
+            <a-input-number v-model:value="lockCycle" placeholder="请输入检查周期" allowClear
                             style="width: 100%" :formatter="(value) => `${value}`" :precision="0"
                             :parser="(value) => value.replace('.', '')" addon-after="分钟" :min="0"/>
           </a-form-item>
@@ -165,7 +165,7 @@ onMounted(init);
       <a-row v-if="map.sys_login_fail_lock_status === '1'">
         <a-col :span="12">
           <a-form-item label="尝试次数" name="lockTimes" :label-col="{span: 8}">
-            <a-input-number v-model:value="lockTimes" placeholder="请输入尝试次数"
+            <a-input-number v-model:value="lockTimes" placeholder="请输入尝试次数" allowClear
                             style="width: 100%" :formatter="(value) => `${value}`" :precision="0"
                             :parser="(value) => value.replace('.', '')" addon-after="次" :min="0"/>
           </a-form-item>
@@ -179,7 +179,7 @@ onMounted(init);
       <a-row v-if="map.sys_login_fail_lock_status === '1'">
         <a-col :span="12">
           <a-form-item label="锁定时长" name="lockDuration" :label-col="{span: 8}">
-            <a-input-number v-model:value="lockDuration" placeholder="请输入锁定时长"
+            <a-input-number v-model:value="lockDuration" placeholder="请输入锁定时长" allowClear
                             style="width: 100%" :formatter="(value) => `${value}`" :precision="0"
                             :parser="(value) => value.replace('.', '')" addon-after="分钟" :min="0"/>
           </a-form-item>
@@ -191,31 +191,43 @@ onMounted(init);
         </a-col>
       </a-row>
     </a-card>
-    <a-card title="文档设置" class="card-class" size="small" :bordered="false" :hoverable="false"
-            :headStyle="{borderBottom: 0}">
-      <a-row v-if="map.file_document_url !== undefined">
-        <a-col :span="12">
-          <a-form-item label="文件服务地址" name="file_document_url" :label-col="{span: 8}">
-            <a-input v-model:value="map.file_document_url" placeholder="请输入文件服务地址"/>
-          </a-form-item>
-        </a-col>
-        <a-col :span="8" style="margin-left: 20px">
-          <a-button type="primary" @click="updateAsync('file_document_url',map.file_document_url )">保存</a-button>
-        </a-col>
-      </a-row>
-      <a-row v-if="map.file_document_callback_url !== undefined">
-        <a-col :span="12">
-          <a-form-item label="在线编辑回调地址" name="file_document_callback_url" :label-col="{span: 8}">
-            <a-input v-model:value="map.file_document_callback_url" placeholder="请输入在线编辑回调地址"/>
-          </a-form-item>
-        </a-col>
-        <a-col :span="8" style="margin-left: 20px">
-          <a-button type="primary" @click="updateAsync('file_document_callback_url',map.file_document_callback_url )">
-            保存
-          </a-button>
-        </a-col>
-      </a-row>
-    </a-card>
+<!--    <a-card title="文档设置" class="card-class" size="small" :bordered="false" :hoverable="false"-->
+<!--            :headStyle="{borderBottom: 0}">-->
+<!--      <a-row v-if="map.file_document_url !== undefined">-->
+<!--        <a-col :span="12">-->
+<!--          <a-form-item label="文件服务地址" name="file_document_url" :label-col="{span: 8}">-->
+<!--            <a-input v-model:value="map.file_document_url" placeholder="请输入文件服务地址" allowClear/>-->
+<!--          </a-form-item>-->
+<!--        </a-col>-->
+<!--        <a-col :span="8" style="margin-left: 20px">-->
+<!--          <a-button type="primary" @click="updateAsync('file_document_url',map.file_document_url )">保存</a-button>-->
+<!--        </a-col>-->
+<!--      </a-row>-->
+<!--      <a-row v-if="map.file_document_callback_url !== undefined">-->
+<!--        <a-col :span="12">-->
+<!--          <a-form-item label="在线编辑回调地址" name="file_document_callback_url" :label-col="{span: 8}">-->
+<!--            <a-input v-model:value="map.file_document_callback_url" placeholder="请输入在线编辑回调地址" allowClear/>-->
+<!--          </a-form-item>-->
+<!--        </a-col>-->
+<!--        <a-col :span="8" style="margin-left: 20px">-->
+<!--          <a-button type="primary" @click="updateAsync('file_document_callback_url',map.file_document_callback_url )">-->
+<!--            保存-->
+<!--          </a-button>-->
+<!--        </a-col>-->
+<!--      </a-row>-->
+<!--      <a-row v-if="map.file_document_local_url !== undefined">-->
+<!--        <a-col :span="12">-->
+<!--          <a-form-item label="本地文件访问路径" name="file_document_local_url" :label-col="{span: 8}">-->
+<!--            <a-input v-model:value="map.file_document_local_url" placeholder="请输入本地文件访问路径"/>-->
+<!--          </a-form-item>-->
+<!--        </a-col>-->
+<!--        <a-col :span="8" style="margin-left: 20px">-->
+<!--          <a-button type="primary" @click="updateAsync('file_document_local_url',map.file_document_local_url )">-->
+<!--            保存-->
+<!--          </a-button>-->
+<!--        </a-col>-->
+<!--      </a-row>-->
+<!--    </a-card>-->
     <a-card title="微信设置" class="card-class" size="small" :bordered="false" :hoverable="false"
             :headStyle="{borderBottom: 0}">
       <a-row v-if="map.wechat_app_id !== undefined">

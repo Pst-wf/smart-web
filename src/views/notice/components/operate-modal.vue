@@ -8,7 +8,7 @@
   >
     <a-form ref="formRef" :labelCol="{ span: 3 }" :labelWrap="true" :model="form" :rules="rules" :disabled="disabled" style="width:90%">
       <a-form-item label="标题" name="noticeTitle">
-        <a-input v-model:value="form.noticeTitle" placeholder="请输入标题"/>
+        <a-input v-model:value="form.noticeTitle" placeholder="请输入标题" allowClear/>
       </a-form-item>
       <a-form-item label="类型" name="noticeType">
         <a-select
@@ -31,7 +31,7 @@
         />
       </a-form-item>
       <a-form-item label="内容" name="noticeContent">
-        <WangEditor v-model:model-value="form.noticeContent"/>
+        <WangEditor v-model:model-value="form.noticeContent" :disabled="disabled"/>
       </a-form-item>
     </a-form>
     <template #footer>

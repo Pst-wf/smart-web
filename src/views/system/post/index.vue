@@ -3,10 +3,10 @@
     <a-form class="smart-query-form">
       <a-row class="smart-query-form-row">
         <a-form-item label="岗位名称" class="smart-query-form-item">
-          <a-input style="width: 300px" v-model:value="queryForm.postName" placeholder="请输入岗位名称" />
+          <a-input style="width: 300px" v-model:value="queryForm.postName" placeholder="请输入岗位名称" allowClear/>
         </a-form-item>
         <a-form-item label="岗位编码" class="smart-query-form-item">
-          <a-input style="width: 300px" v-model:value="queryForm.postCode" placeholder="请输入岗位编码" />
+          <a-input style="width: 300px" v-model:value="queryForm.postCode" placeholder="请输入岗位编码" allowClear/>
         </a-form-item>
         <a-form-item label="状态" class="smart-query-form-item">
           <SmartEnumSelect width="300px" enum-name="STATUS_ENUM" v-model:value="queryForm.status" placeholder="请选择状态"/>

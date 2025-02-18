@@ -3,10 +3,10 @@
     <a-form class="smart-query-form">
       <a-row class="smart-query-form-row">
         <a-form-item label="操作人姓名" class="smart-query-form-item">
-          <a-input style="width: 300px" v-model:value="queryForm.userNickname" placeholder="请输入操作人姓名"/>
+          <a-input style="width: 300px" v-model:value="queryForm.userNickname" placeholder="请输入操作人姓名" allowClear/>
         </a-form-item>
         <a-form-item label="操作人账号" class="smart-query-form-item">
-          <a-input style="width: 300px" v-model:value="queryForm.username" placeholder="请输入操作人账号"/>
+          <a-input style="width: 300px" v-model:value="queryForm.username" placeholder="请输入操作人账号" allowClear/>
         </a-form-item>
         <a-form-item label="操作类型" class="smart-query-form-item">
           <SmartEnumSelect width="300px" enum-name="OPERATE_LOG_TYPE_ENUM" v-model:value="queryForm.logType" placeholder="请选择操作类型"/>

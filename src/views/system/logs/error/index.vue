@@ -3,13 +3,13 @@
     <a-form class="smart-query-form">
       <a-row class="smart-query-form-row">
         <a-form-item label="异常编码" class="smart-query-form-item">
-          <a-input style="width: 300px" v-model:value="queryForm.errorId" placeholder="请输入异常编码"/>
+          <a-input style="width: 300px" v-model:value="queryForm.errorId" placeholder="请输入异常编码" allowClear/>
         </a-form-item>
         <a-form-item label="操作人姓名" class="smart-query-form-item">
-          <a-input style="width: 300px" v-model:value="queryForm.userNickname" placeholder="请输入操作人姓名"/>
+          <a-input style="width: 300px" v-model:value="queryForm.userNickname" placeholder="请输入操作人姓名" allowClear/>
         </a-form-item>
         <a-form-item label="操作人账号" class="smart-query-form-item">
-          <a-input style="width: 300px" v-model:value="queryForm.username" placeholder="请输入操作人账号"/>
+          <a-input style="width: 300px" v-model:value="queryForm.username" placeholder="请输入操作人账号" allowClear/>
         </a-form-item>
         <a-form-item label="操作时间" class="smart-query-form-item">
           <a-range-picker v-model:value="queryForm.createDateValue" :format="['YYYY-MM-DD', 'YYYY-MM-DD']" value-format="YYYY-MM-DD" width="300px" allowClear/>

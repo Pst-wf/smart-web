@@ -12,7 +12,7 @@
       <a-form class="smart-query-form">
         <a-row class="smart-query-form-row">
           <a-form-item label="标题" class="smart-query-form-item">
-            <a-input style="width: 200px" v-model:value="queryForm.noticeTitle" placeholder="请输入标题"/>
+            <a-input style="width: 200px" v-model:value="queryForm.noticeTitle" placeholder="请输入标题" allowClear/>
           </a-form-item>
           <a-form-item label="类型" class="smart-query-form-item">
             <a-select
@@ -30,7 +30,7 @@
                              placeholder="请选择状态"/>
           </a-form-item>
           <a-form-item label="发送人" class="smart-query-form-item">
-            <a-input style="width: 200px" v-model:value="queryForm.sendUsername" placeholder="请输入发送人"/>
+            <a-input style="width: 200px" v-model:value="queryForm.sendUsername" placeholder="请输入发送人" allowClear/>
           </a-form-item>
           <a-form-item label="发送时间" class="smart-query-form-item">
             <a-range-picker v-model:value="queryForm.sendTimeBetweenList" :format="['YYYY-MM-DD', 'YYYY-MM-DD']"

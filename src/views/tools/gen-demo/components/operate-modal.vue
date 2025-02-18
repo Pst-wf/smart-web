@@ -9,7 +9,7 @@
   >
     <a-form ref="formRef" :labelCol="{ span: 4 }" :labelWrap="true" :model="form" :rules="rules" :disabled="disabled">
       <a-form-item label="T1" name="tableColumn1">
-        <a-input v-model:value="form.tableColumn1" placeholder="请输入T1"/>
+        <a-input v-model:value="form.tableColumn1" placeholder="请输入T1" allowClear/>
       </a-form-item>
       <a-form-item label="T2" name="tableColumn2">
         <WangEditor v-model:model-value="form.tableColumn2"/>
@@ -97,7 +97,7 @@
         <ImageUpload v-model:file-list="form.tableColumn13" :tips="{content: '请上传 1920 x 1080 大小的图片'}"/>
       </a-form-item>
       <a-form-item label="T14" name="tableColumn14">
-        <a-input-number v-model:value="form.tableColumn14" placeholder="请输入T14" style="width: 100%"/>
+        <a-input-number v-model:value="form.tableColumn14" placeholder="请输入T14" style="width: 100%" allowClear/>
       </a-form-item>
     </a-form>
     <template #footer>

@@ -29,10 +29,10 @@
         />
       </a-form-item>
       <a-form-item label="菜单名称" name="menuName">
-        <a-input v-model:value="form.menuName" placeholder="请输入菜单名称"/>
+        <a-input v-model:value="form.menuName" placeholder="请输入菜单名称" allowClear/>
       </a-form-item>
       <a-form-item label="路由名称" name="routeName">
-        <a-input v-model:value="form.routeName" placeholder="请输入路由名称">
+        <a-input v-model:value="form.routeName" placeholder="请输入路由名称" allowClear>
           <template #suffix>
             <a-tooltip>
               <info-circle-outlined style="color: rgba(0, 0, 0, 0.45)" />

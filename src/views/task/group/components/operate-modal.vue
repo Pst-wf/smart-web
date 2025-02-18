@@ -9,10 +9,10 @@
   >
     <a-form ref="formRef" :labelCol="{ span: 4 }" :labelWrap="true" :model="form" :rules="rules" :disabled="disabled">
       <a-form-item label="执行器" name="appName">
-        <a-input v-model:value="form.appName" placeholder="请输入执行器"/>
+        <a-input v-model:value="form.appName" placeholder="请输入执行器" allowClear/>
       </a-form-item>
       <a-form-item label="执行器名称" name="title">
-        <a-input v-model:value="form.title" placeholder="请输入执行器名称"/>
+        <a-input v-model:value="form.title" placeholder="请输入执行器名称" allowClear/>
       </a-form-item>
       <a-form-item label="执行器类型" name="addressType">
         <SmartEnumRadio v-model:value="form.addressType" enumName="ADDRESS_TYPE_ENUM" placeholder="请选择执行器类型"/>

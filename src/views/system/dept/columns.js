@@ -4,18 +4,18 @@
 import { ref } from 'vue';
 export const columns = ref([
   {
-    title: '部门名称',
+    title: '机构名称',
     dataIndex: 'deptName',
     key: 'ID',
     sorter: true
   },
   {
-    title: '部门编号',
+    title: '机构编号',
     dataIndex: 'deptCode',
     sorter: true
   },
   {
-    title: '部门类型',
+    title: '机构类型',
     dataIndex: 'deptType',
     sorter: true
   },

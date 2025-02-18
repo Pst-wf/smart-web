@@ -11,7 +11,7 @@
       <a-row>
         <a-col :span="24">
           <a-form-item label="值类型" name="valueType">
-            <a-radio-group @change="() => form.value = ''" v-model:value="form.valueType">
+            <a-radio-group @change="() => (form.value = '')" v-model:value="form.valueType" :disabled="form.id !== null">
               <a-radio-button value="string">字符串</a-radio-button>
               <a-radio-button value="object">json</a-radio-button>
             </a-radio-group>
@@ -20,27 +20,28 @@
       </a-row>
       <a-row>
         <a-col :span="12">
-          <a-form-item label="键" name="key" :labelCol="{span :4}">
-            <a-input v-model:value="form.key" placeholder="请输入键"/>
+          <a-form-item label="键" name="key" :labelCol="{ span: 4 }">
+            <a-input v-model:value="form.key" placeholder="请输入键" allowClear />
           </a-form-item>
         </a-col>
         <a-col :span="12">
-          <a-form-item label="有效期" name="expire" :labelCol="{span :4}">
-            <a-input-number v-model:value="form.expire" :min="1" placeholder="请输入有效期" style="width: 100%"
-                            addon-after="秒"/>
+          <a-form-item label="有效期" name="expire" :labelCol="{ span: 4 }">
+            <a-input-number v-model:value="form.expire" :min="1" placeholder="请输入有效期" style="width: 100%" addon-after="秒" allowClear />
           </a-form-item>
         </a-col>
       </a-row>
       <a-row>
         <a-col :span="24">
           <a-form-item label="值" name="value">
-            <JsonEditorVue v-if="form.valueType === 'object'"
-                           :modelValue="form.value"
-                           :modeList="couldView"
-                           :currentMode="'tree'"
-                           language="zh-CN"
-                           @update:modelValue="updateModelValue"/>
-            <a-textarea v-else v-model:value="form.value" placeholder="请输入值"/>
+            <JsonEditorVue
+                v-if="visible && form.valueType === 'object'"
+                :modelValue="form.value"
+                :modeList="couldView"
+                :currentMode="'code'"
+                language="zh-CN"
+                @update:modelValue="updateModelValue"
+            />
+            <a-textarea v-if="visible && form.valueType === 'string'" v-model:value="form.value" placeholder="请输入值" />
           </a-form-item>
         </a-col>
       </a-row>
@@ -52,16 +53,16 @@
   </a-drawer>
 </template>
 <script setup>
-import {message} from 'ant-design-vue';
+import { message } from 'ant-design-vue';
 import _ from 'lodash';
-import {reactive, ref, watch} from 'vue';
-import {redisApi} from '/@/api/system/redis-api.js';
-import {smartSentry} from '/@/lib/smart-sentry';
-import {SmartLoading} from '/@/components/framework/smart-loading';
-import {debounceAsync} from "/@/utils/debounce-util.js";
+import { reactive, ref, watch } from 'vue';
+import { redisApi } from '/@/api/system/redis-api.js';
+import { smartSentry } from '/@/lib/smart-sentry';
+import { SmartLoading } from '/@/components/framework/smart-loading';
+import { debounceAsync } from '/@/utils/debounce-util.js';
 import JsonEditorVue from 'json-editor-vue3';
 
-const couldView = ref(["tree", "code", "form", "view"])
+const couldView = ref(['tree', 'code', 'form', 'view']);
 // ----------------------- 以下是字段定义 emits props ------------------------
 // emit
 const emit = defineEmits(['reloadList']);
@@ -77,14 +78,16 @@ const disabled = ref(false);
 async function showDrawer(rowData, bool) {
   disabled.value = bool;
   Object.assign(form, formDefault);
+  form.opt = 'add';
   if (rowData && !_.isEmpty(rowData)) {
     if (rowData.expire === null) {
-      rowData.expire = 0
+      rowData.expire = 0;
     }
     Object.assign(form, rowData);
     if (form.expire > 0) {
       startCountdown();
     }
+    form.opt = 'update';
   }
   visible.value = true;
 }
@@ -105,15 +108,14 @@ const formDefault = {
   value: '',
   expire: 0,
   className: null,
-  valueType: 'string'
+  valueType: 'string',
+  opt: 'add',
 };
-let form = reactive({...formDefault});
+let form = reactive({ ...formDefault });
 
 const rules = {
-  key: [{required: true, message: '键不能为空'}],
-  value: [
-    {required: true, message: '值不能为空'},
-  ]
+  key: [{ required: true, message: '键不能为空' }],
+  value: [{ required: true, message: '值不能为空' }],
 };
 
 function validateForm(formRef) {
@@ -156,12 +158,10 @@ const intervalId = ref(undefined);
 
 // 开始倒数的方法
 const startCountdown = () => {
-  console.log('form.expire', form.expire)
   if (intervalId.value) {
-    clearInterval(intervalId.value)
+    clearInterval(intervalId.value);
   }
   intervalId.value = setInterval(() => {
-    console.log("form.expire", form.expire)
     if (form.expire <= 0) {
       clearInterval(intervalId.value);
       return;
@@ -171,9 +171,8 @@ const startCountdown = () => {
 };
 
 const updateModelValue = (val) => {
-  console.log(val, "修改了值");
-}
-
+  form.value = val;
+};
 
 watch(
     () => visible.value,
@@ -184,7 +183,7 @@ watch(
           clearInterval(intervalId.value);
         }
       }
-    },
+    }
 );
 
 // ----------------------- 以下是暴露的方法内容 ------------------------

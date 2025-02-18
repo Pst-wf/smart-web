@@ -24,131 +24,132 @@
   <HomeQuickEntryModal ref="homeQuickEntryModal" @addQuickEntry="addQuickEntry" />
 </template>
 <script setup>
-  import { onMounted, ref } from 'vue';
-  import { router } from '/@/router';
-  import HomeQuickEntryModal from './home-quick-entry-modal.vue';
-  import localKey from '/@/constants/local-storage-key-const';
-  import { localRead, localSave } from '/@/utils/local-util';
-  import _ from 'lodash';
-  import InitQuickEntryList from './init-quick-entry-list';
-  import DefaultHomeCard from '/@/views/system/home/components/default-home-card.vue';
-  import {message, theme} from 'ant-design-vue';
-  import {userConfigApi} from "/@/api/system/user-config-api.js";
+import { onMounted, ref } from 'vue';
+import { router } from '/@/router';
+import HomeQuickEntryModal from './home-quick-entry-modal.vue';
+import localKey from '/@/constants/local-storage-key-const';
+import { localRead, localSave } from '/@/utils/local-util';
+import _ from 'lodash';
+import InitQuickEntryList from './init-quick-entry-list';
+import DefaultHomeCard from '/@/views/system/home/components/default-home-card.vue';
+import {message, theme} from 'ant-design-vue';
+import {userConfigApi} from "/@/api/system/user-config-api.js";
 
-  //---------------- 初始化展示 --------------------
-  onMounted(() => {
-    initQuickEntry();
-  });
-  let quickEntry = ref([]);
+//---------------- 初始化展示 --------------------
+onMounted(() => {
+  initQuickEntry();
+});
+let quickEntry = ref([]);
 
-  function initQuickEntry() {
-    let quickEntryJson = localRead(localKey.HOME_QUICK_ENTRY);
-    if (!quickEntryJson) {
-      quickEntry.value = _.cloneDeep(InitQuickEntryList);
-      return;
-    }
-    let quickEntryList = JSON.parse(quickEntryJson);
-    if (_.isEmpty(quickEntryList)) {
-      quickEntry.value = _.cloneDeep(InitQuickEntryList);
-      return;
-    }
-    quickEntry.value = quickEntryList;
+function initQuickEntry() {
+  let quickEntryJson = localRead(localKey.HOME_QUICK_ENTRY);
+  if (!quickEntryJson) {
+    quickEntry.value = _.cloneDeep(InitQuickEntryList);
+    return;
   }
-
-  // 页面跳转
-  function turnToPage(path) {
-    if (editFlag.value) {
-      return;
-    }
-    router.push({ path });
+  let quickEntryList = JSON.parse(quickEntryJson);
+  if (_.isEmpty(quickEntryList)) {
+    quickEntry.value = _.cloneDeep(InitQuickEntryList);
+    return;
   }
+  quickEntry.value = quickEntryList;
+}
 
-  //----------------  编辑快捷入口 --------------------
-  let editFlag = ref(false);
-  let maxCount = ref(6);
-
-  // 快捷入口删除
-  async function deleteQuickEntry(index) {
-    quickEntry.value.splice(index, 1);
-    localSave(localKey.HOME_QUICK_ENTRY, JSON.stringify(quickEntry.value));
-    await userConfigApi.saveQuickEntry({params: quickEntry.value});
+// 页面跳转
+function turnToPage(path) {
+  if (editFlag.value) {
+    return;
   }
+  router.push({ path });
+}
 
-  // 添加快捷入口
-  let homeQuickEntryModal = ref();
+//----------------  编辑快捷入口 --------------------
+let editFlag = ref(false);
+let maxCount = ref(6);
 
-  function addHomeQuickEntry() {
-    homeQuickEntryModal.value.showModal();
-  }
+// 快捷入口删除
+async function deleteQuickEntry(index) {
+  quickEntry.value.splice(index, 1);
+  localSave(localKey.HOME_QUICK_ENTRY, JSON.stringify(quickEntry.value));
+  await userConfigApi.saveQuickEntry({params: quickEntry.value});
+}
 
-  async function addQuickEntry(row) {
-    quickEntry.value.push(row);
-    localSave(localKey.HOME_QUICK_ENTRY, JSON.stringify(quickEntry.value));
-    await userConfigApi.saveQuickEntry({params: quickEntry.value});
-  }
+// 添加快捷入口
+let homeQuickEntryModal = ref();
 
-  const { useToken } = theme;
-  const { token } = useToken();
+function addHomeQuickEntry() {
+  homeQuickEntryModal.value.showModal();
+}
+
+async function addQuickEntry(row) {
+  quickEntry.value.push(row);
+  localSave(localKey.HOME_QUICK_ENTRY, JSON.stringify(quickEntry.value));
+  await userConfigApi.saveQuickEntry({params: quickEntry.value});
+}
+
+const { useToken } = theme;
+const { token } = useToken();
 </script>
 <style lang="less" scoped>
-  .quick-entry-list {
-    height: 100%;
+.quick-entry-list {
+  height: 100%;
+  min-height: 78.25px;
 
-    .quick-entry {
-      padding: 10px 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      border-radius: 4px;
+  .quick-entry {
+    padding: 10px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 4px;
 
-      .entry-title {
-        margin-top: 5px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      .icon {
-        position: relative;
-      }
-
-      &:hover {
-        background-color: #f0ffff;
-      }
-
-      .delete-icon {
-        position: absolute;
-        color: #f08080;
-        top: -5px;
-        right: -5px;
-      }
+    .entry-title {
+      margin-top: 5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .add-quick-entry {
+    .icon {
+      position: relative;
+    }
+
+    &:hover {
+      background-color: #f0ffff;
+    }
+
+    .delete-icon {
+      position: absolute;
+      color: #f08080;
+      top: -5px;
+      right: -5px;
+    }
+  }
+
+  .add-quick-entry {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .add-icon {
+      width: 70px;
+      height: 70px;
+      background-color: #fafafa;
+      border: 1px dashed #d9d9d9;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: border-color 0.3s;
       display: flex;
       align-items: center;
       justify-content: center;
+      color: #a9a9a9;
 
-      .add-icon {
-        width: 70px;
-        height: 70px;
-        background-color: #fafafa;
-        border: 1px dashed #d9d9d9;
-        border-radius: 2px;
-        cursor: pointer;
-        transition: border-color 0.3s;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #a9a9a9;
-
-        &:hover {
-          border-color: v-bind('token.colorPrimary');
-          color: v-bind('token.colorPrimary');
-        }
+      &:hover {
+        border-color: v-bind('token.colorPrimary');
+        color: v-bind('token.colorPrimary');
       }
     }
   }
+}
 </style>

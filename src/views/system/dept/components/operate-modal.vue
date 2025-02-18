@@ -8,7 +8,7 @@
       @close="onClose"
   >
     <a-form ref="formRef" :labelCol="{ span: 4 }" :labelWrap="true" :model="form" :rules="rules" :disabled="disabled">
-      <a-form-item label="父级部门">
+      <a-form-item label="父级机构">
         <a-tree-select
             v-model:value="form.parentId"
             :fieldNames="{ label: 'label', key: 'id', value: 'id' }"
@@ -16,19 +16,19 @@
             show-search
             style="width: 100%"
             :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
-            placeholder="请选择部门"
+            placeholder="请选择机构"
             allow-clear
             treeNodeFilterProp="label"
         />
       </a-form-item>
-      <a-form-item label="部门名称" name="deptName">
-        <a-input v-model:value="form.deptName" placeholder="请输入部门名称"/>
+      <a-form-item label="机构名称" name="deptName">
+        <a-input v-model:value="form.deptName" placeholder="请输入机构名称" allowClear/>
       </a-form-item>
-      <a-form-item label="部门编号" name="deptCode">
-        <a-input v-model:value="form.deptCode" placeholder="请输入部门编号"/>
+      <a-form-item label="机构编号" name="deptCode">
+        <a-input v-model:value="form.deptCode" placeholder="请输入机构编号" allowClear/>
       </a-form-item>
 
-      <a-form-item label="部门类型" name="deptType">
+      <a-form-item label="机构类型" name="deptType">
         <a-radio-group v-model:value="form.deptType" button-style="solid">
           <a-radio-button v-for="item in DEPT_TYPE_ENUM" :key="item.value" :value="item.value">
             {{ item.desc }}
@@ -36,9 +36,9 @@
         </a-radio-group>
       </a-form-item>
       <a-form-item label="排序" name="sort">
-        <a-input-number v-model:value="form.sort" :min="0" placeholder="请输入排序" style="width: 100%"/>
+        <a-input-number v-model:value="form.sort" :min="0" placeholder="请输入排序" style="width: 100%" allowClear/>
       </a-form-item>
-      <a-form-item label="部门状态" name="status">
+      <a-form-item label="机构状态" name="status">
         <a-switch v-model:checked="form.status" checked-value="1" un-checked-value="0" checked-children="启用" un-checked-children="停用"/>
       </a-form-item>
     </a-form>
@@ -104,13 +104,13 @@ const formDefault = {
 let form = reactive({...formDefault});
 
 const rules = {
-  deptType: [{required: true, message: '部门类型不能为空'}],
+  deptType: [{required: true, message: '机构类型不能为空'}],
   deptCode: [
-    {required: true, message: '部门编号不能为空'},
+    {required: true, message: '机构编号不能为空'},
   ],
   deptName: [
-    {required: true, message: '部门名称不能为空'},
-    {max: 20, message: '部门名称不能大于20个字符', trigger: 'blur'},
+    {required: true, message: '机构名称不能为空'},
+    {max: 20, message: '机构名称不能大于20个字符', trigger: 'blur'},
   ]
 };
 

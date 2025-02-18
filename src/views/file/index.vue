@@ -3,7 +3,7 @@
     <a-form class="smart-query-form">
       <a-row class="smart-query-form-row">
         <a-form-item label="文件名称" class="smart-query-form-item">
-          <a-input style="width: 300px" v-model:value="queryForm.fileName" placeholder="请输入文件名称"/>
+          <a-input style="width: 300px" v-model:value="queryForm.fileName" placeholder="请输入文件名称" allowClear/>
         </a-form-item>
         <a-form-item class="smart-query-form-item smart-margin-left10">
           <a-button-group>

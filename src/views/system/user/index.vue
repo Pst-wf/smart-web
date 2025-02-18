@@ -3,10 +3,10 @@
     <a-form class="smart-query-form">
       <a-row class="smart-query-form-row">
         <a-form-item label="姓名" class="smart-query-form-item">
-          <a-input style="width: 300px" v-model:value="queryForm.nickname" placeholder="请输入姓名"/>
+          <a-input style="width: 300px" v-model:value="queryForm.nickname" placeholder="请输入姓名" allowClear/>
         </a-form-item>
         <a-form-item label="账号" class="smart-query-form-item">
-          <a-input style="width: 300px" v-model:value="queryForm.username" placeholder="请输入账号"/>
+          <a-input style="width: 300px" v-model:value="queryForm.username" placeholder="请输入账号" allowClear/>
         </a-form-item>
         <a-form-item label="状态" class="smart-query-form-item">
           <SmartEnumSelect width="300px" enum-name="STATUS_ENUM" v-model:value="queryForm.userStatus"

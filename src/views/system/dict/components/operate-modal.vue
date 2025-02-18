@@ -10,13 +10,13 @@
     >
       <a-form ref="formRef" :labelCol="{ span: 4 }" :labelWrap="true" :model="form" :rules="rules" :disabled="disabled">
         <a-form-item label="字典名称" name="dictName">
-          <a-input v-model:value="form.dictName" placeholder="请输入字典名称"/>
+          <a-input v-model:value="form.dictName" placeholder="请输入字典名称" allowClear/>
         </a-form-item>
         <a-form-item label="字典编码" name="dictCode">
-          <a-input v-model:value="form.dictCode" placeholder="请输入字典编码"/>
+          <a-input v-model:value="form.dictCode" placeholder="请输入字典编码" allowClear/>
         </a-form-item>
         <a-form-item label="排序" name="sort">
-          <a-input-number v-model:value="form.sort" style="width: 100%"/>
+          <a-input-number v-model:value="form.sort" style="width: 100%" allowClear/>
         </a-form-item>
         <div v-if="form.id">
           <a-button @click="showModal(form.id)" :disabled="false">字典设置</a-button>

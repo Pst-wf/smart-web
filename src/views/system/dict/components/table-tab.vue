@@ -3,10 +3,10 @@
     <a-form class="smart-query-form">
       <a-row class="smart-query-form-row">
         <a-form-item label="字典名称" class="smart-query-form-item">
-          <a-input style="width: 300px" v-model:value="queryForm.dictName" placeholder="请输入字典名称"/>
+          <a-input style="width: 300px" v-model:value="queryForm.dictName" placeholder="请输入字典名称" allowClear/>
         </a-form-item>
         <a-form-item label="字典编码" class="smart-query-form-item">
-          <a-input style="width: 300px" v-model:value="queryForm.dictCode" placeholder="请输入字典编码"/>
+          <a-input style="width: 300px" v-model:value="queryForm.dictCode" placeholder="请输入字典编码" allowClear/>
         </a-form-item>
         <a-form-item class="smart-query-form-item smart-margin-left10">
           <a-button-group>

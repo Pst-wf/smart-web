@@ -2,12 +2,12 @@
   <div>
     <a-form class="smart-query-form">
       <a-row class="smart-query-form-row">
-        <a-form-item label="部门名称" class="smart-query-form-item">
-          <a-input style="width: 300px" v-model:value="queryForm.deptName" placeholder="请输入部门名称" />
+        <a-form-item label="机构名称" class="smart-query-form-item">
+          <a-input style="width: 300px" v-model:value="queryForm.deptName" placeholder="请输入机构名称" allowClear />
         </a-form-item>
 
-        <a-form-item label="部门类型" class="smart-query-form-item">
-          <SmartEnumSelect width="300px" enum-name="DEPT_TYPE_ENUM" v-model:value="queryForm.deptType" placeholder="请选择部门类型"/>
+        <a-form-item label="机构类型" class="smart-query-form-item">
+          <SmartEnumSelect width="300px" enum-name="DEPT_TYPE_ENUM" v-model:value="queryForm.deptType" placeholder="请选择机构类型"/>
         </a-form-item>
 
         <a-form-item label="状态" class="smart-query-form-item">

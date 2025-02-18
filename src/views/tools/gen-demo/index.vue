@@ -3,7 +3,7 @@
     <a-form class="smart-query-form">
       <a-row class="smart-query-form-row">
         <a-form-item label="T1" class="smart-query-form-item">
-          <a-input style="width: 300px" v-model:value="queryForm.tableColumn1" placeholder="请输入T1"/>
+          <a-input style="width: 300px" v-model:value="queryForm.tableColumn1" placeholder="请输入T1" allowClear/>
         </a-form-item>
         <a-form-item label="T4" class="smart-query-form-item">
           <a-select

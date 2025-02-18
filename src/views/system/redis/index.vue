@@ -3,7 +3,7 @@
     <a-form class="smart-query-form">
       <a-row class="smart-query-form-row">
         <a-form-item label="键" class="smart-query-form-item">
-          <a-input style="width: 300px" v-model:value="queryForm.key" placeholder="请输入键"/>
+          <a-input style="width: 300px" v-model:value="queryForm.key" placeholder="请输入键" allowClear/>
         </a-form-item>
 
         <a-form-item label="查询类型" class="smart-query-form-item">
@@ -35,7 +35,7 @@
     <a-card size="small" :bordered="false" :hoverable="true">
       <a-row class="smart-table-btn-block">
         <div class="smart-table-operate-block">
-          <a-button v-privilege="'redis:add'" type="primary" @click="showDrawer">
+          <a-button v-privilege="'redis:add'" type="primary" @click="showDrawer()">
             <template #icon>
               <PlusOutlined/>
             </template>

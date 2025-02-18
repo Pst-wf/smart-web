@@ -4,7 +4,7 @@
     <a-form class="smart-query-form">
       <a-row class="smart-query-form-row">
         <a-form-item label="姓名" class="smart-query-form-item">
-          <a-input style="width: 200px" v-model:value="queryForm.nickname" placeholder="请输入姓名"/>
+          <a-input style="width: 200px" v-model:value="queryForm.nickname" placeholder="请输入姓名" allowClear/>
         </a-form-item>
         <a-form-item label="发送时间" class="smart-query-form-item">
           <a-range-picker v-model:value="queryForm.sendTimeBetweenList" :format="['YYYY-MM-DD', 'YYYY-MM-DD']"

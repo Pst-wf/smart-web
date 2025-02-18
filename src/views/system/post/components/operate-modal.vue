@@ -9,10 +9,10 @@
   >
     <a-form ref="formRef" :labelCol="{ span: 4 }" :labelWrap="true" :model="form" :rules="rules" :disabled="disabled">
       <a-form-item label="岗位名称" name="postName">
-        <a-input v-model:value="form.postName" placeholder="请输入岗位名称"/>
+        <a-input v-model:value="form.postName" placeholder="请输入岗位名称" allowClear/>
       </a-form-item>
       <a-form-item label="岗位编码" name="postCode">
-        <a-input v-model:value="form.postCode" placeholder="请输入岗位编码"/>
+        <a-input v-model:value="form.postCode" placeholder="请输入岗位编码" allowClear/>
       </a-form-item>
       <a-form-item label="岗位状态" name="status">
         <a-switch v-model:checked="form.status" checked-value="1" un-checked-value="0" checked-children="启用" un-checked-children="停用"/>

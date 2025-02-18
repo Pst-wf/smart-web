@@ -3,10 +3,10 @@
     <a-form class="smart-query-form">
       <a-row class="smart-query-form-row">
         <a-form-item label="执行器名称" class="smart-query-form-item">
-          <a-input style="width: 300px" v-model:value="queryForm.groupName" placeholder="请输入执行器名称"/>
+          <a-input style="width: 300px" v-model:value="queryForm.groupName" placeholder="请输入执行器名称" allowClear/>
         </a-form-item>
         <a-form-item label="任务" class="smart-query-form-item">
-          <a-input style="width: 300px" v-model:value="queryForm.jobName" placeholder="请输入任务"/>
+          <a-input style="width: 300px" v-model:value="queryForm.jobName" placeholder="请输入任务" allowClear/>
         </a-form-item>
         <a-form-item class="smart-query-form-item smart-margin-left10">
           <a-button-group>

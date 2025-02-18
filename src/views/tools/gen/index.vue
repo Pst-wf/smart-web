@@ -3,7 +3,7 @@
     <a-form class="smart-query-form">
       <a-row class="smart-query-form-row">
         <a-form-item label="表名" class="smart-query-form-item">
-          <a-input style="width: 300px" v-model:value="queryForm.tableName" placeholder="请输入表名" />
+          <a-input style="width: 300px" v-model:value="queryForm.tableName" placeholder="请输入表名" allowClear/>
         </a-form-item>
         <a-form-item class="smart-query-form-item smart-margin-left10">
           <a-button-group>
@@ -50,16 +50,16 @@
         </div>
       </a-row>
       <a-table
-        :row-selection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }"
-        size="small"
-        :defaultExpandAllRows="true"
-        :dataSource="tableData"
-        bordered
-        :columns="columns"
-        :loading="tableLoading"
-        rowKey="id"
-        :pagination="false"
-        @change="(pagination, filters, sorter) => $sorterChange(() => query(), sorter, queryForm, columns)"
+          :row-selection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }"
+          size="small"
+          :defaultExpandAllRows="true"
+          :dataSource="tableData"
+          bordered
+          :columns="columns"
+          :loading="tableLoading"
+          rowKey="id"
+          :pagination="false"
+          @change="(pagination, filters, sorter) => $sorterChange(() => query(), sorter, queryForm, columns)"
       >
         <template #bodyCell="{ text, record, column }">
           <template v-if="column.dataIndex === 'status'">
@@ -95,17 +95,17 @@
       </a-table>
       <div class="smart-query-table-page">
         <a-pagination
-          showSizeChanger
-          showQuickJumper
-          show-less-items
-          :pageSizeOptions="PAGE_SIZE_OPTIONS"
-          :defaultPageSize="queryForm.size"
-          v-model:current="queryForm.current"
-          v-model:pageSize="queryForm.size"
-          :total="total"
-          @change="query"
-          @showSizeChange="query"
-          :show-total="() => `共${total}条`"
+            showSizeChanger
+            showQuickJumper
+            show-less-items
+            :pageSizeOptions="PAGE_SIZE_OPTIONS"
+            :defaultPageSize="queryForm.size"
+            v-model:current="queryForm.current"
+            v-model:pageSize="queryForm.size"
+            :total="total"
+            @change="query"
+            @showSizeChange="query"
+            :show-total="() => `共${total}条`"
         />
       </div>
     </a-card>
@@ -114,184 +114,184 @@
   </div>
 </template>
 <script setup>
-  import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
-  import { message, Modal } from 'ant-design-vue';
-  import { computed, createVNode, onMounted, reactive, ref, shallowRef } from 'vue';
-  import OperateModal from './components/operate-modal.vue';
-  import PreviewModal from './components/preview-modal.vue';
-  import { columns } from './columns.js';
-  import { genTableApi } from '/@/api/tools/gen-api.js';
-  import { SmartLoading } from '/@/components/framework/smart-loading';
-  import { smartSentry } from '/@/lib/smart-sentry';
-  import TableOperator from '/@/components/support/table-operator/index.vue';
-  import { PAGE_SIZE_OPTIONS } from '/@/constants/common-const.js';
-  import { menuApi } from '/@/api/system/menu-api.js';
-  import { exportFile } from '/@/utils/exportFile.js';
+import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
+import { message, Modal } from 'ant-design-vue';
+import { computed, createVNode, onMounted, reactive, ref, shallowRef } from 'vue';
+import OperateModal from './components/operate-modal.vue';
+import PreviewModal from './components/preview-modal.vue';
+import { columns } from './columns.js';
+import { genTableApi } from '/@/api/tools/gen-api.js';
+import { SmartLoading } from '/@/components/framework/smart-loading';
+import { smartSentry } from '/@/lib/smart-sentry';
+import TableOperator from '/@/components/support/table-operator/index.vue';
+import { PAGE_SIZE_OPTIONS } from '/@/constants/common-const.js';
+import { menuApi } from '/@/api/system/menu-api.js';
+import { exportFile } from '/@/utils/exportFile.js';
 
-  // ------------------------ 查询表单 ------------------------
-  const queryFormState = {
-    tableName: null,
-    current: 1,
-    size: 10,
-    // 排序字段
-    sortField: null,
-    // 排序规则
-    sortOrder: null,
-  };
-  const queryForm = reactive({ ...queryFormState });
+// ------------------------ 查询表单 ------------------------
+const queryFormState = {
+  tableName: null,
+  current: 1,
+  size: 10,
+  // 排序字段
+  sortField: null,
+  // 排序规则
+  sortOrder: null,
+};
+const queryForm = reactive({ ...queryFormState });
 
-  // ------------------------ table表格数据和查询方法 ------------------------
-  const tableLoading = ref(false);
-  const tableData = ref([]);
-  const total = ref(0);
+// ------------------------ table表格数据和查询方法 ------------------------
+const tableLoading = ref(false);
+const tableData = ref([]);
+const total = ref(0);
 
-  // 重置
-  function resetQuery() {
-    Object.assign(queryForm, queryFormState);
-    columns.value.forEach((item) => (item.sortOrder = null));
-    query();
+// 重置
+function resetQuery() {
+  Object.assign(queryForm, queryFormState);
+  columns.value.forEach((item) => (item.sortOrder = null));
+  query();
+}
+
+// 回到第一页
+function toFirstPage() {
+  Object.assign(queryForm, { current: 1 });
+  query();
+}
+
+[];
+
+// 查询
+async function query() {
+  try {
+    tableLoading.value = true;
+    let res = await genTableApi.genTablePage(queryForm);
+    tableData.value = res.data.records;
+    total.value = res.data.total;
+  } catch (e) {
+    smartSentry.captureError(e);
+  } finally {
+    tableLoading.value = false;
   }
+}
 
-  // 回到第一页
-  function toFirstPage() {
-    Object.assign(queryForm, { current: 1 });
-    query();
-  }
+// Mounted方法
+onMounted(query);
+// -------------- 多选操作 --------------
+const selectedRowKeys = ref([]);
+let selectedRows = [];
+const hasSelected = computed(() => selectedRowKeys.value.length > 0);
 
-  [];
+// 选中触发
+function onSelectChange(keyArray, selectRows) {
+  selectedRowKeys.value = keyArray;
+  selectedRows = selectRows;
+}
 
-  // 查询
-  async function query() {
+// -------------- 删除操作 --------------
+function singleDelete(record) {
+  confirmBatchDelete([record]);
+}
+
+function batchDelete() {
+  confirmBatchDelete(selectedRows);
+}
+
+function confirmBatchDelete(array) {
+  Modal.confirm({
+    title: '请确认是否删除?',
+    icon: createVNode(ExclamationCircleOutlined),
+    okText: '删除',
+    okType: 'danger',
+    onOk() {
+      const deleteIds = array.map((e) => e.id);
+      requestBatchDelete({ deleteIds: deleteIds });
+    },
+    cancelText: '取消',
+    onCancel() {},
+  });
+
+  async function requestBatchDelete(params) {
+    SmartLoading.show();
     try {
-      tableLoading.value = true;
-      let res = await genTableApi.genTablePage(queryForm);
-      tableData.value = res.data.records;
-      total.value = res.data.total;
+      await genTableApi.deleteGenTable(params);
+      // 清除选中
+      selectedRowKeys.value = selectedRowKeys.value.filter((x) => params.deleteIds.indexOf(x) === -1);
+      selectedRows = [];
+      message.success('删除成功!');
+      await query();
     } catch (e) {
       smartSentry.captureError(e);
     } finally {
-      tableLoading.value = false;
+      SmartLoading.hide();
     }
   }
+}
 
-  // Mounted方法
-  onMounted(query);
-  // -------------- 多选操作 --------------
-  const selectedRowKeys = ref([]);
-  let selectedRows = [];
-  const hasSelected = computed(() => selectedRowKeys.value.length > 0);
+const tree = shallowRef([]);
+const previewModal = ref();
 
-  // 选中触发
-  function onSelectChange(keyArray, selectRows) {
-    selectedRowKeys.value = keyArray;
-    selectedRows = selectRows;
+async function preview(row) {
+  const res = await genTableApi.preview({ id: row.id, frontType: 'ant_design' });
+  tree.value = res.data;
+  previewModal.value.showForm();
+}
+
+async function genCode(row) {
+  let params;
+  if (row) {
+    params = { selectIds: [row.id], frontType: 'ant_design' };
+  } else {
+    params = { selectIds: selectedRowKeys.value, frontType: 'ant_design' };
   }
+  const res = await genTableApi.generateCode(params);
+  message.success('操作成功');
+  exportFile(res.data, res.headers);
+}
 
-  // -------------- 删除操作 --------------
-  function singleDelete(record) {
-    confirmBatchDelete([record]);
-  }
-
-  function batchDelete() {
-    confirmBatchDelete(selectedRows);
-  }
-
-  function confirmBatchDelete(array) {
-    Modal.confirm({
-      title: '请确认是否删除?',
-      icon: createVNode(ExclamationCircleOutlined),
-      okText: '删除',
-      okType: 'danger',
-      onOk() {
-        const deleteIds = array.map((e) => e.id);
-        requestBatchDelete({ deleteIds: deleteIds });
-      },
-      cancelText: '取消',
-      onCancel() {},
-    });
-
-    async function requestBatchDelete(params) {
-      SmartLoading.show();
-      try {
-        await genTableApi.deleteGenTable(params);
-        // 清除选中
-        selectedRowKeys.value = selectedRowKeys.value.filter((x) => params.deleteIds.indexOf(x) === -1);
-        selectedRows = [];
-        message.success('删除成功!');
-        await query();
-      } catch (e) {
-        smartSentry.captureError(e);
-      } finally {
-        SmartLoading.hide();
-      }
-    }
-  }
-
-  const tree = shallowRef([]);
-  const previewModal = ref();
-
-  async function preview(row) {
-    const res = await genTableApi.preview({ id: row.id, frontType: 'ant_design' });
-    tree.value = res.data;
-    previewModal.value.showForm();
-  }
-
-  async function genCode(row) {
-    let params;
-    if (row) {
-      params = { selectIds: [row.id], frontType: 'ant_design' };
-    } else {
-      params = { selectIds: selectedRowKeys.value, frontType: 'ant_design' };
-    }
-    const res = await genTableApi.generateCode(params);
+async function saveMenu(row) {
+  try {
+    tableLoading.value = true;
+    await menuApi.genMenu(row);
     message.success('操作成功');
-    exportFile(res.data, res.headers);
+  } catch (e) {
+    smartSentry.captureError(e);
+  } finally {
+    tableLoading.value = false;
   }
+}
 
-  async function saveMenu(row) {
-    try {
-      tableLoading.value = true;
-      await menuApi.genMenu(row);
-      message.success('操作成功');
-    } catch (e) {
-      smartSentry.captureError(e);
-    } finally {
-      tableLoading.value = false;
-    }
-  }
+/**
+ * 确认是否生成代码
+ * @param row
+ */
+function confirmGenInFile(row) {
+  Modal.confirm({
+    title: '若文件已存在则会覆盖，是否执行?',
+    icon: createVNode(ExclamationCircleOutlined),
+    okText: '确认',
+    okType: 'danger',
+    onOk() {
+      genInFile(row);
+    },
+    cancelText: '取消',
+    onCancel() {},
+  });
 
   /**
-   * 确认是否生成代码
+   * 生成代码到指定目录
    * @param row
+   * @returns {Promise<void>}
    */
-  function confirmGenInFile(row) {
-    Modal.confirm({
-      title: '若文件已存在则会覆盖，是否执行?',
-      icon: createVNode(ExclamationCircleOutlined),
-      okText: '确认',
-      okType: 'danger',
-      onOk() {
-        genInFile(row);
-      },
-      cancelText: '取消',
-      onCancel() {},
-    });
-
-    /**
-     * 生成代码到指定目录
-     * @param row
-     * @returns {Promise<void>}
-     */
-    async function genInFile(row) {
-      await genTableApi.generatorCodeInFile(row);
-      message.success('操作成功');
-    }
+  async function genInFile(row) {
+    await genTableApi.generatorCodeInFile(row);
+    message.success('操作成功');
   }
+}
 
-  // -------------- 新增、修改 右侧抽屉 --------------
-  const operateModal = ref();
+// -------------- 新增、修改 右侧抽屉 --------------
+const operateModal = ref();
 
-  function showForm(rowData, bool) {
-    operateModal.value.showForm(rowData, bool);
-  }
+function showForm(rowData, bool) {
+  operateModal.value.showForm(rowData, bool);
+}
 </script>

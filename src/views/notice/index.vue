@@ -3,7 +3,7 @@
     <a-form class="smart-query-form">
       <a-row class="smart-query-form-row">
         <a-form-item label="标题" class="smart-query-form-item">
-          <a-input style="width: 300px" v-model:value="queryForm.noticeTitle" placeholder="请输入标题"/>
+          <a-input style="width: 300px" v-model:value="queryForm.noticeTitle" placeholder="请输入标题" allowClear />
         </a-form-item>
         <a-form-item label="类型" class="smart-query-form-item">
           <a-select
@@ -31,13 +31,13 @@
           <a-button-group>
             <a-button type="primary" @click="toFirstPage">
               <template #icon>
-                <SearchOutlined/>
+                <SearchOutlined />
               </template>
               查询
             </a-button>
             <a-button @click="resetQuery">
               <template #icon>
-                <ReloadOutlined/>
+                <ReloadOutlined />
               </template>
               重置
             </a-button>
@@ -50,31 +50,31 @@
         <div class="smart-table-operate-block">
           <a-button v-privilege="'notice:add'" type="primary" @click="showForm">
             <template #icon>
-              <PlusOutlined/>
+              <PlusOutlined />
             </template>
             新增
           </a-button>
           <a-button v-privilege="'notice:delete'" type="primary" danger @click="batchDelete" :disabled="!hasSelected">
             <template #icon>
-              <DeleteOutlined/>
+              <DeleteOutlined />
             </template>
             批量删除
           </a-button>
           <a-button v-privilege="'notice:export'" type="primary" ghost @click="exportData">
             <template #icon>
-              <ExportOutlined/>
+              <ExportOutlined />
             </template>
             导出
           </a-button>
           <a-button v-privilege="'notice:import'" type="primary" danger ghost @click="openImportModal">
             <template #icon>
-              <ImportOutlined/>
+              <ImportOutlined />
             </template>
             导入
           </a-button>
         </div>
         <div class="smart-table-setting-block">
-          <TableOperator v-model="columns" :refresh="query"/>
+          <TableOperator v-model="columns" :refresh="query" />
         </div>
       </a-row>
       <a-table
@@ -91,34 +91,29 @@
       >
         <template #bodyCell="{ text, record, column }">
           <template v-if="column.dataIndex === 'noticeType'">
-            <a-tag :color="text === '1' ? 'blue' : 'red'"
-                   v-for="(item,index) in getLabel(dictMap.sys_notice_type, text)" :key="index">{{ item }}
+            <a-tag :color="text === '1' ? 'blue' : 'red'" v-for="(item, index) in getLabel(dictMap.sys_notice_type, text)" :key="index"
+            >{{ item }}
             </a-tag>
           </template>
           <template v-if="column.dataIndex === 'noticeCategory'">
-            <a-tag :color="text === '1' ? 'blue' : 'green'"
-                   v-for="(item,index) in getLabel(dictMap.sys_notice_category, text)" :key="index">{{ item }}
+            <a-tag :color="text === '1' ? 'blue' : 'green'" v-for="(item, index) in getLabel(dictMap.sys_notice_category, text)" :key="index"
+            >{{ item }}
             </a-tag>
           </template>
           <template v-if="column.dataIndex === 'operate'">
             <div class="smart-table-operate">
               <a-button type="link" size="small" @click="showForm(record, true)">查看</a-button>
-              <a-button v-privilege="'notice:update'" type="link" size="small" @click="showForm(record)">编辑
-              </a-button>
+              <a-button v-privilege="'notice:update'" type="link" size="small" @click="showForm(record)">编辑 </a-button>
               <a-button v-privilege="'notice:delete'" danger type="link" @click="singleDelete(record)">删除</a-button>
               <a-dropdown placement="bottom">
-                <a-button style="color: #4ab844" type="link">更多</a-button>
+                <a-button v-privilege="['noticeRecord:add', 'noticeRecord:view']" style="color: #4ab844" type="link">更多</a-button>
                 <template #overlay>
                   <a-menu>
                     <a-menu-item>
-                      <a-button v-privilege="'noticeRecord:add'" type="link" size="small" @click="publish(record)">
-                        发布
-                      </a-button>
+                      <a-button v-privilege="'noticeRecord:add'" type="link" size="small" @click="publish(record)"> 发布 </a-button>
                     </a-menu-item>
                     <a-menu-item>
-                      <a-button v-privilege="'noticeRecord:view'" type="link" size="small" @click="openRecord(record)">
-                        发布记录
-                      </a-button>
+                      <a-button v-privilege="'noticeRecord:view'" type="link" size="small" @click="openRecord(record)"> 发布记录 </a-button>
                     </a-menu-item>
                   </a-menu>
                 </template>
@@ -143,34 +138,40 @@
         />
       </div>
     </a-card>
-    <OperateModal ref="operateModal" :dict-map="dictMap" @reloadList="query"/>
-    <PublishModal ref="publishModal" :dict-map="dictMap" :all-dept="allDept" :all-post="allPost" :all-role="allRole"
-                  :all-user="allUser" @reloadList="query"/>
-    <RecordModal ref="recordModal" :dict-map="dictMap" @reloadList="query"/>
-    <ImportData ref="importData" import-url="/message/notice/import" @downloadTemplate="downloadTemplate"
-                @finish="query"/>
+    <OperateModal ref="operateModal" :dict-map="dictMap" @reloadList="query" />
+    <PublishModal
+        ref="publishModal"
+        :dict-map="dictMap"
+        :all-dept="allDept"
+        :all-post="allPost"
+        :all-role="allRole"
+        :all-user="allUser"
+        @reloadList="query"
+    />
+    <RecordModal ref="recordModal" :dict-map="dictMap" @reloadList="query" />
+    <ImportData ref="importData" import-url="/message/notice/import" @downloadTemplate="downloadTemplate" @finish="query" />
   </div>
 </template>
 <script setup>
-import {ExclamationCircleOutlined} from '@ant-design/icons-vue';
-import {message, Modal} from 'ant-design-vue';
-import {computed, createVNode, onMounted, reactive, ref} from 'vue';
+import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
+import { message, Modal } from 'ant-design-vue';
+import { computed, createVNode, onMounted, reactive, ref } from 'vue';
 import OperateModal from './components/operate-modal.vue';
 import PublishModal from './components/publish-modal.vue';
 import RecordModal from './components/record-modal.vue';
-import {columns} from './columns.js';
-import {noticeApi} from '/@/api/notice/notice-api.js';
-import {SmartLoading} from '/@/components/framework/smart-loading';
-import {smartSentry} from '/@/lib/smart-sentry';
+import { columns } from './columns.js';
+import { noticeApi } from '/@/api/notice/notice-api.js';
+import { SmartLoading } from '/@/components/framework/smart-loading';
+import { smartSentry } from '/@/lib/smart-sentry';
 import TableOperator from '/@/components/support/table-operator/index.vue';
-import {PAGE_SIZE_OPTIONS} from "/@/constants/common-const.js";
-import {exportFile} from "/@/utils/exportFile.js";
-import ImportData from "/@/components/import-data/index.vue";
-import {dict, getLabel} from "/@/utils/dict-util.js";
-import {deptApi} from "/@/api/system/dept-api.js";
-import {userApi} from "/@/api/system/user-api.js";
-import {roleApi} from "/@/api/system/role-api.js";
-import {postApi} from "/@/api/system/post-api.js";
+import { PAGE_SIZE_OPTIONS } from '/@/constants/common-const.js';
+import { exportFile } from '/@/utils/exportFile.js';
+import ImportData from '/@/components/import-data/index.vue';
+import { dict, getLabel } from '/@/utils/dict-util.js';
+import { deptApi } from '/@/api/system/dept-api.js';
+import { userApi } from '/@/api/system/user-api.js';
+import { roleApi } from '/@/api/system/role-api.js';
+import { postApi } from '/@/api/system/post-api.js';
 import _ from 'lodash';
 // ------------------------ 查询表单 ------------------------
 const queryFormState = {
@@ -187,9 +188,9 @@ const queryFormState = {
   // 排序字段
   sortField: null,
   // 排序规则
-  sortOrder: null
+  sortOrder: null,
 };
-const queryForm = reactive({...queryFormState});
+const queryForm = reactive({ ...queryFormState });
 // ------------------------ table表格数据和查询方法 ------------------------
 const tableLoading = ref(false);
 const tableData = ref([]);
@@ -198,13 +199,13 @@ const total = ref(0);
 // 重置
 function resetQuery() {
   Object.assign(queryForm, queryFormState);
-  columns.value.forEach(item => item.sortOrder = null)
+  columns.value.forEach((item) => (item.sortOrder = null));
   query();
 }
 
 // 回到第一页
 function toFirstPage() {
-  Object.assign(queryForm, {current: 1});
+  Object.assign(queryForm, { current: 1 });
   query();
 }
 
@@ -252,12 +253,11 @@ function confirmBatchDelete(array) {
     okType: 'danger',
     onOk() {
       const deleteIds = array.map((e) => e.id);
-      requestBatchDelete({deleteIds: deleteIds});
+      requestBatchDelete({ deleteIds: deleteIds });
       selectedRows = [];
     },
     cancelText: '取消',
-    onCancel() {
-    },
+    onCancel() {},
   });
 
   async function requestBatchDelete(params) {
@@ -265,7 +265,7 @@ function confirmBatchDelete(array) {
     try {
       await noticeApi.deleteNotice(params);
       // 清除选中
-      selectedRowKeys.value = selectedRowKeys.value.filter(x => params.deleteIds.indexOf(x) === -1)
+      selectedRowKeys.value = selectedRowKeys.value.filter((x) => params.deleteIds.indexOf(x) === -1);
       message.success('删除成功!');
       await query();
     } catch (e) {
@@ -291,7 +291,7 @@ async function exportData() {
     let params = {};
     Object.assign(params, queryForm);
     if (selectedRowKeys.value.length > 0) {
-      params = {...params, selectIds: selectedRowKeys.value};
+      params = { ...params, selectIds: selectedRowKeys.value };
     }
     let res = await noticeApi.exportNoticeData(params);
     message.success('操作成功');
@@ -307,7 +307,7 @@ async function exportData() {
 const importData = ref();
 
 function openImportModal() {
-  importData.value.onOpen()
+  importData.value.onOpen();
 }
 
 // 下载导入数据模板
@@ -337,23 +337,23 @@ const allRole = ref([]);
 const allUser = ref([]);
 
 async function getDeptData() {
-  const res = await deptApi.deptTree({status: '1'});
-  allDept.value = res.data
+  const res = await deptApi.deptTree({ status: '1' });
+  allDept.value = res.data;
 }
 
 async function getPostData() {
-  const res = await postApi.postList({status: '1'});
-  allPost.value = res.data
+  const res = await postApi.postList({ status: '1' });
+  allPost.value = res.data;
 }
 
 async function getRoleData() {
-  const res = await roleApi.roleList({status: '1'});
-  allRole.value = res.data
+  const res = await roleApi.roleList({ status: '1' });
+  allRole.value = res.data;
 }
 
 async function getUserData() {
-  const res = await userApi.userList({userStatus: '1'});
-  allUser.value = res.data
+  const res = await userApi.userList({ userStatus: '1' });
+  allUser.value = res.data;
 }
 
 function init() {
@@ -364,7 +364,7 @@ function init() {
   getUserData();
 }
 
-init()
+init();
 
 const publishModal = ref();
 
