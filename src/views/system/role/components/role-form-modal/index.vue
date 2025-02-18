@@ -3,13 +3,13 @@
   <a-modal :title="disabled ? '查看' : form.id ? '编辑' : '新增'" :width="600" :open="modalVisible" @cancel="onClose" :footer="null">
     <a-form ref="formRef" :model="form" :rules="rules" :labelCol="{ span: 4 }" :disabled="disabled">
       <a-form-item label="角色名称" name="roleName">
-        <a-input style="width: 100%" placeholder="请输入角色名称" v-model:value="form.roleName" />
+        <a-input style="width: 100%" placeholder="请输入角色名称" v-model:value="form.roleName" allowClear/>
       </a-form-item>
       <a-form-item label="角色编码" name="roleCode">
-        <a-input style="width: 100%" placeholder="请输入角色编码" v-model:value="form.roleCode" />
+        <a-input style="width: 100%" placeholder="请输入角色编码" v-model:value="form.roleCode" allowClear/>
       </a-form-item>
       <a-form-item label="角色备注">
-        <a-input style="width: 100%" placeholder="请输入角色备注" v-model:value="form.roleDesc" />
+        <a-input style="width: 100%" placeholder="请输入角色备注" v-model:value="form.roleDesc" allowClear/>
       </a-form-item>
       <a-form-item label="角色状态" name="status">
         <a-switch v-model:checked="form.status" checked-value="1" un-checked-value="0" checked-children="启用" un-checked-children="停用"/>
