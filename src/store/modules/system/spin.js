@@ -12,8 +12,11 @@ export const useSpinStore = defineStore({
   actions: {
     hide() {
       // this.loading = false;
-      // let spins = document.querySelector('.ant-spin-nested-loading');
-      // spins.style.zIndex = 999;
+      //
+      // setTimeout(() => {
+      //   let spins = document.querySelector('.ant-spin-nested-loading');
+      //   spins.style.zIndex = 999;
+      // }, 2000);
     },
     show() {
       // this.loading = true;

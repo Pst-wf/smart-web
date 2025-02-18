@@ -1,23 +1,25 @@
 <template>
   <div style="border: 1px solid #ccc">
     <Toolbar v-if="showToolBar" style="border-bottom: 1px solid #ccc" :editor="editorRef" />
-    <Editor
-        style="overflow-y: hidden"
-        :style="{ height: `${height}px` }"
-        v-model="editorHtml"
-        :defaultConfig="editorConfig"
-        @onCreated="handleCreated"
-        @onChange="handleChange"
-    />
+    <a-spin :spinning="loading" size="large">
+      <Editor
+          style="overflow-y: hidden"
+          :style="{ height: `${height}px` }"
+          v-model="editorHtml"
+          :defaultConfig="editorConfig"
+          @onCreated="handleCreated"
+          @onChange="handleChange"
+      />
+    </a-spin>
   </div>
 </template>
 <script setup>
-import {onBeforeUnmount, ref, shallowRef, watch} from 'vue';
-import {FILE_FOLDER_TYPE_ENUM} from '/@/constants/support/file-const';
-import {fileApi} from '/src/api/file/file-api';
+import { onBeforeUnmount, ref, shallowRef, watch } from 'vue';
+import { FILE_FOLDER_TYPE_ENUM } from '/@/constants/support/file-const';
+import { fileApi } from '/src/api/file/file-api';
 import '@wangeditor/editor/dist/css/style.css';
-import {Editor, Toolbar} from '@wangeditor/editor-for-vue';
-import {smartSentry} from '/@/lib/smart-sentry';
+import { Editor, Toolbar } from '@wangeditor/editor-for-vue';
+import { smartSentry } from '/@/lib/smart-sentry';
 
 // ----------------------- 以下是公用变量 emits props ----------------
 let props = defineProps({
@@ -39,20 +41,29 @@ let props = defineProps({
     default: 500,
   },
 });
+const domain = window.location.origin;
+const baseUrl = import.meta.env.VITE_APP_API_URL;
 //菜单
-const editorConfig = {MENU_CONF: {}, readOnly: props.readOnly};
-
+const editorConfig = { MENU_CONF: {}, readOnly: props.readOnly };
+const loading = ref(false);
 //上传
 let customUpload = {
   async customUpload(file, insertFn) {
     try {
+      loading.value = true;
       const formData = new FormData();
       formData.append('files', file);
       let res = await fileApi.uploadFile(formData, FILE_FOLDER_TYPE_ENUM.COMMON.value);
       let data = res.data[0];
-      insertFn(data.filePath);
+      if (data.uploadType === '0') {
+        insertFn(domain + baseUrl + '/' + data.fileKey);
+      } else {
+        insertFn(data.filePath);
+      }
     } catch (error) {
       smartSentry.captureError(error);
+    } finally {
+      loading.value = false;
     }
   },
 };

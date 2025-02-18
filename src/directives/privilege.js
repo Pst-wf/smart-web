@@ -14,9 +14,23 @@ export function privilegeDirective(el, binding) {
   if (!userPointsList) {
     return false;
   }
-  // 如果有权限，删除节点
-  if (!userPointsList.includes( binding.value)) {
-    el.parentNode.removeChild(el);
+  if (Array.isArray(binding.value)) {
+    let b = false;
+    binding.value.forEach((item) => {
+      if (userPointsList.includes(item)) {
+        b = true;
+      }
+    });
+    // 如果有权限，删除节点
+    if (!b) {
+      el.parentNode.removeChild(el);
+    }
+  } else {
+    // 如果有权限，删除节点
+    if (!userPointsList.includes(binding.value)) {
+      el.parentNode.removeChild(el);
+    }
   }
+
   return true;
 }

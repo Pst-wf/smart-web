@@ -13,7 +13,18 @@ const privilege = (value) => {
   if (!userPointsList) {
     return false;
   }
-  return userPointsList && userPointsList.includes(value);
+  if (Array.isArray(value)) {
+    let b = false;
+    value.forEach((item) => {
+      if (userPointsList.includes(item)) {
+        b = true;
+      }
+    });
+    return userPointsList && b;
+  } else {
+    return userPointsList && userPointsList.includes(value);
+  }
+
 };
 
 export default {

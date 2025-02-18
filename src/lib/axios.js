@@ -16,8 +16,7 @@ const DEFAULT_TOKEN = 'Basic c2FiZXI6c2FiZXJfc2VjcmV0';
 
 // 创建axios对象
 const smartAxios = axios.create({
-    // baseURL: import.meta.env.VITE_APP_API_URL,
-    baseURL: '/api'
+    baseURL: import.meta.env.VITE_APP_API_URL,
 });
 const DEFAULT_HEADERS = {
     'Tenant-Id': '000000',

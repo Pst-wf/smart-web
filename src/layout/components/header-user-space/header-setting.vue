@@ -34,11 +34,11 @@
         <a-slider v-model:value="formState.borderRadius" :min="0" :max="6" @change="changeBorderRadius" />
       </a-form-item>
       <a-form-item :label="$t('setting.menu.width')" v-if="formState.layout === LAYOUT_ENUM.SIDE.value">
-        <a-input-number @change="changeSideMenuWidth" v-model:value="formState.sideMenuWidth" :min="1" />
+        <a-input-number @change="changeSideMenuWidth" v-model:value="formState.sideMenuWidth" :min="1" allowClear/>
         像素（px）
       </a-form-item>
       <a-form-item :label="$t('setting.page.width')" v-if="formState.layout === LAYOUT_ENUM.TOP.value">
-        <a-input @change="changePageWidth" v-model:value="formState.pageWidth" />
+        <a-input @change="changePageWidth" v-model:value="formState.pageWidth" allowClear/>
         像素（px）或者 百分比
       </a-form-item>
       <a-form-item :label="$t('setting.compact')">
