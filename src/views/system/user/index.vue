@@ -275,8 +275,8 @@ function confirmBatchDelete(array) {
 // -------------- 修改状态 --------------
 async function updateStatus(record, val) {
   try {
-    await userApi.updateUserStatus({id: record.id, userStatus: val})
     record.userStatus = val
+    await userApi.updateUserStatus({id: record.id, userStatus: val})
   } catch (e) {
     smartSentry.captureError(e);
   } finally {

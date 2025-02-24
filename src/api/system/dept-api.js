@@ -1,4 +1,4 @@
-import {getRequest, postRequest} from '/src/lib/axios';
+import { getRequest, postRequest } from '/src/lib/axios';
 
 export const deptApi = {
     /**
@@ -52,5 +52,12 @@ export const deptApi = {
      */
     deptTreeFormat(params) {
         return getRequest('/system/dept/treeFormat', params);
+    },
+    /**
+     * 修改状态
+     * @param params
+     */
+    updateStatus: (params) => {
+        return postRequest('/system/dept/updateStatus', params);
     },
 };

@@ -3,13 +3,13 @@
     <a-form class="smart-query-form">
       <a-row class="smart-query-form-row">
         <a-form-item label="岗位名称" class="smart-query-form-item">
-          <a-input style="width: 300px" v-model:value="queryForm.postName" placeholder="请输入岗位名称" allowClear/>
+          <a-input style="width: 300px" v-model:value="queryForm.postName" placeholder="请输入岗位名称" allowClear />
         </a-form-item>
         <a-form-item label="岗位编码" class="smart-query-form-item">
-          <a-input style="width: 300px" v-model:value="queryForm.postCode" placeholder="请输入岗位编码" allowClear/>
+          <a-input style="width: 300px" v-model:value="queryForm.postCode" placeholder="请输入岗位编码" allowClear />
         </a-form-item>
         <a-form-item label="状态" class="smart-query-form-item">
-          <SmartEnumSelect width="300px" enum-name="STATUS_ENUM" v-model:value="queryForm.status" placeholder="请选择状态"/>
+          <SmartEnumSelect width="300px" enum-name="STATUS_ENUM" v-model:value="queryForm.status" placeholder="请选择状态" />
         </a-form-item>
         <a-form-item class="smart-query-form-item smart-margin-left10">
           <a-button-group>
@@ -63,7 +63,14 @@
       >
         <template #bodyCell="{ text, record, column }">
           <template v-if="column.dataIndex === 'status'">
-            <a-tag :color="text ? 'blue' : 'red' ">{{ $smartEnumPlugin.getDescByValue('STATUS_ENUM', text) }}</a-tag>
+            <a-switch
+                @change="(val) => updateStatus(record, val)"
+                :checked="text"
+                checked-value="1"
+                un-checked-value="0"
+                checked-children="启用"
+                un-checked-children="停用"
+            />
           </template>
           <template v-if="column.dataIndex === 'operate'">
             <div class="smart-table-operate">
@@ -104,7 +111,7 @@ import SmartEnumSelect from '/@/components/framework/smart-enum-select/index.vue
 import { SmartLoading } from '/@/components/framework/smart-loading';
 import { smartSentry } from '/@/lib/smart-sentry';
 import TableOperator from '/@/components/support/table-operator/index.vue';
-import {PAGE_SIZE_OPTIONS} from "/@/constants/common-const.js";
+import { PAGE_SIZE_OPTIONS } from '/@/constants/common-const.js';
 
 // ------------------------ 查询表单 ------------------------
 const queryFormState = {
@@ -116,7 +123,7 @@ const queryFormState = {
   // 排序字段
   sortField: null,
   // 排序规则
-  sortOrder: null
+  sortOrder: null,
 };
 const queryForm = reactive({ ...queryFormState });
 
@@ -128,7 +135,7 @@ const total = ref(0);
 // 重置
 function resetQuery() {
   Object.assign(queryForm, queryFormState);
-  columns.value.forEach(item => item.sortOrder = null);
+  columns.value.forEach((item) => (item.sortOrder = null));
   query();
 }
 // 回到第一页
@@ -176,7 +183,7 @@ function confirmBatchDelete(array) {
     okType: 'danger',
     onOk() {
       const deleteIds = array.map((e) => e.id);
-      requestBatchDelete({ deleteIds : deleteIds });
+      requestBatchDelete({ deleteIds: deleteIds });
       selectedRows = [];
     },
     cancelText: '取消',
@@ -201,5 +208,17 @@ function confirmBatchDelete(array) {
 const operateModal = ref();
 function showDrawer(rowData, bool) {
   operateModal.value.showDrawer(rowData, bool);
+}
+
+// -------------- 修改状态 --------------
+async function updateStatus(record, val) {
+  try {
+    record.status = val;
+    await postApi.updateStatus({ id: record.id, status: val });
+  } catch (e) {
+    smartSentry.captureError(e);
+  } finally {
+    tableLoading.value = false;
+  }
 }
 </script>

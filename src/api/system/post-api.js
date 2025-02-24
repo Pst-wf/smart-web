@@ -37,4 +37,11 @@ export const postApi = {
     postList: (params) => {
         return getRequest('/system/post/list', params);
     },
+    /**
+     * 修改状态
+     * @param params
+     */
+    updateStatus: (params) => {
+        return postRequest('/system/post/updateStatus', params);
+    },
 };
