@@ -17,7 +17,6 @@
   const layout = computed(() => useAppConfigStore().$state.layout);
   const tableTextAlign = computed(() => useAppConfigStore().$state.tableTextAlign);
   const borderRadius = computed(() => useAppConfigStore().$state.borderRadius +  'px');
-  console.log('borderRadius', borderRadius.value)
 </script>
 <style scoped lang="less">
   // 全局table

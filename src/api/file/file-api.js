@@ -1,4 +1,4 @@
-import {getRequest, getRequestBlob, postRequest} from '/src/lib/axios';
+import { getRequest, getRequestBlob, postRequest } from '/src/lib/axios';
 
 export const fileApi = {
     /**
@@ -50,5 +50,23 @@ export const fileApi = {
      */
     uploadFile: (params) => {
         return postRequest('/file/upload', params);
-    }
+    },
+    /**
+     * 获取在线编辑配置
+     */
+    onlineModal: (params) => {
+        return getRequest(`/file/onlineModal/${params.id}`);
+    },
+    /**
+     * 获取在线编辑Txt内容
+     */
+    onlineTxt: (params) => {
+        return getRequest(`/file/onlineTxt/${params.id}`);
+    },
+    /**
+     * 保存在线编辑Txt内容
+     */
+    callbackTxt: (params) => {
+        return postRequest('/file/callbackTxt', params);
+    },
 };

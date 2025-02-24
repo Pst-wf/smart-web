@@ -191,43 +191,43 @@ onMounted(init);
         </a-col>
       </a-row>
     </a-card>
-<!--    <a-card title="文档设置" class="card-class" size="small" :bordered="false" :hoverable="false"-->
-<!--            :headStyle="{borderBottom: 0}">-->
-<!--      <a-row v-if="map.file_document_url !== undefined">-->
-<!--        <a-col :span="12">-->
-<!--          <a-form-item label="文件服务地址" name="file_document_url" :label-col="{span: 8}">-->
-<!--            <a-input v-model:value="map.file_document_url" placeholder="请输入文件服务地址" allowClear/>-->
-<!--          </a-form-item>-->
-<!--        </a-col>-->
-<!--        <a-col :span="8" style="margin-left: 20px">-->
-<!--          <a-button type="primary" @click="updateAsync('file_document_url',map.file_document_url )">保存</a-button>-->
-<!--        </a-col>-->
-<!--      </a-row>-->
-<!--      <a-row v-if="map.file_document_callback_url !== undefined">-->
-<!--        <a-col :span="12">-->
-<!--          <a-form-item label="在线编辑回调地址" name="file_document_callback_url" :label-col="{span: 8}">-->
-<!--            <a-input v-model:value="map.file_document_callback_url" placeholder="请输入在线编辑回调地址" allowClear/>-->
-<!--          </a-form-item>-->
-<!--        </a-col>-->
-<!--        <a-col :span="8" style="margin-left: 20px">-->
-<!--          <a-button type="primary" @click="updateAsync('file_document_callback_url',map.file_document_callback_url )">-->
-<!--            保存-->
-<!--          </a-button>-->
-<!--        </a-col>-->
-<!--      </a-row>-->
-<!--      <a-row v-if="map.file_document_local_url !== undefined">-->
-<!--        <a-col :span="12">-->
-<!--          <a-form-item label="本地文件访问路径" name="file_document_local_url" :label-col="{span: 8}">-->
-<!--            <a-input v-model:value="map.file_document_local_url" placeholder="请输入本地文件访问路径"/>-->
-<!--          </a-form-item>-->
-<!--        </a-col>-->
-<!--        <a-col :span="8" style="margin-left: 20px">-->
-<!--          <a-button type="primary" @click="updateAsync('file_document_local_url',map.file_document_local_url )">-->
-<!--            保存-->
-<!--          </a-button>-->
-<!--        </a-col>-->
-<!--      </a-row>-->
-<!--    </a-card>-->
+    <a-card title="文档设置" class="card-class" size="small" :bordered="false" :hoverable="false"
+            :headStyle="{borderBottom: 0}">
+      <a-row v-if="map.file_document_url !== undefined">
+        <a-col :span="12">
+          <a-form-item label="文件服务地址" name="file_document_url" :label-col="{span: 8}">
+            <a-input v-model:value="map.file_document_url" placeholder="请输入文件服务地址" allowClear/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="8" style="margin-left: 20px">
+          <a-button type="primary" @click="updateAsync('file_document_url',map.file_document_url )">保存</a-button>
+        </a-col>
+      </a-row>
+      <a-row v-if="map.file_document_callback_url !== undefined">
+        <a-col :span="12">
+          <a-form-item label="在线编辑回调地址" name="file_document_callback_url" :label-col="{span: 8}">
+            <a-input v-model:value="map.file_document_callback_url" placeholder="请输入在线编辑回调地址" allowClear/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="8" style="margin-left: 20px">
+          <a-button type="primary" @click="updateAsync('file_document_callback_url',map.file_document_callback_url )">
+            保存
+          </a-button>
+        </a-col>
+      </a-row>
+      <a-row v-if="map.file_document_local_url !== undefined">
+        <a-col :span="12">
+          <a-form-item label="本地文件访问路径" name="file_document_local_url" :label-col="{span: 8}">
+            <a-input v-model:value="map.file_document_local_url" placeholder="请输入本地文件访问路径"/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="8" style="margin-left: 20px">
+          <a-button type="primary" @click="updateAsync('file_document_local_url',map.file_document_local_url )">
+            保存
+          </a-button>
+        </a-col>
+      </a-row>
+    </a-card>
     <a-card title="微信设置" class="card-class" size="small" :bordered="false" :hoverable="false"
             :headStyle="{borderBottom: 0}">
       <a-row v-if="map.wechat_app_id !== undefined">
