@@ -212,9 +212,10 @@ function showDrawer(rowData, bool) {
 
 // -------------- 修改状态 --------------
 async function updateStatus(record, val) {
+  tableLoading.value = true;
   try {
-    record.status = val;
     await postApi.updateStatus({ id: record.id, status: val });
+    record.status = val;
   } catch (e) {
     smartSentry.captureError(e);
   } finally {

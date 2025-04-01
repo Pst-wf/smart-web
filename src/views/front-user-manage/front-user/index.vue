@@ -307,6 +307,7 @@ async function downloadTemplate() {
 
 // -------------- 修改状态 --------------
 async function updateStatus(record, val) {
+  tableLoading.value = true;
   try {
     await frontUserApi.updateStatus({ id: record.id, userStatus: val });
     record.userStatus = val;

@@ -52,6 +52,9 @@ function initQuickEntry() {
     quickEntry.value = _.cloneDeep(InitQuickEntryList);
     return;
   }
+  if(quickEntryList.length > maxCount.value) {
+    quickEntryList = quickEntryList.slice(0, maxCount.value);
+  }
   quickEntry.value = quickEntryList;
 }
 

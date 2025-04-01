@@ -274,9 +274,10 @@ function confirmBatchDelete(array) {
 
 // -------------- 修改状态 --------------
 async function updateStatus(record, val) {
+  tableLoading.value = true;
   try {
-    record.userStatus = val
     await userApi.updateUserStatus({id: record.id, userStatus: val})
+    record.userStatus = val
   } catch (e) {
     smartSentry.captureError(e);
   } finally {

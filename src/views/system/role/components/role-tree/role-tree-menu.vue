@@ -13,44 +13,59 @@
   </li>
 </template>
 <script setup>
-  import { useRoleStore } from '/src/store/modules/system/role';
-  import RoleTreePoint from './role-tree-point.vue';
-  import RoleTreeMenu from './role-tree-menu.vue';
+import { useRoleStore } from '/src/store/modules/system/role';
+import RoleTreePoint from './role-tree-point.vue';
+import RoleTreeMenu from './role-tree-menu.vue';
 
-  const props = defineProps({
-    tree: {
-      type: Array,
-      default: () => [],
-    },
-    index: {
-      type: Number,
-      default: 0,
-    },
-  });
-  defineEmits(['update:value']);
-  let roleStore = useRoleStore();
-  function selectCheckbox(module) {
-    if (!module.id) {
-      return;
-    }
-    // 是否勾选
-    let checkedData = roleStore.checkedData;
+const props = defineProps({
+  tree: {
+    type: Array,
+    default: () => [],
+  },
+  index: {
+    type: Number,
+    default: 0,
+  },
+});
+defineEmits(['update:value']);
+let roleStore = useRoleStore();
+function selectCheckbox(module) {
+  if (!module.id) {
+    return;
+  }
+  const menuId = module.menuId
+  if(menuId){
+    // 按钮
     let buttonsCheckedData = roleStore.buttonsCheckedData;
-    let findIndex = checkedData.indexOf(module.id);
     let buttonsFindIndex = buttonsCheckedData.indexOf(module.id);
     // 选中
-    if (findIndex === -1 && buttonsFindIndex === -1) {
+    if (buttonsFindIndex === -1) {
       // 选中本级以及子级
       roleStore.addCheckedDataAndChildren(module);
-      // // 选中上级
-      // roleStore.selectUpperLevel(module);
-      // // 是否有关联菜单 有则选中
-      // if (module.contextMenuId) {
-      //   roleStore.addCheckedData(module.contextMenuId);
-      // }
+      // 只有菜单需要选中上级
+      roleStore.selectUpperLevel(module);
     } else {
       // 取消选中本级以及子级
       roleStore.deleteCheckedDataAndChildren(module);
+      // 只有菜单需要选中上级
+      roleStore.deleteUpperLevel(module);
+    }
+  } else {
+    let menuCheckedData = roleStore.menuCheckedData;
+    let findIndex = menuCheckedData.indexOf(module.id);
+    // 选中
+    if (findIndex === -1) {
+      // 选中本级以及子级
+      roleStore.addCheckedDataAndChildren(module);
+      // 只有菜单需要选中上级
+      roleStore.selectUpperLevel(module);
+    } else {
+      // 取消选中本级以及子级
+      roleStore.deleteCheckedDataAndChildren(module);
+      // 只有菜单需要选中上级
+      roleStore.deleteUpperLevel(module);
     }
   }
+
+}
 </script>
