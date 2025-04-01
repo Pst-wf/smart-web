@@ -7,10 +7,10 @@ export const fileUtil = {
      * @param item 文件Url
      */
     fileUrlFormat(item) {
-        if(item){
-            return item.startsWith('http') ? item : `${import.meta.env.VITE_APP_API_URL}/${item}`
+        if (item) {
+            const baseURL = import.meta.env.VITE_APP_API_URL;
+            return item.startsWith('http') || item.startsWith(`${baseURL}/`) ? item : `${baseURL}/${item}`;
         }
         return item;
-    }
-}
-
+    },
+};

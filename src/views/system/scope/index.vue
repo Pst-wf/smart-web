@@ -1,4 +1,4 @@
- <template>
+<template>
   <div>
     <a-form class="smart-query-form">
       <a-row class="smart-query-form-row">
@@ -7,7 +7,7 @@
         </a-form-item>
 
         <a-form-item label="状态" class="smart-query-form-item">
-          <SmartEnumSelect width="300px" enum-name="STATUS_ENUM" v-model:value="queryForm.status" placeholder="请选择状态"/>
+          <SmartEnumSelect width="300px" enum-name="STATUS_ENUM" v-model:value="queryForm.status" placeholder="请选择状态" />
         </a-form-item>
 
         <a-form-item class="smart-query-form-item smart-margin-left10">
@@ -34,7 +34,7 @@
       <a-row class="smart-table-btn-block">
         <div class="smart-table-operate-block"></div>
         <div class="smart-table-setting-block">
-          <TableOperator v-model="columns" :tableId="TABLE_ID_CONST.SYSTEM.MENU" :refresh="query" />
+          <TableOperator v-model="columns" :refresh="query" />
         </div>
       </a-row>
 
@@ -59,11 +59,11 @@
           </template>
 
           <template v-if="column.dataIndex === 'status'">
-            <a-tag :color="text ? 'blue' : 'red' ">{{ $smartEnumPlugin.getDescByValue('STATUS_ENUM', text) }}</a-tag>
+            <a-tag :color="text ? 'blue' : 'red'">{{ $smartEnumPlugin.getDescByValue('STATUS_ENUM', text) }}</a-tag>
           </template>
 
           <template v-if="column.dataIndex === 'hideInMenu'">
-            <a-tag :color="text ? 'green' : 'blue' ">{{ text ? '是' : '否' }}</a-tag>
+            <a-tag :color="text ? 'green' : 'blue'">{{ text ? '是' : '否' }}</a-tag>
           </template>
 
           <template v-if="column.dataIndex === 'antIcon'">
@@ -90,7 +90,6 @@
   import SmartEnumSelect from '/@/components/framework/smart-enum-select/index.vue';
   import { smartSentry } from '/@/lib/smart-sentry';
   import TableOperator from '/@/components/support/table-operator/index.vue';
-  import { TABLE_ID_CONST } from '/@/constants/support/table-id-const';
 
   // ------------------------ 查询表单 ------------------------
   const queryFormState = {
@@ -99,7 +98,7 @@
     // 排序字段
     sortField: null,
     // 排序规则
-    sortOrder: null
+    sortOrder: null,
   };
   const queryForm = reactive({ ...queryFormState });
 
@@ -110,7 +109,7 @@
 
   function resetQuery() {
     Object.assign(queryForm, queryFormState);
-    columns.value.forEach(item => item.sortOrder = null);
+    columns.value.forEach((item) => (item.sortOrder = null));
     query();
   }
   onMounted(query);

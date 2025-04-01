@@ -31,14 +31,14 @@ export default {
   // 服务端渲染
   server: {
     host: '0.0.0.0',
-    port: 8081,
+    port: 8082,
     // open: true,
     proxy: {
       //凡是以 /api 地址开头的请求, 都要做代理操作
       '/api': {
         //目的地址 => 代理服务器,需要向该地址发起请求
-        // target: 'http://localhost:8888',
-        target: 'http://smart.pstech360.com/api',
+        target: 'http://localhost:8888',
+        // target: 'http://smart.pstech360.com/api',
         //是否跨域
         changeOrigin: true,
         //是否重写  将路径中的 /api 重写为''  ,重写的是自己的路径地址

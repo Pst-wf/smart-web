@@ -32,13 +32,13 @@ const checkedData = computed(()=>[...menuCheckData.value, ...buttonCheckedData.v
 
 
 watch(
-  () => roleStore.checkedData,
-  (e) => {
-    menuCheckData.value = e
-  },
-  {
-    deep: true,
-  }
+    () => roleStore.menuCheckedData,
+    (e) => {
+      menuCheckData.value = e
+    },
+    {
+      deep: true,
+    }
 );
 watch(
     () => roleStore.buttonsCheckedData,

@@ -1,73 +1,73 @@
 <template>
   <div class="container">
     <a-image
-      class="img-prev"
-      :style="{ display: 'none' }"
-      :preview="{
+        class="img-prev"
+        :style="{ display: 'none' }"
+        :preview="{
         visible,
         onVisibleChange: setVisible,
       }"
-      :src="previewUrl"
+        :src="previewUrl"
     />
   </div>
 </template>
 
 <script setup>
-  import { ref } from 'vue';
-  import { fileApi } from '/src/api/support/file-api';
-  import { smartSentry } from '/@/lib/smart-sentry';
-  import { SmartLoading } from '/@/components/framework/smart-loading';
+import { ref } from 'vue';
+// import { fileApi } from '/src/api/support/file-api';
+// import { smartSentry } from '/@/lib/smart-sentry';
+// import { SmartLoading } from '/@/components/framework/smart-loading';
 
-  const imgFileType = ['jpg', 'jpeg', 'png', 'gif'];
-  const previewUrl = ref();
+const imgFileType = ['jpg', 'jpeg', 'png', 'gif'];
+const previewUrl = ref();
 
-  function showPreview(fileItem) {
-    if (!fileItem.fileUrl) {
-      (async () => {
-        SmartLoading.show();
-        try {
-          let res = await fileApi.getUrl(fileItem.fileKey);
-          fileItem.fileUrl = res.data;
-          showFile(fileItem);
-        } catch (e) {
-          smartSentry.captureError(e);
-        } finally {
-          SmartLoading.hide();
-        }
-      })();
-    } else {
-      showFile(fileItem);
-    }
-  }
+function showPreview(fileItem) {
+  // if (!fileItem.fileUrl) {
+  //   (async () => {
+  //     SmartLoading.show();
+  //     try {
+  //       let res = await fileApi.getUrl(fileItem.fileKey);
+  //       fileItem.fileUrl = res.data;
+  //       showFile(fileItem);
+  //     } catch (e) {
+  //       smartSentry.captureError(e);
+  //     } finally {
+  //       SmartLoading.hide();
+  //     }
+  //   })();
+  // } else {
+  //   showFile(fileItem);
+  // }
+}
 
-  const visible = ref(false);
-  const setVisible = (value) => {
-    visible.value = value;
-  };
+const visible = ref(false);
+const setVisible = (value) => {
+  visible.value = value;
+};
 
-  function showFile(fileItem) {
-    if (isImg(fileItem.fileType)) {
-      previewUrl.value = fileItem.fileUrl;
-      setVisible(true);
-      return;
-    }
-    fileApi.downLoadFile(fileItem.fileKey);
-  }
+function showFile(fileItem) {
+  // if (isImg(fileItem.fileType)) {
+  //   previewUrl.value = fileItem.fileUrl;
+  //   setVisible(true);
+  //   return;
+  // }
+  // fileApi.downLoadFile(fileItem.fileKey);
+}
 
-  // 判断图片类型
-  function isImg(fileType) {
-    return imgFileType.includes(fileType);
-  }
+// 判断图片类型
+function isImg(fileType) {
+  return imgFileType.includes(fileType);
+}
 
-  defineExpose({
-    showPreview,
-  });
+defineExpose({
+  showPreview,
+});
 </script>
 
 <style lang="less" scoped>
-  .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 </style>

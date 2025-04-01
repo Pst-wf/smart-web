@@ -27,7 +27,7 @@
           </a-button>
         </div>
         <div class="smart-table-setting-block">
-          <TableOperator v-model="scopeColumns" :tableId="TABLE_ID_CONST.SYSTEM.SCOPE" :show-full-screen="false" :refresh="query" />
+          <TableOperator v-model="scopeColumns" :show-full-screen="false" :refresh="query" />
         </div>
       </a-row>
 
@@ -87,7 +87,6 @@
   import { smartSentry } from '/@/lib/smart-sentry';
   import TableOperator from '/@/components/support/table-operator/index.vue';
   import ScopeOperateModal from './scope-operate-modal.vue';
-  import { TABLE_ID_CONST } from '/@/constants/support/table-id-const';
   import { scopeApi } from '/@/api/system/scope-api.js';
   import { PAGE_SIZE_OPTIONS } from '/@/constants/common-const.js';
   import { userApi } from '/@/api/system/user-api.js';

@@ -14,12 +14,12 @@
       </template>
     </ul>
   </default-home-card>
-
 </template>
 <script setup>
   import { onMounted, ref } from 'vue';
   import { useRouter } from 'vue-router';
   import DefaultHomeCard from '/@/views/system/home/components/default-home-card.vue';
+  import $lodash from 'lodash';
 
   const router = useRouter();
 
@@ -48,9 +48,7 @@
   onMounted(queryChangeLog);
 
   // 查看更多
-  function onMore() {
-
-  }
+  function onMore() {}
 
   // 进入详情
   const modalRef = ref();
