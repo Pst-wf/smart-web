@@ -1,6 +1,6 @@
 <!-- 系统更新日志 查看 -->
 <template>
-  <a-modal title="更新日志" width="700px" :open="visibleFlag" @cancel="onClose">
+  <a-modal title="更新日志" width="700px" :open="visibleFlag" :get-container="SmartLoading.spin" @cancel="onClose">
     <div>
       <pre>{{ content }}</pre>
       <div v-if="link">
@@ -17,6 +17,7 @@
 </template>
 <script setup>
   import { ref } from 'vue';
+  import { SmartLoading } from '/@/components/framework/smart-loading/index.js';
 
   const visibleFlag = ref(false);
   const content = ref('');

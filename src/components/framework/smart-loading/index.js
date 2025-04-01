@@ -11,4 +11,5 @@ export const SmartLoading = {
   hide: () => {
     useSpinStore().hide();
   },
+  spin: () => useSpinStore().getSpin(),
 };

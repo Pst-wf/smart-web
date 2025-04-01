@@ -1,7 +1,7 @@
 <!-- 客服人员弹窗 -->
 <template>
-  <a-modal :open="visible" width="600px" title="联系客服人员" :closable="false" :maskClosable="true">
-    <a-row><div style="margin-left: 180px;font-weight:bolder">客服电话：18637925892</div> </a-row>
+  <a-modal :open="visible" width="600px" title="联系客服人员" :closable="false" :maskClosable="true" :get-container="SmartLoading.spin">
+    <a-row><div style="margin-left: 180px; font-weight: bolder">客服电话：18637925892</div> </a-row>
     <br />
     <div class="app-qr-box">
       <div class="app-qr">
@@ -28,6 +28,7 @@
 <script setup>
   import { ref } from 'vue';
   import wf from '/@/assets/images/pst/wf-qr.png';
+  import { SmartLoading } from '/@/components/framework/smart-loading/index.js';
 
   defineExpose({
     show,

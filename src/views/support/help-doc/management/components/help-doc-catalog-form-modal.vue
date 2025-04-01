@@ -1,6 +1,12 @@
 <!-- 目录表单 -->
 <template>
-  <a-modal v-model:open="visible" :title="formState.helpDocCatalogId ? '编辑目录' : '添加目录'" @ok="handleOk" destroyOnClose>
+  <a-modal
+    v-model:open="visible"
+    :title="formState.helpDocCatalogId ? '编辑目录' : '添加目录'"
+    :get-container="SmartLoading.spin"
+    @ok="handleOk"
+    destroyOnClose
+  >
     <a-form ref="formRef" :model="formState" :rules="rules" layout="vertical">
       <a-form-item label="上级目录" name="parentId" v-if="formState.parentId !== 0">
         <HelpDocCatalogTreeSelect ref="helpDocCatalogTreeSelect" v-model:value="formState.parentId" :defaultValueFlag="false" width="100%" />

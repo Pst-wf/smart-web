@@ -6,6 +6,7 @@
       :title="title"
       :open="visible"
       width="60%"
+      :get-container="SmartLoading.spin"
       @close="onClose"
   >
     <a-card size="small" :bordered="false" :hoverable="true">

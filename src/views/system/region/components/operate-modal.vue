@@ -1,5 +1,13 @@
 <template>
-  <a-modal :open="visible" :title="disabled ? '查看' : form.id ? '编辑' : '新增'" :maskClosable="true" :width="960" centered @cancel="onClose">
+  <a-modal
+    :open="visible"
+    :title="disabled ? '查看' : form.id ? '编辑' : '新增'"
+    :maskClosable="true"
+    :width="960"
+    centered
+    :get-container="SmartLoading.spin"
+    @cancel="onClose"
+  >
     <a-form ref="formRef" :labelCol="{ span: 4 }" :labelWrap="true" :model="form" :rules="rules" :disabled="disabled">
       <a-form-item label="上级" name="parentId">
         <a-tree-select

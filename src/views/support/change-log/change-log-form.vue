@@ -5,10 +5,11 @@
     width="600px"
     :closable="true"
     :open="visibleFlag"
-    @close="onClose"
-    :onCancel="onClose"
+    :get-container="SmartLoading.spin"
     :maskClosable="false"
     :destroyOnClose="true"
+    @close="onClose"
+    :onCancel="onClose"
   >
     <a-form ref="formRef" :model="form" :rules="rules" :label-col="{ span: 5 }">
       <a-form-item label="版本" name="version">
@@ -27,7 +28,7 @@
         <a-input style="width: 100%" v-model:value="form.link" placeholder="跳转链接" />
       </a-form-item>
       <a-form-item label="更新内容" name="content">
-        <a-textarea style="width: 100%" :rows="15"  v-model:value="form.content" placeholder="更新内容" />
+        <a-textarea style="width: 100%" :rows="15" v-model:value="form.content" placeholder="更新内容" />
       </a-form-item>
     </a-form>
 
@@ -47,7 +48,6 @@
   import { changeLogApi } from '/@/api/support/change-log-api';
   import { smartSentry } from '/@/lib/smart-sentry';
   import SmartEnumSelect from '/@/components/framework/smart-enum-select/index.vue';
-
 
   // ------------------------ 事件 ------------------------
 

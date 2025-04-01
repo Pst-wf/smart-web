@@ -1,6 +1,7 @@
 <script setup>
   import { ref, watch } from 'vue';
   import { debounceAsync } from '/@/utils/debounce-util.js';
+  import { SmartLoading } from '/@/components/framework/smart-loading/index.js';
 
   const emit = defineEmits(['close', 'submit']);
   // 是否展示抽屉
@@ -44,6 +45,7 @@
     class="text-modal-class"
     :closable="false"
     centered
+    :get-container="SmartLoading.spin"
     @cancel="close"
   >
     <div class="text-class">

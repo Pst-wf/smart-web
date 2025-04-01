@@ -2,6 +2,7 @@
   import { DocumentEditor } from '@onlyoffice/document-editor-vue';
   import { ref, reactive, watch } from 'vue';
   import { useUserStore } from '/@/store/modules/system/user.js';
+  import { SmartLoading } from '/@/components/framework/smart-loading/index.js';
   const props = defineProps({
     data: {
       type: [Object, null],
@@ -82,8 +83,9 @@
     wrap-class-name="full-modal-document"
     :closable="false"
     centered
-    @cancel="onClose"
+    :get-container="SmartLoading.spin"
     :footer="null"
+    @cancel="onClose"
   >
     <DocumentEditor
       v-if="visible"
