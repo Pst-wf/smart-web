@@ -1,12 +1,12 @@
 <template>
   <a-drawer
-    :body-style="{ paddingBottom: '80px' }"
-    :maskClosable="true"
-    :title="disabled ? '查看' : form.id ? '编辑' : '新增'"
-    :open="visible"
-    :width="960"
-    :get-container="SmartLoading.spin"
-    @close="onClose"
+      :body-style="{ paddingBottom: '80px' }"
+      :maskClosable="true"
+      :title="disabled ? '查看' : form.id ? '编辑' : '新增'"
+      :open="visible"
+      :width="960"
+      :get-container="SmartLoading.spin"
+      @close="onClose"
   >
     <a-form ref="formRef" :labelCol="{ span: 2 }" :labelWrap="true" :model="form" :rules="rules" :disabled="disabled">
       <a-divider orientation="left">基本信息</a-divider>
@@ -24,14 +24,14 @@
       </a-form-item>
       <a-form-item label="角色" name="roles" v-if="configData && configData === '0'">
         <a-select
-          v-model:value="form.role"
-          allowClear
-          :options="roleData"
-          :field-names="{ label: 'roleName', value: 'id' }"
-          :showSearch="true"
-          optionFilterProp="roleName"
-          placeholder="请选择角色"
-          style="margin: -5px 0; width: 100%"
+            v-model:value="form.role"
+            allowClear
+            :options="roleData"
+            :field-names="{ label: 'roleName', value: 'id' }"
+            :showSearch="true"
+            optionFilterProp="roleName"
+            placeholder="请选择角色"
+            style="margin: -5px 0; width: 100%"
         />
       </a-form-item>
       <a-form-item label="状态" name="userStatus">
@@ -53,58 +53,58 @@
           <template #bodyCell="{ column, record, index }">
             <template v-if="column.dataIndex === 'deptAncestors'">
               <a-form-item
-                class="table-cell-class"
-                :key="`deptAncestors-${index}`"
-                :name="['identityList', index, 'deptAncestors']"
-                :rules="{ required: true, message: '组织机构不能为空' }"
+                  class="table-cell-class"
+                  :key="`deptAncestors-${index}`"
+                  :name="['identityList', index, 'deptAncestors']"
+                  :rules="{ required: true, message: '组织机构不能为空' }"
               >
                 <a-cascader
-                  v-model:value="record[column.dataIndex]"
-                  allowClear
-                  change-on-select
-                  :show-search="{ filter }"
-                  :options="deptData"
-                  :field-names="{ label: 'deptName', value: 'id' }"
-                  placeholder="请选择部门"
-                  style="margin: -5px 0; width: 100%"
+                    v-model:value="record[column.dataIndex]"
+                    allowClear
+                    change-on-select
+                    :show-search="{ filter }"
+                    :options="deptData"
+                    :field-names="{ label: 'deptName', value: 'id' }"
+                    placeholder="请选择部门"
+                    style="margin: -5px 0; width: 100%"
                 />
               </a-form-item>
             </template>
             <template v-if="column.dataIndex === 'postId'">
               <a-form-item
-                class="table-cell-class"
-                :key="`postId-${index}`"
-                :name="['identityList', index, 'postId']"
-                :rules="{ required: true, message: '岗位不能为空' }"
+                  class="table-cell-class"
+                  :key="`postId-${index}`"
+                  :name="['identityList', index, 'postId']"
+                  :rules="{ required: true, message: '岗位不能为空' }"
               >
                 <a-select
-                  v-model:value="record[column.dataIndex]"
-                  allowClear
-                  :options="postData"
-                  :field-names="{ label: 'postName', value: 'id' }"
-                  :showSearch="true"
-                  optionFilterProp="postName"
-                  placeholder="请选择岗位"
-                  style="margin: -5px 0; width: 100%"
+                    v-model:value="record[column.dataIndex]"
+                    allowClear
+                    :options="postData"
+                    :field-names="{ label: 'postName', value: 'id' }"
+                    :showSearch="true"
+                    optionFilterProp="postName"
+                    placeholder="请选择岗位"
+                    style="margin: -5px 0; width: 100%"
                 />
               </a-form-item>
             </template>
             <template v-if="column.dataIndex === 'roleId'">
               <a-form-item
-                class="table-cell-class"
-                :key="`roleId-${index}`"
-                :name="['identityList', index, 'roleId']"
-                :rules="{ required: true, message: '角色不能为空' }"
+                  class="table-cell-class"
+                  :key="`roleId-${index}`"
+                  :name="['identityList', index, 'roleId']"
+                  :rules="{ required: true, message: '角色不能为空' }"
               >
                 <a-select
-                  v-model:value="record[column.dataIndex]"
-                  allowClear
-                  :options="roleData"
-                  :field-names="{ label: 'roleName', value: 'id' }"
-                  :showSearch="true"
-                  optionFilterProp="roleName"
-                  placeholder="请选择角色"
-                  style="margin: -5px 0; width: 100%"
+                    v-model:value="record[column.dataIndex]"
+                    allowClear
+                    :options="roleData"
+                    :field-names="{ label: 'roleName', value: 'id' }"
+                    :showSearch="true"
+                    optionFilterProp="roleName"
+                    placeholder="请选择角色"
+                    style="margin: -5px 0; width: 100%"
                 />
               </a-form-item>
             </template>
@@ -124,66 +124,75 @@
   </a-drawer>
 </template>
 <script setup>
-  import { message } from 'ant-design-vue';
-  import _ from 'lodash';
-  import { reactive, ref, watch } from 'vue';
-  import { userApi } from '/@/api/system/user-api.js';
-  import { smartSentry } from '/@/lib/smart-sentry';
-  import { SmartLoading } from '/@/components/framework/smart-loading';
-  import { identityColumns } from '/@/views/system/user/columns.js';
-  import { encryptData } from '/@/utils/crypto-util.js';
-  import { debounceAsync } from '/@/utils/debounce-util.js';
+import { message } from 'ant-design-vue';
+import _ from 'lodash';
+import { reactive, ref, watch } from 'vue';
+import { userApi } from '/@/api/system/user-api.js';
+import { smartSentry } from '/@/lib/smart-sentry';
+import { SmartLoading } from '/@/components/framework/smart-loading';
+import { identityColumns } from '/@/views/system/user/columns.js';
+import { encryptData } from '/@/utils/crypto-util.js';
+import { debounceAsync } from '/@/utils/debounce-util.js';
 
-  // ----------------------- 以下是字段定义 emits props ------------------------
-  const emit = defineEmits(['reloadList']);
+// ----------------------- 以下是字段定义 emits props ------------------------
+const emit = defineEmits(['reloadList']);
 
-  // ----------------------- 展开、隐藏编辑窗口 ------------------------
-  const visible = ref(false);
-  // 是否可编辑
-  const disabled = ref(false);
-  async function showDrawer(rowData, bool) {
-    disabled.value = bool;
-    Object.assign(form, formDefault);
-    if (rowData && !_.isEmpty(rowData)) {
-      Object.assign(form, rowData);
-      if (form.passwordBase) {
-        form.password = encryptData(form.passwordBase);
-      }
+// ----------------------- 展开、隐藏编辑窗口 ------------------------
+const visible = ref(false);
+// 是否可编辑
+const disabled = ref(false);
+async function showDrawer(rowData, bool) {
+  disabled.value = bool;
+  Object.assign(form, formDefault);
+  if (rowData && !_.isEmpty(rowData)) {
+    Object.assign(form, rowData);
+    if (form.passwordBase) {
+      form.password = encryptData(form.passwordBase);
     }
-    visible.value = true;
   }
+  visible.value = true;
+}
 
-  async function onClose() {
-    Object.assign(form, formDefault);
-    formRef.value.resetFields();
-    visible.value = false;
-  }
+async function onClose() {
+  Object.assign(form, formDefault);
+  formRef.value.resetFields();
+  visible.value = false;
+}
 
-  // ----------------------- form表单相关操作 ------------------------
+// ----------------------- form表单相关操作 ------------------------
 
-  const formRef = ref();
-  const formDefault = {
-    id: null,
-    nickname: null,
-    phone: null,
-    username: null,
-    password: null,
-    userStatus: '1',
-    identityList: [],
-    deleteIds: [],
-    role: null,
-  };
-  let form = reactive({ ...formDefault });
-  const rules = {
-    nickname: [{ required: true, message: '姓名不能为空' }],
-    username: [{ required: true, message: '账号不能为空' }],
-    role: [{ required: true, message: '角色不能为空' }],
-    password: [{ required: true, message: '密码不能为空' }],
-  };
+const formRef = ref();
+const formDefault = {
+  id: null,
+  nickname: null,
+  phone: null,
+  username: null,
+  password: null,
+  userStatus: '1',
+  identityList: [],
+  deleteIds: [],
+  role: null,
+};
+let form = reactive({ ...formDefault });
+const rules = {
+  nickname: [
+    { required: true, message: '姓名不能为空' },
+    { max: 100, message: '长度不能超过100个字符', trigger: 'blur' },
+  ],
+  username: [
+    { required: true, message: '账号不能为空' },
+    { max: 100, message: '长度不能超过100个字符', trigger: 'blur' },
+  ],
+  role: [{ required: true, message: '角色不能为空' }],
+  password: [
+    { required: true, message: '密码不能为空' },
+    { max: 200, message: '长度不能超过200个字符', trigger: 'blur' },
+  ],
+};
 
-  function validateForm(formRef) {
-    return new Promise((resolve) => {
-      formRef
+function validateForm(formRef) {
+  return new Promise((resolve) => {
+    formRef
         .validate()
         .then(() => {
           resolve(true);
@@ -191,45 +200,45 @@
         .catch(() => {
           resolve(false);
         });
-    });
+  });
+}
+// 防抖
+const submit = debounceAsync(() => onSubmit(), 200, true);
+const onSubmit = async () => {
+  let validateFormRes = await validateForm(formRef.value);
+  if (!validateFormRes) {
+    message.error('参数验证错误，请仔细填写表单数据!');
+    return;
   }
-  // 防抖
-  const submit = debounceAsync(() => onSubmit(), 200, true);
-  const onSubmit = async () => {
-    let validateFormRes = await validateForm(formRef.value);
-    if (!validateFormRes) {
-      message.error('参数验证错误，请仔细填写表单数据!');
-      return;
+  SmartLoading.show();
+  try {
+    let params = _.cloneDeep(form);
+    if (params.identityList) {
+      params.identityList.forEach((identity) => {
+        if (identity.deptAncestors && identity.deptAncestors.length > 0) {
+          identity.deptId = identity.deptAncestors[identity.deptAncestors.length - 1];
+        } else {
+          identity.deptId = null;
+        }
+        identity.deptAncestors = null;
+      });
     }
-    SmartLoading.show();
-    try {
-      let params = _.cloneDeep(form);
-      if (params.identityList) {
-        params.identityList.forEach((identity) => {
-          if (identity.deptAncestors && identity.deptAncestors.length > 0) {
-            identity.deptId = identity.deptAncestors[identity.deptAncestors.length - 1];
-          } else {
-            identity.deptId = null;
-          }
-          identity.deptAncestors = null;
-        });
-      }
-      if (params.id) {
-        await userApi.updateUser(params);
-      } else {
-        await userApi.addUser(params);
-      }
-      message.success(`${params.id ? '修改' : '新增'}成功`);
-      SmartLoading.hide();
-      await onClose();
-      emit('reloadList');
-    } catch (error) {
-      smartSentry.captureError(error);
-    } finally {
-      SmartLoading.hide();
+    if (params.id) {
+      await userApi.updateUser(params);
+    } else {
+      await userApi.addUser(params);
     }
-  };
-  watch(
+    message.success(`${params.id ? '修改' : '新增'}成功`);
+    SmartLoading.hide();
+    await onClose();
+    emit('reloadList');
+  } catch (error) {
+    smartSentry.captureError(error);
+  } finally {
+    SmartLoading.hide();
+  }
+};
+watch(
     () => visible.value,
     (val) => {
       if (!val) {
@@ -238,67 +247,67 @@
         formDefault.deleteIds = [];
       }
     }
-  );
-  // ----------------------- 可编辑表单 -----------------------
-  const deptData = ref([]);
-  const postData = ref([]);
-  const roleData = ref([]);
-  const configData = ref('1');
+);
+// ----------------------- 可编辑表单 -----------------------
+const deptData = ref([]);
+const postData = ref([]);
+const roleData = ref([]);
+const configData = ref('1');
 
-  // 级联选择器过滤
-  const filter = (inputValue, path) => {
-    return path.some((option) => option.deptName.toLowerCase().indexOf(inputValue.toLowerCase()) > -1);
-  };
+// 级联选择器过滤
+const filter = (inputValue, path) => {
+  return path.some((option) => option.deptName.toLowerCase().indexOf(inputValue.toLowerCase()) > -1);
+};
 
-  // 增行
-  function addRow() {
-    const length = form.identityList.length;
-    form.identityList.push({
-      id: `isNew_${length + 1}`,
-      roleId: null,
-      deptId: null,
-      postId: null,
-      deptAncestors: [],
-    });
-  }
-
-  // 删除
-  function removeRow(id) {
-    if (id && !id.includes('isNew')) {
-      form.deleteIds.push(id);
-    }
-    form.identityList = form.identityList.filter((item) => item.id !== id);
-  }
-
-  // ----------------------- 以下是暴露的方法内容 ------------------------
-  defineExpose({
-    deptData,
-    postData,
-    roleData,
-    configData,
-    showDrawer,
+// 增行
+function addRow() {
+  const length = form.identityList.length;
+  form.identityList.push({
+    id: `isNew_${length + 1}`,
+    roleId: null,
+    deptId: null,
+    postId: null,
+    deptAncestors: [],
   });
+}
+
+// 删除
+function removeRow(id) {
+  if (id && !id.includes('isNew')) {
+    form.deleteIds.push(id);
+  }
+  form.identityList = form.identityList.filter((item) => item.id !== id);
+}
+
+// ----------------------- 以下是暴露的方法内容 ------------------------
+defineExpose({
+  deptData,
+  postData,
+  roleData,
+  configData,
+  showDrawer,
+});
 </script>
 <style lang="less" scoped>
-  .footer {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    border-top: 1px solid #e9e9e9;
-    padding: 10px 16px;
-    background: #fff;
-    text-align: left;
-    z-index: 1;
-  }
-  .table-cell-class {
-    margin-bottom: 0 !important;
-  }
-  .card-class {
-    box-shadow: none;
-    padding: 0 0 0 26px;
-  }
-  :deep(.card-class) .ant-card-body {
-    padding: 0 !important;
-  }
+.footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  border-top: 1px solid #e9e9e9;
+  padding: 10px 16px;
+  background: #fff;
+  text-align: left;
+  z-index: 1;
+}
+.table-cell-class {
+  margin-bottom: 0 !important;
+}
+.card-class {
+  box-shadow: none;
+  padding: 0 0 0 26px;
+}
+:deep(.card-class) .ant-card-body {
+  padding: 0 !important;
+}
 </style>

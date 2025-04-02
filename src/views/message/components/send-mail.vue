@@ -1,5 +1,4 @@
 <template>
-
   <a-form ref="formRef" layout="vertical" :model="form" :rules="rules" class="form-class">
     <a-form-item label="收件人" name="receiveUserIds">
       <a-select
@@ -14,7 +13,7 @@
       />
     </a-form-item>
     <a-form-item label="标题" name="messageTitle">
-      <a-input v-model:value="form.messageTitle" placeholder="请输入标题" style="width: 100%"/>
+      <a-input v-model:value="form.messageTitle" placeholder="请输入标题" style="width: 100%" />
     </a-form-item>
     <a-form-item label="是否同步发送网络邮箱" name="isToMail">
       <a-radio-group v-model:value="form.isToMail" @change="radioChange">
@@ -23,37 +22,36 @@
       </a-radio-group>
     </a-form-item>
     <a-form-item v-if="form.isToMail === '1'" label="设置发件人姓名" name="mailSendName">
-      <a-input v-model:value="form.mailSendName" placeholder="请输入发件人姓名" style="width: 100%"/>
+      <a-input v-model:value="form.mailSendName" placeholder="请输入发件人姓名" style="width: 100%" />
     </a-form-item>
     <a-form-item label="内容" name="messageContent">
-      <WangEditor v-model:model-value="form.messageContent" :height="300"/>
+      <WangEditor v-model:model-value="form.messageContent" :height="300" />
     </a-form-item>
   </a-form>
-  <div style="display: flex;justify-content: center; margin-bottom: 24px">
+  <div style="display: flex; justify-content: center; margin-bottom: 24px">
     <a-button style="margin-right: 8px" @click="submit('save')">保存</a-button>
     <a-button type="primary" @click="submit('send')">发送</a-button>
   </div>
 </template>
 <script setup>
-import {message} from 'ant-design-vue';
+import { message } from 'ant-design-vue';
 import _ from 'lodash';
-import {reactive, ref} from 'vue';
-import {smartSentry} from '/@/lib/smart-sentry';
-import {SmartLoading} from '/@/components/framework/smart-loading';
+import { reactive, ref } from 'vue';
+import { smartSentry } from '/@/lib/smart-sentry';
+import { SmartLoading } from '/@/components/framework/smart-loading';
 import WangEditor from '/@/components/framework/wangeditor/index.vue';
-import {debounceAsync} from "/@/utils/debounce-util.js";
-import {messageApi} from "/@/api/message/message-api.js";
+import { debounceAsync } from '/@/utils/debounce-util.js';
+import { messageApi } from '/@/api/message/message-api.js';
 
 const props = defineProps({
   rowData: {
     type: Object,
-    default: () => {
-    }
+    default: () => {},
   },
   allUser: {
     type: Array,
-    default: () => []
-  }
+    default: () => [],
+  },
 });
 const emit = defineEmits(['afterSend']);
 // ----------------------- form表单相关操作 ------------------------
@@ -66,19 +64,16 @@ const formDefault = {
   isToMail: props.rowData?.isToMail || '0',
   mailSendName: props.rowData?.mailSendName || null,
   receiveUserIds: props.rowData?.receiveUsers?.split(',') || [],
-  messageStatus: '0'
+  messageStatus: '0',
 };
-let form = reactive({...formDefault});
+let form = reactive({ ...formDefault });
 const rules = {
-  receiveUserIds: [
-    {required: true, message: '收件人不能为空'}
-  ],
+  receiveUserIds: [{ required: true, message: '收件人不能为空' }],
   messageTitle: [
-    {required: true, message: '标题不能为空'}
+    { required: true, message: '标题不能为空' },
+    { max: 1000, message: '长度不能超过1000个字符', trigger: 'blur' },
   ],
-  isToMail: [
-    {required: true, message: '请选择是否同步发送网络邮箱'}
-  ]
+  isToMail: [{ required: true, message: '请选择是否同步发送网络邮箱' }],
 };
 
 function validateForm(formRef) {

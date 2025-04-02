@@ -1,12 +1,12 @@
 <template>
   <a-drawer
-    :body-style="{ paddingBottom: '80px' }"
-    :maskClosable="true"
-    :title="disabled ? '查看' : form.id ? '编辑' : '新增'"
-    :open="visible"
-    :width="600"
-    :get-container="SmartLoading.spin"
-    @close="onClose"
+      :body-style="{ paddingBottom: '80px' }"
+      :maskClosable="true"
+      :title="disabled ? '查看' : form.id ? '编辑' : '新增'"
+      :open="visible"
+      :width="600"
+      :get-container="SmartLoading.spin"
+      @close="onClose"
   >
     <a-form ref="formRef" :labelCol="{ span: 4 }" :labelWrap="true" :model="form" :rules="rules" :disabled="disabled">
       <a-form-item label="菜单类型" name="menuType">
@@ -18,15 +18,15 @@
       </a-form-item>
       <a-form-item label="上级菜单">
         <a-tree-select
-          v-model:value="form.parentId"
-          :fieldNames="{ label: 'label', key: 'id', value: 'id' }"
-          :treeData="treeData"
-          show-search
-          style="width: 100%"
-          :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
-          placeholder="请选择菜单"
-          allow-clear
-          treeNodeFilterProp="label"
+            v-model:value="form.parentId"
+            :fieldNames="{ label: 'label', key: 'id', value: 'id' }"
+            :treeData="treeData"
+            show-search
+            style="width: 100%"
+            :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
+            placeholder="请选择菜单"
+            allow-clear
+            treeNodeFilterProp="label"
         />
       </a-form-item>
       <a-form-item label="菜单名称" name="menuName">
@@ -107,7 +107,7 @@
         </a-form-item>
         <a-space v-for="(button, index) in form.buttons" :key="index" style="display: flex; margin-bottom: 8px" align="baseline">
           <a-form-item
-            :rules="{
+              :rules="{
               required: true,
               message: '按钮code不能为空',
             }"
@@ -128,101 +128,103 @@
   </a-drawer>
 </template>
 <script setup>
-  import { message } from 'ant-design-vue';
-  import _ from 'lodash';
-  import { computed, reactive, ref, watch } from 'vue';
-  import { menuApi } from '/@/api/system/menu-api';
-  import IconSelect from '/@/components/framework/icon-select/index.vue';
-  import { MENU_DEFAULT_PARENT_ID, MENU_TYPE_ENUM, MENU_WEIGHT_ENUM } from '/@/constants/system/menu-const';
-  import { smartSentry } from '/@/lib/smart-sentry';
-  import { SmartLoading } from '/@/components/framework/smart-loading';
-  import { getRoutePathByRouteName } from '/@/utils/common-util.js';
-  import { localRead } from '/@/utils/local-util.js';
-  import LocalStorageKeyConst from '/@/constants/local-storage-key-const.js';
-  import { debounceAsync } from '/@/utils/debounce-util.js';
+import { message } from 'ant-design-vue';
+import _ from 'lodash';
+import { computed, reactive, ref, watch } from 'vue';
+import { menuApi } from '/@/api/system/menu-api';
+import IconSelect from '/@/components/framework/icon-select/index.vue';
+import { MENU_DEFAULT_PARENT_ID, MENU_TYPE_ENUM, MENU_WEIGHT_ENUM } from '/@/constants/system/menu-const';
+import { smartSentry } from '/@/lib/smart-sentry';
+import { SmartLoading } from '/@/components/framework/smart-loading';
+import { getRoutePathByRouteName } from '/@/utils/common-util.js';
+import { localRead } from '/@/utils/local-util.js';
+import LocalStorageKeyConst from '/@/constants/local-storage-key-const.js';
+import { debounceAsync } from '/@/utils/debounce-util.js';
 
-  // ----------------------- 以下是字段定义 emits props ------------------------
-  // emit
-  const emit = defineEmits(['reloadList']);
+// ----------------------- 以下是字段定义 emits props ------------------------
+// emit
+const emit = defineEmits(['reloadList']);
 
-  // ----------------------- 展开、隐藏编辑窗口 ------------------------
+// ----------------------- 展开、隐藏编辑窗口 ------------------------
 
-  // 是否展示抽屉
-  const visible = ref(false);
-  // 是否可编辑
-  const disabled = ref(false);
-  //展开编辑窗口
-  async function showDrawer(rowData, bool) {
-    disabled.value = bool;
-    Object.assign(form, formDefault);
-    if (rowData && !_.isEmpty(rowData)) {
-      Object.assign(form, rowData);
-      if (form.parentId === MENU_DEFAULT_PARENT_ID) {
-        form.parentId = null;
-      }
-      if (!form.query) {
-        form.query = [];
-      }
-      if (!form.buttons) {
-        form.buttons = [];
-      }
-      if (form.menuType === MENU_TYPE_ENUM.MENU.value) {
-        handleUpdateRoutePathByRouteName();
-      }
+// 是否展示抽屉
+const visible = ref(false);
+// 是否可编辑
+const disabled = ref(false);
+//展开编辑窗口
+async function showDrawer(rowData, bool) {
+  disabled.value = bool;
+  Object.assign(form, formDefault);
+  if (rowData && !_.isEmpty(rowData)) {
+    Object.assign(form, rowData);
+    if (form.parentId === MENU_DEFAULT_PARENT_ID) {
+      form.parentId = null;
     }
-    visible.value = true;
+    if (!form.query) {
+      form.query = [];
+    }
+    if (!form.buttons) {
+      form.buttons = [];
+    }
+    if (form.menuType === MENU_TYPE_ENUM.MENU.value) {
+      handleUpdateRoutePathByRouteName();
+    }
   }
+  visible.value = true;
+}
 
-  // 隐藏窗口
-  function onClose() {
-    visible.value = false;
-  }
+// 隐藏窗口
+function onClose() {
+  visible.value = false;
+}
 
-  // ----------------------- form表单相关操作 ------------------------
+// ----------------------- form表单相关操作 ------------------------
 
-  const formRef = ref();
-  const formDefault = {
-    id: null,
-    menuType: MENU_TYPE_ENUM.CATALOG.value,
-    menuName: null,
-    routeName: null,
-    routePath: null,
-    pathParam: null,
-    props: null,
-    redirect: null,
-    antIcon: null,
-    iconType: '1',
-    parentId: '0',
-    status: '1',
-    keepAlive: false,
-    constant: false,
-    order: 0,
-    href: null,
-    hideInMenu: false,
-    activeMenu: null,
-    multiTab: false,
-    fixedIndexInTab: null,
-    weight: MENU_WEIGHT_ENUM.NORMAL.value,
-    query: [],
-    buttons: [],
-  };
-  let form = reactive({ ...formDefault });
+const formRef = ref();
+const formDefault = {
+  id: null,
+  menuType: MENU_TYPE_ENUM.CATALOG.value,
+  menuName: null,
+  routeName: null,
+  routePath: null,
+  pathParam: null,
+  props: null,
+  redirect: null,
+  antIcon: null,
+  iconType: '1',
+  parentId: '0',
+  status: '1',
+  keepAlive: false,
+  constant: false,
+  order: 0,
+  href: null,
+  hideInMenu: false,
+  activeMenu: null,
+  multiTab: false,
+  fixedIndexInTab: null,
+  weight: MENU_WEIGHT_ENUM.NORMAL.value,
+  query: [],
+  buttons: [],
+};
+let form = reactive({ ...formDefault });
 
-  const rules = {
-    menuType: [{ required: true, message: '菜单类型不能为空' }],
-    menuName: [
-      { required: true, message: '菜单名称不能为空' },
-      { max: 20, message: '菜单名称不能大于20个字符', trigger: 'blur' },
-    ],
-    routeName: [
-      { required: true, message: '路由名称不能为空' },
-      { max: 100, message: '路由名称不能大于100个字符', trigger: 'blur' },
-    ],
-  };
+const rules = {
+  menuType: [{ required: true, message: '菜单类型不能为空' }],
+  menuName: [
+    { required: true, message: '菜单名称不能为空' },
+    { max: 255, message: '长度不能超过255个字符', trigger: 'blur' },
+  ],
+  routeName: [
+    { required: true, message: '路由名称不能为空' },
+    { max: 255, message: '长度不能超过255个字符', trigger: 'blur' },
+  ],
+  pathParam: [{ max: 255, message: '长度不能超过255个字符', trigger: 'blur' }],
+  antIcon: [{ max: 255, message: '长度不能超过255个字符', trigger: 'blur' }],
+};
 
-  function validateForm(formRef) {
-    return new Promise((resolve) => {
-      formRef
+function validateForm(formRef) {
+  return new Promise((resolve) => {
+    formRef
         .validate()
         .then(() => {
           resolve(true);
@@ -230,96 +232,96 @@
         .catch(() => {
           resolve(false);
         });
-    });
-  }
-  // 防抖
-  const submit = debounceAsync(() => onSubmit(), 200, true);
-  const onSubmit = async () => {
-    let validateFormRes = await validateForm(formRef.value);
-    if (!validateFormRes) {
-      message.error('参数验证错误，请仔细填写表单数据!');
-      return;
-    }
-    SmartLoading.show();
-    try {
-      let params = _.cloneDeep(form);
-      // 若无父级ID 默认设置为0
-      if (!params.parentId) {
-        params.parentId = '0';
-      }
-      if (params.query && params.query.length === 0) {
-        params.query = null;
-      }
-      if (params.id) {
-        await menuApi.updateMenu(params);
-      } else {
-        await menuApi.addMenu(params);
-      }
-      message.success(`${params.id ? '修改' : '新增'}成功`);
-      SmartLoading.hide();
-      onClose();
-      emit('reloadList');
-    } catch (error) {
-      smartSentry.captureError(error);
-    } finally {
-      SmartLoading.hide();
-    }
-  };
-
-  function selectIcon(icon) {
-    form.antIcon = icon;
-  }
-
-  let treeData = ref([]);
-
-  async function queryMenuTree() {
-    let res = await menuApi.menuTreeFormat({ menuType: '1' });
-    treeData.value = res.data;
-  }
-
-  const component = ref(null);
-
-  function handleUpdateRoutePathByRouteName() {
-    if (form.routeName) {
-      form.routePath = getRoutePathByRouteName(form.routeName);
-      if (form.menuType === '2') {
-        component.value = form.routePath + '/index.vue';
-      }
-    } else {
-      form.routePath = '';
-      component.value = null;
-    }
-  }
-
-  const removeButton = (index) => {
-    form.buttons.splice(index, 1);
-  };
-  const addButton = () => {
-    form.buttons.push({
-      code: '',
-      name: '',
-    });
-  };
-
-  const removeQuery = (index) => {
-    form.query.splice(index, 1);
-  };
-  const addQuery = () => {
-    form.query.push({
-      key: '',
-      value: '',
-    });
-  };
-
-  const isSuperAdmin = computed(() => {
-    const userInfo = localRead(LocalStorageKeyConst.USER_INFO);
-    if (userInfo) {
-      return JSON.parse(userInfo).userId === 'system';
-    }
-    return false;
   });
+}
+// 防抖
+const submit = debounceAsync(() => onSubmit(), 200, true);
+const onSubmit = async () => {
+  let validateFormRes = await validateForm(formRef.value);
+  if (!validateFormRes) {
+    message.error('参数验证错误，请仔细填写表单数据!');
+    return;
+  }
+  SmartLoading.show();
+  try {
+    let params = _.cloneDeep(form);
+    // 若无父级ID 默认设置为0
+    if (!params.parentId) {
+      params.parentId = '0';
+    }
+    if (params.query && params.query.length === 0) {
+      params.query = null;
+    }
+    if (params.id) {
+      await menuApi.updateMenu(params);
+    } else {
+      await menuApi.addMenu(params);
+    }
+    message.success(`${params.id ? '修改' : '新增'}成功`);
+    SmartLoading.hide();
+    onClose();
+    emit('reloadList');
+  } catch (error) {
+    smartSentry.captureError(error);
+  } finally {
+    SmartLoading.hide();
+  }
+};
 
-  watch(
+function selectIcon(icon) {
+  form.antIcon = icon;
+}
+
+let treeData = ref([]);
+
+async function queryMenuTree() {
+  let res = await menuApi.menuTreeFormat({ menuType: '1' });
+  treeData.value = res.data;
+}
+
+const component = ref(null);
+
+function handleUpdateRoutePathByRouteName() {
+  if (form.routeName) {
+    form.routePath = getRoutePathByRouteName(form.routeName);
+    if (form.menuType === '2') {
+      component.value = form.routePath + '/index.vue';
+    }
+  } else {
+    form.routePath = '';
+    component.value = null;
+  }
+}
+
+const removeButton = (index) => {
+  form.buttons.splice(index, 1);
+};
+const addButton = () => {
+  form.buttons.push({
+    code: '',
+    name: '',
+  });
+};
+
+const removeQuery = (index) => {
+  form.query.splice(index, 1);
+};
+const addQuery = () => {
+  form.query.push({
+    key: '',
+    value: '',
+  });
+};
+
+const isSuperAdmin = computed(() => {
+  const userInfo = localRead(LocalStorageKeyConst.USER_INFO);
+  if (userInfo) {
+    return JSON.parse(userInfo).userId === 'system';
+  }
+  return false;
+});
+
+watch(
     () => visible.value,
     (val) => {
       if (val) {
@@ -333,28 +335,28 @@
         treeData.value = [];
       }
     }
-  );
-  watch(
+);
+watch(
     () => form.routeName,
     () => {
       handleUpdateRoutePathByRouteName();
     }
-  );
-  // ----------------------- 以下是暴露的方法内容 ------------------------
-  defineExpose({
-    showDrawer,
-  });
+);
+// ----------------------- 以下是暴露的方法内容 ------------------------
+defineExpose({
+  showDrawer,
+});
 </script>
 <style lang="less" scoped>
-  .footer {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    border-top: 1px solid #e9e9e9;
-    padding: 10px 16px;
-    background: #fff;
-    text-align: left;
-    z-index: 1;
-  }
+.footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  border-top: 1px solid #e9e9e9;
+  padding: 10px 16px;
+  background: #fff;
+  text-align: left;
+  z-index: 1;
+}
 </style>
