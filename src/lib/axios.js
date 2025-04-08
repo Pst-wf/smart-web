@@ -1,14 +1,14 @@
 /*
  *  ajax请求
  */
-import {message, Modal} from 'ant-design-vue';
+import { message, Modal } from 'ant-design-vue';
 import axios from 'axios';
-import {localClear, localRead} from '/@/utils/local-util';
-import {decryptData, encryptData} from './encrypt';
-import {DATA_TYPE_ENUM} from '../constants/common-const';
+import { localClear, localRead } from '/@/utils/local-util';
+import { decryptData, encryptData } from './encrypt';
+import { DATA_TYPE_ENUM } from '../constants/common-const';
 import _ from 'lodash';
 import LocalStorageKeyConst from '/@/constants/local-storage-key-const.js';
-import qs from "qs";
+import qs from 'qs';
 
 // token的消息头
 const TOKEN_HEADER = 'Authorization';
@@ -20,7 +20,7 @@ const smartAxios = axios.create({
 });
 const DEFAULT_HEADERS = {
     'Tenant-Id': '000000',
-}
+};
 
 // 退出系统
 function logout() {
@@ -32,7 +32,7 @@ function logout() {
 
 smartAxios.interceptors.request.use(
     (config) => {
-        config.headers = {...config.headers, ...DEFAULT_HEADERS}
+        config.headers = { ...config.headers, ...DEFAULT_HEADERS };
         // 在发送请求之前消息头加入token token
         const token = localRead(LocalStorageKeyConst.USER_TOKEN);
         config.headers[TOKEN_HEADER] = token ? `Bearer ${token}` : DEFAULT_TOKEN;
@@ -52,16 +52,22 @@ smartAxios.interceptors.request.use(
 
 // 添加响应拦截器
 smartAxios.interceptors.response.use(
-    (response) => {
+    async (response) => {
         // 根据content-type ，判断是否为 json 数据
         let contentType = response.headers['content-type'] ? response.headers['content-type'] : response.headers['Content-Type'];
         if (contentType.indexOf('application/json') === -1) {
             return Promise.resolve(response);
         }
-
+        let res = response.data;
         // 如果是json数据
         if (response.data && response.data instanceof Blob) {
-            return Promise.reject(response.data);
+            const json = JSON.parse(await response.data.text());
+            if (json.code === 200) {
+                return Promise.resolve(response);
+            } else {
+                res.code = json.code;
+                res.msg = json.msg;
+            }
         }
 
         // 如果是加密数据
@@ -73,7 +79,6 @@ smartAxios.interceptors.response.use(
             }
         }
 
-        const res = response.data;
         if (res.code && res.code !== 200) {
             // // `token` 过期或者账号已在别处登录
             // if (res.code === 30007 || res.code === 30008) {
@@ -116,21 +121,21 @@ smartAxios.interceptors.response.use(
                 // 认证失败
                 message.destroy();
                 Modal.error({
-                    class: "401-modal",
+                    class: '401-modal',
                     title: '登陆超时提醒',
                     content: '登录超时，请重新登录',
                     okText: '确认',
                     onOk() {
-                        logout()
-                    }
+                        logout();
+                    },
                 });
             }
             return;
         } else if (error.response.status === 404) {
-            message.error(`请求路径错误 ${error.response.data.path}`)
+            message.error(`请求路径错误 ${error.response.data.path}`);
         } else {
             message.destroy();
-            message.error(error.message)
+            message.error(error.message);
         }
         return Promise.reject(error);
     }
@@ -147,17 +152,17 @@ export const getRequest = (url, params) => {
         const keys = Object.keys(params);
         keys.forEach((key) => {
             if (params[key] === undefined || params[key] === null) {
-                delete params[key]
+                delete params[key];
             }
         });
     }
-    if (url && url.includes("?")) {
-        url = url + "&" + qs.stringify(params)
+    if (url && url.includes('?')) {
+        url = url + '&' + qs.stringify(params);
     }
-    if (url && !url.includes("?")) {
-        url = url + "?" + qs.stringify(params)
+    if (url && !url.includes('?')) {
+        url = url + '?' + qs.stringify(params);
     }
-    return request({url, method: 'get'});
+    return request({ url, method: 'get' });
 };
 
 /**
@@ -169,19 +174,18 @@ export const getRequestBlob = (url, params) => {
         const keys = Object.keys(params);
         keys.forEach((key) => {
             if (params[key] === undefined || params[key] === null) {
-                delete params[key]
+                delete params[key];
             }
         });
     }
-    if (url && url.includes("?")) {
-        url = url + "&" + qs.stringify(params)
+    if (url && url.includes('?')) {
+        url = url + '&' + qs.stringify(params);
     }
-    if (url && !url.includes("?")) {
-        url = url + "?" + qs.stringify(params)
+    if (url && !url.includes('?')) {
+        url = url + '?' + qs.stringify(params);
     }
-    return request({url, method: 'get', responseType: 'blob'});
+    return request({ url, method: 'get', responseType: 'blob' });
 };
-
 
 /**
  * 通用请求封装
@@ -210,7 +214,7 @@ export const postRequestBlob = (url, data) => {
         data,
         url,
         method: 'post',
-        responseType: 'blob'
+        responseType: 'blob',
     });
 };
 // ================================= 加密 =================================
@@ -220,7 +224,7 @@ export const postRequestBlob = (url, data) => {
  */
 export const postEncryptRequest = (url, data) => {
     return request({
-        data: {encryptData: encryptData(data)},
+        data: { encryptData: encryptData(data) },
         url,
         method: 'post',
     });
@@ -286,7 +290,7 @@ function handleDownloadData(response) {
     let contentType = _.isUndefined(response.headers['content-type']) ? response.headers['Content-Type'] : response.headers['content-type'];
 
     // 构建下载数据
-    let url = window.URL.createObjectURL(new Blob([response.data], {type: contentType}));
+    let url = window.URL.createObjectURL(new Blob([response.data], { type: contentType }));
     let link = document.createElement('a');
     link.style.display = 'none';
     link.href = url;
