@@ -3,12 +3,12 @@
     <Toolbar v-if="showToolBar" style="border-bottom: 1px solid #ccc" :editor="editorRef" />
     <a-spin :spinning="loading" size="large">
       <Editor
-          style="overflow-y: hidden"
-          :style="{ height: `${height}px` }"
-          v-model="editorHtml"
-          :defaultConfig="editorConfig"
-          @onCreated="handleCreated"
-          @onChange="handleChange"
+        style="overflow-y: hidden"
+        :style="{ height: `${height}px` }"
+        v-model="editorHtml"
+        :defaultConfig="editorConfig"
+        @onCreated="handleCreated"
+        @onChange="handleChange"
       />
     </a-spin>
   </div>
@@ -23,7 +23,7 @@ import { smartSentry } from '/@/lib/smart-sentry';
 
 // ----------------------- 以下是公用变量 emits props ----------------
 let props = defineProps({
-  modelValue: String,
+  modelValue: [String, null],
   disabled: {
     type: Boolean,
     default: false,
@@ -73,14 +73,14 @@ editorConfig.MENU_CONF['uploadVideo'] = customUpload;
 const editorHtml = ref();
 
 watch(
-    () => props.modelValue,
-    (nVal) => {
-      editorHtml.value = nVal ? nVal : '';
-    },
-    {
-      immediate: true,
-      deep: true,
-    }
+  () => props.modelValue,
+  (nVal) => {
+    editorHtml.value = nVal ? nVal : '';
+  },
+  {
+    immediate: true,
+    deep: true,
+  }
 );
 
 // 获取编辑器实例html
@@ -93,7 +93,7 @@ const handleCreated = (editor) => {
   }
 };
 const handleChange = (editor) => {
-  emit('update:modelValue', editorHtml.value);
+  emit('update:modelValue', editorHtml.value === '<p><br></p>' ? '' : editorHtml.value);
 };
 
 function getHtml() {

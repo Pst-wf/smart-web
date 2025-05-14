@@ -1,16 +1,16 @@
 <template>
   <div class="clearfix">
     <a-upload
-        v-model:file-list="dataSource"
-        :multiple="multiple"
-        name="files"
-        :max-count="limit"
-        :headers="headers"
-        :action="actionUrl"
-        list-type="text"
-        :show-upload-list="false"
-        :beforeUpload="beforeUpload"
-        @change="changeFile"
+      v-model:file-list="dataSource"
+      :multiple="multiple"
+      name="files"
+      :max-count="limit"
+      :headers="headers"
+      :action="actionUrl"
+      list-type="text"
+      :show-upload-list="false"
+      :beforeUpload="beforeUpload"
+      @change="changeFile"
     >
       <a-button :disabled="tableData.length >= limit" type="primary">
         <upload-outlined/>
@@ -18,15 +18,15 @@
       </a-button>
     </a-upload>
     <a-table
-        style="margin-top: 10px"
-        size="small"
-        :defaultExpandAllRows="true"
-        :dataSource="tableData"
-        bordered
-        :columns="columns"
-        :loading="tableLoading"
-        rowKey="id"
-        :pagination="false"
+      style="margin-top: 10px"
+      size="small"
+      :defaultExpandAllRows="true"
+      :dataSource="tableData"
+      bordered
+      :columns="columns"
+      :loading="tableLoading"
+      rowKey="id"
+      :pagination="false"
     >
       <template #bodyCell="{ text, record, column }">
         <template v-if="column.dataIndex === 'fileSize'">
@@ -185,8 +185,8 @@ function getSize(obj) {
 }
 
 watch(
-    () => props.fileList,
-    (val) => tableData.value = val
+  () => props.fileList,
+  (val) => tableData.value = val ?  val : []
 );
 </script>
 <style scoped>
