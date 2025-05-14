@@ -25,7 +25,7 @@
               :options="dictMap.sys_dept_type"
               :field-names="{ label: 'dictName', value: 'dictValue' }"
             /> </a-form-item
-        ></a-col>
+          ></a-col>
       </a-row>
       <a-row>
         <a-col :span="12">
@@ -87,15 +87,15 @@
       </a-row>
       <a-row>
         <a-col :span="12"
-          ><a-form-item label="日期选择" name="tableColumn9">
-            <a-date-picker
-              v-model:value="form.tableColumn9"
-              value-format="YYYY-MM-DD HH:mm:ss"
-              format="YYYY-MM-DD HH:mm:ss"
-              allowClear
-              placeholder="请选择"
-              style="width: 100%"
-            /> </a-form-item
+        ><a-form-item label="日期选择" name="tableColumn9">
+          <a-date-picker
+            v-model:value="form.tableColumn9"
+            value-format="YYYY-MM-DD HH:mm:ss"
+            format="YYYY-MM-DD HH:mm:ss"
+            allowClear
+            placeholder="请选择"
+            style="width: 100%"
+          /> </a-form-item
         ></a-col>
         <a-col :span="12">
           <a-form-item label="时间选择" name="tableColumn10">
@@ -106,17 +106,17 @@
               placeholder="请选择"
               style="width: 100%"
             /> </a-form-item
-        ></a-col>
+          ></a-col>
       </a-row>
       <a-row>
         <a-col :span="12">
           <a-form-item label="开关" name="tableColumn11">
             <a-switch v-model:checked="form.tableColumn11" checked-value="1" un-checked-value="0" /> </a-form-item
-        ></a-col>
+          ></a-col>
         <a-col :span="12">
           <a-form-item label="数字框" name="tableColumn14">
             <a-input-number v-model:value="form.tableColumn14" placeholder="请输入" style="width: 100%" allowClear /> </a-form-item
-        ></a-col>
+          ></a-col>
       </a-row>
       <a-row>
         <a-col :span="24">
@@ -147,7 +147,7 @@
       <a-row>
         <a-col :span="24">
           <a-form-item label="富文本" :label-col="{ span: 2 }" name="tableColumn2">
-            <WangEditor v-model:model-value="form.tableColumn2" :height="200" :read-only="disabled" />
+            <WangEditor v-if="visible" v-model:model-value="form.tableColumn2" :height="200" :read-only="disabled" />
           </a-form-item>
         </a-col>
       </a-row>
@@ -159,167 +159,166 @@
   </a-drawer>
 </template>
 <script setup>
-  import { message } from 'ant-design-vue';
-  import _ from 'lodash';
-  import { reactive, ref, watch } from 'vue';
-  import { genDemoApi } from '/@/api/tools/gen-demo/gen-demo-api.js';
-  import { smartSentry } from '/@/lib/smart-sentry';
-  import { SmartLoading } from '/@/components/framework/smart-loading';
-  import { debounceAsync } from '/@/utils/debounce-util.js';
-  import { getAncestors } from '/@/utils/dict-util.js';
-  import FileUpload from '/@/components/file-upload/index.vue';
-  import ImageUpload from '/@/components/image-upload/index.vue';
-  import WangEditor from '/@/components/framework/wangeditor/index.vue';
+import { message } from 'ant-design-vue';
+import _ from 'lodash';
+import { reactive, ref, watch } from 'vue';
+import { genDemoApi } from '/@/api/tools/gen-demo/gen-demo-api.js';
+import { smartSentry } from '/@/lib/smart-sentry';
+import { SmartLoading } from '/@/components/framework/smart-loading';
+import { debounceAsync } from '/@/utils/debounce-util.js';
+import { getAncestors } from '/@/utils/dict-util.js';
+import FileUpload from '/@/components/file-upload/index.vue';
+import ImageUpload from '/@/components/image-upload/index.vue';
+import WangEditor from '/@/components/framework/wangeditor/index.vue';
 
-  /** 复选框字段特殊处理 */
-  const tableColumn7CheckBox = ref([]);
+/** 复选框字段特殊处理 */
+const tableColumn7CheckBox = ref([]);
 
-  /** 级联选择器字段特殊处理 */
-  const tableColumn5Cascader = ref([]);
+/** 级联选择器字段特殊处理 */
+const tableColumn5Cascader = ref([]);
 
-  // ----------------------- 以下是字段定义 emits props ------------------------
-  const emit = defineEmits(['reloadList']);
-  const props = defineProps({
-    dictMap: {
-      type: Object,
-      default: () => {},
-    },
+// ----------------------- 以下是字段定义 emits props ------------------------
+const emit = defineEmits(['reloadList']);
+const props = defineProps({
+  dictMap: {
+    type: Object,
+    default: () => {},
+  },
+});
+// ----------------------- 展开、隐藏编辑窗口 ------------------------
+// 是否展示抽屉
+const visible = ref(false);
+// 是否可编辑
+const disabled = ref(false);
+// 打开表单弹窗
+async function showForm(rowData, bool) {
+  disabled.value = bool;
+  Object.assign(form, formDefault);
+  if (rowData && !_.isEmpty(rowData)) {
+    Object.assign(form, rowData);
+  }
+  if (form.tableColumn5) {
+    tableColumn5Cascader.value = getAncestors(props.dictMap.sys_tree_dict, form.tableColumn5);
+  }
+  if (form.tableColumn7) {
+    tableColumn7CheckBox.value = form.tableColumn7.split(',');
+  }
+  visible.value = true;
+}
+function onClose() {
+  Object.assign(form, formDefault);
+  formRef.value.resetFields();
+  visible.value = false;
+}
+
+// ----------------------- form表单相关操作 ------------------------
+
+const formRef = ref();
+const formDefault = {
+  id: null,
+  tableColumn1: null,
+  tableColumn2: null,
+  tableColumn3: null,
+  tableColumn4: null,
+  tableColumn5: null,
+  tableColumn6: null,
+  tableColumn7: null,
+  tableColumn8: null,
+  tableColumn9: null,
+  tableColumn10: null,
+  tableColumn11: null,
+  tableColumn12: null,
+  tableColumn13: null,
+  tableColumn14: null,
+  tableColumn12List: null,
+};
+let form = reactive({ ...formDefault });
+const rules = {
+  tableColumn1: [
+    { required: true, message: '输入框不能为空' },
+    { max: 255, message: '长度不能超过255个字符', trigger: 'blur' },
+  ],
+  tableColumn2: [{ required: true, message: '富文本不能为空' }],
+  tableColumn3: [
+    { required: true, message: '多行文本不能为空' },
+    { max: 255, message: '长度不能超过255个字符', trigger: 'blur' },
+  ],
+  tableColumn4: [{ required: true, message: '选择框不能为空' }],
+  tableColumn5: [{ required: true, message: '级联选择不能为空' }],
+  tableColumn6: [{ required: true, message: '树形选择不能为空' }],
+  tableColumn7: [{ required: true, message: '复选框不能为空' }],
+  tableColumn8: [{ required: true, message: '单选框不能为空' }],
+  tableColumn9: [{ required: true, message: '日期选择不能为空' }],
+  tableColumn10: [{ required: true, message: '时间选择不能为空' }],
+  tableColumn11: [{ required: true, message: '开关不能为空' }],
+  tableColumn12: [{ required: true, message: '文件上传不能为空' }],
+  tableColumn13: [{ required: true, message: '图片上传不能为空' }],
+  tableColumn14: [{ required: true, message: '数字框不能为空' }],
+};
+function validateForm(formRef) {
+  return new Promise((resolve) => {
+    formRef
+      .validate()
+      .then(() => {
+        resolve(true);
+      })
+      .catch(() => {
+        resolve(false);
+      });
   });
-  // ----------------------- 展开、隐藏编辑窗口 ------------------------
-  // 是否展示抽屉
-  const visible = ref(false);
-  // 是否可编辑
-  const disabled = ref(false);
-  // 打开表单弹窗
-  async function showForm(rowData, bool) {
-    disabled.value = bool;
-    Object.assign(form, formDefault);
-    if (rowData && !_.isEmpty(rowData)) {
-      Object.assign(form, rowData);
-    }
-    if (form.tableColumn5) {
-      tableColumn5Cascader.value = getAncestors(props.dictMap.sys_tree_dict, form.tableColumn5);
-    }
-    if (form.tableColumn7) {
-      tableColumn7CheckBox.value = form.tableColumn7.split(',');
-    }
-    visible.value = true;
+}
+// 防抖
+const submit = debounceAsync(() => onSubmit(), 200, true);
+const onSubmit = async () => {
+  let validateFormRes = await validateForm(formRef.value);
+  if (!validateFormRes) {
+    message.error('参数验证错误，请仔细填写表单数据!');
+    return;
   }
-  function onClose() {
-    Object.assign(form, formDefault);
-    formRef.value.resetFields();
-    visible.value = false;
+  SmartLoading.show();
+  try {
+    let params = _.cloneDeep(form);
+    if (params.id) {
+      await genDemoApi.updateGenDemo(params);
+    } else {
+      await genDemoApi.addGenDemo(params);
+    }
+    message.success(`${params.id ? '修改' : '新增'}成功`);
+    SmartLoading.hide();
+    onClose();
+    emit('reloadList');
+  } catch (error) {
+    smartSentry.captureError(error);
+  } finally {
+    SmartLoading.hide();
   }
-
-  // ----------------------- form表单相关操作 ------------------------
-
-  const formRef = ref();
-  const formDefault = {
-    id: null,
-    tableColumn1: null,
-    tableColumn2: null,
-    tableColumn3: null,
-    tableColumn4: null,
-    tableColumn5: null,
-    tableColumn6: null,
-    tableColumn7: null,
-    tableColumn8: null,
-    tableColumn9: null,
-    tableColumn10: null,
-    tableColumn11: null,
-    tableColumn12: null,
-    tableColumn13: null,
-    tableColumn14: null,
-    tableColumn12List: null,
-  };
-  let form = reactive({ ...formDefault });
-  const rules = {
-    tableColumn1: [
-      { required: true, message: '输入框不能为空' },
-      { max: 255, message: '长度不能超过255个字符', trigger: 'blur' },
-    ],
-    tableColumn2: [
-      { required: true, message: '富文本不能为空' },
-      { max: 255, message: '长度不能超过255个字符', trigger: 'blur' },
-    ],
-    tableColumn3: [
-      { required: true, message: '多行文本不能为空' },
-      { max: 255, message: '长度不能超过255个字符', trigger: 'blur' },
-    ],
-    tableColumn4: [{ required: true, message: '选择框不能为空' }],
-    tableColumn5: [{ required: true, message: '级联选择不能为空' }],
-    tableColumn6: [{ required: true, message: '树形选择不能为空' }],
-    tableColumn7: [{ required: true, message: '复选框不能为空' }],
-    tableColumn8: [{ required: true, message: '单选框不能为空' }],
-    tableColumn9: [{ required: true, message: '日期选择不能为空' }],
-    tableColumn10: [{ required: true, message: '时间选择不能为空' }],
-    tableColumn11: [{ required: true, message: '开关不能为空' }],
-    tableColumn12: [{ required: true, message: '文件上传不能为空' }],
-    tableColumn13: [{ required: true, message: '图片上传不能为空' }],
-    tableColumn14: [{ required: true, message: '数字框不能为空' }],
-  };
-  function validateForm(formRef) {
-    return new Promise((resolve) => {
-      formRef
-        .validate()
-        .then(() => {
-          resolve(true);
-        })
-        .catch(() => {
-          resolve(false);
-        });
-    });
+};
+watch(
+  () => visible.value,
+  (val) => {
+    if (!val) {
+      formRef.value.resetFields();
+      tableColumn7CheckBox.value = []
+      tableColumn5Cascader.value = []
+    }
   }
-  // 防抖
-  const submit = debounceAsync(() => onSubmit(), 200, true);
-  const onSubmit = async () => {
-    let validateFormRes = await validateForm(formRef.value);
-    if (!validateFormRes) {
-      message.error('参数验证错误，请仔细填写表单数据!');
-      return;
-    }
-    SmartLoading.show();
-    try {
-      let params = _.cloneDeep(form);
-      if (params.id) {
-        await genDemoApi.updateGenDemo(params);
-      } else {
-        await genDemoApi.addGenDemo(params);
-      }
-      message.success(`${params.id ? '修改' : '新增'}成功`);
-      SmartLoading.hide();
-      onClose();
-      emit('reloadList');
-    } catch (error) {
-      smartSentry.captureError(error);
-    } finally {
-      SmartLoading.hide();
-    }
-  };
-  watch(
-    () => visible.value,
-    (val) => {
-      if (!val) {
-        formRef.value.resetFields();
-      }
-    }
-  );
+);
 
-  // ----------------------- 以下是暴露的方法内容 ------------------------
-  defineExpose({
-    showForm,
-  });
+// ----------------------- 以下是暴露的方法内容 ------------------------
+defineExpose({
+  showForm,
+});
 </script>
 <style lang="less" scoped>
-  .footer {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    border-top: 1px solid #e9e9e9;
-    padding: 10px 16px;
-    background: #fff;
-    text-align: left;
-    z-index: 1;
-  }
+.footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  border-top: 1px solid #e9e9e9;
+  padding: 10px 16px;
+  background: #fff;
+  text-align: left;
+  z-index: 1;
+}
 </style>

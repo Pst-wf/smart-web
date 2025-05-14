@@ -147,7 +147,7 @@
       <a-row>
         <a-col :span="24">
           <a-form-item label="富文本" :label-col="{ span: 2 }" name="tableColumn2">
-            <WangEditor v-model:model-value="form.tableColumn2" :height="200" :read-only="disabled"/>
+            <WangEditor v-if="visible" v-model:model-value="form.tableColumn2" :height="200" :read-only="disabled"/>
           </a-form-item>
         </a-col>
       </a-row>
@@ -192,6 +192,7 @@ const visible = ref(false);
 const disabled = ref(false);
 // 打开表单弹窗
 async function showForm(rowData, bool) {
+  console.log('bool',bool)
   disabled.value = bool;
   Object.assign(form, formDefault);
   if (rowData && !_.isEmpty(rowData)) {
@@ -238,10 +239,7 @@ const rules = {
     { required: true, message: '输入框不能为空' },
     { max: 255, message: '长度不能超过255个字符', trigger: 'blur' },
   ],
-  tableColumn2: [
-    { required: true, message: '富文本不能为空' },
-    { max: 255, message: '长度不能超过255个字符', trigger: 'blur' },
-  ],
+  tableColumn2: [{ required: true, message: '富文本不能为空' }],
   tableColumn3: [
     { required: true, message: '多行文本不能为空' },
     { max: 255, message: '长度不能超过255个字符', trigger: 'blur' },
@@ -301,6 +299,8 @@ watch(
   (val) => {
     if (!val) {
       formRef.value.resetFields();
+      tableColumn7CheckBox.value = []
+      tableColumn5Cascader.value = []
     }
   }
 );

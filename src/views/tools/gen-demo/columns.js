@@ -7,11 +7,6 @@ export const columns = ref([
     sorter: true,
   },
   {
-    title: '富文本',
-    dataIndex: 'tableColumn2',
-    sorter: true,
-  },
-  {
     title: '多行文本',
     dataIndex: 'tableColumn3',
     sorter: true,
