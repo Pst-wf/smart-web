@@ -106,7 +106,30 @@ export const COMPONENTS_ENUM = {
     desc: '富文本',
   },
 };
+export const VALIDATION_DATA_ENUM = {
+  PWD: {
+    value: 'pwd',
+    desc: '密码',
+  },
+  PHONE: {
+    value: 'phone',
+    desc: '手机号',
+  },
+  EMAIL: {
+    value: 'email',
+    desc: '电子邮箱',
+  },
+  URL: {
+    value: 'url',
+    desc: '链接地址',
+  },
+  ID_CARD: {
+    value: 'idCard',
+    desc: '身份证',
+  },
+};
 export default {
   QUERY_TYPE_ENUM,
   COMPONENTS_ENUM,
+  VALIDATION_DATA_ENUM,
 };

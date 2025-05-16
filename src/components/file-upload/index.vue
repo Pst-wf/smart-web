@@ -7,12 +7,13 @@
       :max-count="limit"
       :headers="headers"
       :action="actionUrl"
+      :disabled="disabled"
       list-type="text"
       :show-upload-list="false"
       :beforeUpload="beforeUpload"
       @change="changeFile"
     >
-      <a-button :disabled="tableData.length >= limit" type="primary">
+      <a-button :disabled="tableData.length >= limit || disabled" type="primary">
         <upload-outlined/>
         {{ placeholder }}
       </a-button>
@@ -77,7 +78,11 @@ let props = defineProps({
   max: {
     type: Number,
     default: 5
-  }
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 });
 const emit = defineEmits(['fileChange']);
 

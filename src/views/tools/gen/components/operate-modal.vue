@@ -1,37 +1,37 @@
 <template>
   <a-modal
-      :open="visible"
-      :title="disabled ? '查看' : form.id ? '编辑' : '新增'"
-      :mask="false"
-      width="100%"
-      wrap-class-name="full-modal"
-      centered
-      :closable="false"
-      :get-container="SmartLoading.spin"
-      @cancel="onClose"
+    :open="visible"
+    :title="disabled ? '查看' : form.id ? '编辑' : '新增'"
+    :mask="false"
+    width="100%"
+    wrap-class-name="full-modal"
+    centered
+    :closable="false"
+    :get-container="SmartLoading.spin"
+    @cancel="onClose"
   >
     <a-steps :current="current - 1" :items="steps" style="padding: 0 10%" />
     <a-form
-        ref="formRef"
-        :labelCol="{ span: 2 }"
-        :labelWrap="true"
-        layout="vertical"
-        :model="form"
-        :rules="rules"
-        style="margin-top: 60px"
-        :disabled="disabled"
+      ref="formRef"
+      :labelCol="{ span: 2 }"
+      :labelWrap="true"
+      layout="vertical"
+      :model="form"
+      :rules="rules"
+      style="margin-top: 60px"
+      :disabled="disabled"
     >
       <div v-if="current === 1" class="form-format" style="min-height: 400px">
         <a-form-item label="表" name="tableName">
           <a-select
-              v-model:value="form.tableName"
-              :disabled="form.id !== undefined && form.id !== null"
-              allowClear
-              :showSearch="true"
-              optionFilterProp="title"
-              placeholder="请选择表"
-              style="margin: -5px 0; width: 100%"
-              @change="tableUpdate"
+            v-model:value="form.tableName"
+            :disabled="form.id !== undefined && form.id !== null"
+            allowClear
+            :showSearch="true"
+            optionFilterProp="title"
+            placeholder="请选择表"
+            style="margin: -5px 0; width: 100%"
+            @change="tableUpdate"
           >
             <a-select-option v-for="item in tables" :key="item.tableName" :title="item.tableName">{{ item.tableName }} </a-select-option>
           </a-select>
@@ -53,15 +53,15 @@
         </a-form-item>
         <a-form-item label="所属菜单" name="menuId">
           <a-tree-select
-              v-model:value="form.menuId"
-              placeholder="请选择所属菜单"
-              :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
-              show-search
-              allow-clear
-              tree-node-filter-prop="label"
-              :fieldNames="{ label: 'label', value: 'id' }"
-              :tree-data="menus"
-              :disabled="disabled || !form.tableName"
+            v-model:value="form.menuId"
+            placeholder="请选择所属菜单"
+            :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
+            show-search
+            allow-clear
+            tree-node-filter-prop="label"
+            :fieldNames="{ label: 'label', value: 'id' }"
+            :tree-data="menus"
+            :disabled="disabled || !form.tableName"
           />
         </a-form-item>
       </div>
@@ -70,9 +70,9 @@
           <template #bodyCell="{ column, record, index }">
             <template v-if="column.dataIndex === 'comments'">
               <a-form-item
-                  :key="`${column.dataIndex}-${index}`"
-                  :name="['columns', index, column.dataIndex]"
-                  :rules="{ required: true, message: '字段描述不能为空' }"
+                :key="`${column.dataIndex}-${index}`"
+                :name="['columns', index, column.dataIndex]"
+                :rules="{ required: true, message: '字段描述不能为空' }"
               >
                 <a-input v-model:value="record[column.dataIndex]" placeholder="请输入字段描述" allowClear />
               </a-form-item>
@@ -95,15 +95,25 @@
             <template v-if="column.dataIndex === 'dictCode'">
               <a-form-item :key="`${column.dataIndex}-${index}`" :name="['columns', index, column.dataIndex]">
                 <a-select
-                    v-model:value="record[column.dataIndex]"
-                    allowClear
-                    :showSearch="true"
-                    optionFilterProp="title"
-                    placeholder="请选择关联字典"
-                    style="margin: -5px 0; width: 100%"
+                  v-model:value="record[column.dataIndex]"
+                  allowClear
+                  :showSearch="true"
+                  optionFilterProp="title"
+                  placeholder="请选择关联字典"
+                  style="margin: -5px 0; width: 100%"
                 >
                   <a-select-option v-for="item in dictData" :key="item.dictCode" :title="item.dictName">{{ item.dictName }} </a-select-option>
                 </a-select>
+              </a-form-item>
+            </template>
+            <template v-if="column.dataIndex === 'validation'">
+              <a-form-item :key="`${column.dataIndex}-${index}`" :name="['columns', index, column.dataIndex]">
+                <SmartEnumSelect
+                  width="100%"
+                  enum-name="VALIDATION_DATA_ENUM"
+                  v-model:value="record[column.dataIndex]"
+                  placeholder="请选择校验方式"
+                />
               </a-form-item>
             </template>
           </template>
@@ -155,6 +165,9 @@
               <template v-if="validationBack === 'error' || validationBack === 'warning'" #help>
                 <span v-if="validationBack === 'error'">后端路径不能为空</span>
                 <span v-if="validationBack === 'warning'">当前路径与项目不匹配，请确认是否正确</span>
+                <a-button v-if="validationBack === 'warning'" style="display: inline" size="small" danger @click="setJavaPath">
+                  切换成项目路径
+                </a-button>
               </template>
             </a-form-item>
           </a-col>
@@ -173,6 +186,9 @@
               <template v-if="validationFront === 'error' || validationFront === 'warning'" #help>
                 <span v-if="validationFront === 'error'">前端路径不能为空</span>
                 <span v-if="validationFront === 'warning'">当前路径与项目不匹配，请确认是否正确</span>
+                <a-button v-if="validationFront === 'warning'" style="display: inline" size="small" danger @click="setVuePath">
+                  切换成项目路径
+                </a-button>
               </template>
             </a-form-item>
           </a-col>
@@ -344,15 +360,13 @@ const rules = {
 function validateForm(formRef, fields) {
   return new Promise((resolve) => {
     formRef
-        .validateFields(fields)
-        // formRef
-        //     .validate()
-        .then(() => {
-          resolve(true);
-        })
-        .catch(() => {
-          resolve(false);
-        });
+      .validateFields(fields)
+      .then(() => {
+        resolve(true);
+      })
+      .catch(() => {
+        resolve(false);
+      });
   });
 }
 
@@ -430,6 +444,7 @@ const current = ref(1);
 const tables = ref([]);
 const menus = ref([]);
 const dictData = ref([]);
+const validationData = ref([]);
 const javaPath = ref(null);
 
 async function changeSteps(step) {
@@ -556,6 +571,12 @@ const vueFilePath = computed(() => {
   ];
 });
 
+function setJavaPath() {
+  form.options.javaPath = javaPath.value;
+}
+function setVuePath() {
+  form.options.vuePath = import.meta.env.PROJECT_PATH;
+}
 /**
  * 驼峰转下划线
  *
@@ -564,27 +585,27 @@ const vueFilePath = computed(() => {
 function camelToSnake(str) {
   if (str) {
     return str
-        .replace(/([a-z])([A-Z])/g, '$1_$2') // 在小写字母和大写字母之间插入下划线
-        .replace(/([A-Z]+)([A-Z][a-z])/g, '$1_$2') // 处理连续的大写字母与后续小写字母之间的分隔
-        .toLowerCase(); // 转换为小写
+      .replace(/([a-z])([A-Z])/g, '$1_$2') // 在小写字母和大写字母之间插入下划线
+      .replace(/([A-Z]+)([A-Z][a-z])/g, '$1_$2') // 处理连续的大写字母与后续小写字母之间的分隔
+      .toLowerCase(); // 转换为小写
   }
   return '';
 }
 
 watch(
-    () => visible.value,
-    (val) => {
-      if (!val) {
-        current.value = 1;
-        tables.value = [];
-        menus.value = [];
-        formRef.value.resetFields();
-      } else {
-        getTableOptions();
-        getMenuOptions();
-        getDictOptions();
-      }
+  () => visible.value,
+  (val) => {
+    if (!val) {
+      current.value = 1;
+      tables.value = [];
+      menus.value = [];
+      formRef.value.resetFields();
+    } else {
+      getTableOptions();
+      getMenuOptions();
+      getDictOptions();
     }
+  }
 );
 
 // ----------------------- 以下是暴露的方法内容 ------------------------
@@ -592,30 +613,30 @@ defineExpose({
   showForm,
 });
 watch(
-    () => form.tableName,
-    (val) => {
-      if (!val) {
-        form.className = null;
-        form.comments = null;
-        form.functionAuthor = null;
-        form.packageName = null;
-        form.moduleName = null;
-        form.menuId = null;
-        form.columns = [];
-        form.options = {
-          genType: '1',
-          tableType: 'page',
-          formType: 'modal',
-          addStatus: true,
-          updateStatus: true,
-          deleteStatus: true,
-          importStatus: true,
-          exportStatus: true,
-          javaPath: null,
-          vuePath: import.meta.env.PROJECT_PATH,
-        };
-      }
+  () => form.tableName,
+  (val) => {
+    if (!val) {
+      form.className = null;
+      form.comments = null;
+      form.functionAuthor = null;
+      form.packageName = null;
+      form.moduleName = null;
+      form.menuId = null;
+      form.columns = [];
+      form.options = {
+        genType: '1',
+        tableType: 'page',
+        formType: 'modal',
+        addStatus: true,
+        updateStatus: true,
+        deleteStatus: true,
+        importStatus: true,
+        exportStatus: true,
+        javaPath: null,
+        vuePath: import.meta.env.PROJECT_PATH,
+      };
     }
+  }
 );
 </script>
 <style lang="less" scoped>

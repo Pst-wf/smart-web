@@ -125,6 +125,7 @@
               v-model:file-list="form.tableColumn13"
               :show-download="!disabled"
               :show-remove="!disabled"
+              :disabled="disabled"
               :tips="{ content: '请上传 1920 x 1080 大小的图片' }"
             />
           </a-form-item>
@@ -133,7 +134,7 @@
       <a-row>
         <a-col :span="24">
           <a-form-item label="文件上传" :label-col="{ span: 2 }" name="tableColumn12">
-            <FileUpload v-model:file-list="form.tableColumn12List" @file-change="(ids) => (form.tableColumn12 = ids)" />
+            <FileUpload v-model:file-list="form.tableColumn12List" :disabled="disabled" @file-change="(ids) => (form.tableColumn12 = ids)" />
           </a-form-item>
         </a-col>
       </a-row>
@@ -298,8 +299,8 @@ watch(
   (val) => {
     if (!val) {
       formRef.value.resetFields();
-      tableColumn7CheckBox.value = []
-      tableColumn5Cascader.value = []
+      tableColumn7CheckBox.value = [];
+      tableColumn5Cascader.value = [];
     }
   }
 );

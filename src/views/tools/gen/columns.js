@@ -75,4 +75,9 @@ export const genColumns = ref([
     dataIndex: 'dictCode',
     width: 200,
   },
+  {
+    title: '校验',
+    dataIndex: 'validation',
+    width: 200,
+  },
 ]);

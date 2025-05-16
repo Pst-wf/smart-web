@@ -50,16 +50,16 @@
         </div>
       </a-row>
       <a-table
-          :row-selection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }"
-          size="small"
-          :defaultExpandAllRows="true"
-          :dataSource="tableData"
-          bordered
-          :columns="columns"
-          :loading="tableLoading"
-          rowKey="id"
-          :pagination="false"
-          @change="(pagination, filters, sorter) => $sorterChange(() => query(), sorter, queryForm, columns)"
+        :row-selection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }"
+        size="small"
+        :defaultExpandAllRows="true"
+        :dataSource="tableData"
+        bordered
+        :columns="columns"
+        :loading="tableLoading"
+        rowKey="id"
+        :pagination="false"
+        @change="(pagination, filters, sorter) => $sorterChange(() => query(), sorter, queryForm, columns)"
       >
         <template #bodyCell="{ text, record, column }">
           <template v-if="column.dataIndex === 'status'">
@@ -95,17 +95,17 @@
       </a-table>
       <div class="smart-query-table-page">
         <a-pagination
-            showSizeChanger
-            showQuickJumper
-            show-less-items
-            :pageSizeOptions="PAGE_SIZE_OPTIONS"
-            :defaultPageSize="queryForm.size"
-            v-model:current="queryForm.current"
-            v-model:pageSize="queryForm.size"
-            :total="total"
-            @change="query"
-            @showSizeChange="query"
-            :show-total="() => `共${total}条`"
+          showSizeChanger
+          showQuickJumper
+          show-less-items
+          :pageSizeOptions="PAGE_SIZE_OPTIONS"
+          :defaultPageSize="queryForm.size"
+          v-model:current="queryForm.current"
+          v-model:pageSize="queryForm.size"
+          :total="total"
+          @change="query"
+          @showSizeChange="query"
+          :show-total="() => `共${total}条`"
         />
       </div>
     </a-card>
@@ -283,7 +283,7 @@ function confirmGenInFile(row) {
    * @returns {Promise<void>}
    */
   async function genInFile(row) {
-    await genTableApi.generatorCodeInFile(row);
+    await genTableApi.generatorCodeInFile({ frontType: 'ant_design', ...row });
     message.success('操作成功');
   }
 }
